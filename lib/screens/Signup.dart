@@ -21,7 +21,7 @@ class SignupState extends State<Signup>{
           children: <Widget>[
             TextField(
               decoration: InputDecoration(
-                labelText:
+                labelText: "Enter Username",
               ),
             ),
 
@@ -29,7 +29,7 @@ class SignupState extends State<Signup>{
 
           ],
         ),
-      ),
+
     );
   }
 

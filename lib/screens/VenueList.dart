@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'VenueDetails.dart';
 
 class VenueList extends StatefulWidget{
   @override
@@ -13,11 +15,12 @@ class VenueListState extends State<VenueList>{
   Widget build(BuildContext context) {
     // TODO: implement build
     return Scaffold(
+      backgroundColor: Colors.black,
       appBar: AppBar(
         title: Text("Venues"),
 
       ),
-      //body: ListVenue(),
+      body: ListVenue(),
     );
 
   }
@@ -25,6 +28,21 @@ class VenueListState extends State<VenueList>{
 }
 ListView ListVenue() {
   return ListView(
-    children: <Widget>[],
+    children: <Widget>[
+      Card(
+
+      child:Container(
+        color: Colors.deepPurple,
+        child:ListTile(
+        leading: Icon(Icons.description),
+        title: Text("Beach Luxury Hotel",style: TextStyle(color: Colors.white),),
+        onTap: (){
+          Get.to(VenueDetail());
+
+  }
+      )))
+
+
+    ],
   );
 }

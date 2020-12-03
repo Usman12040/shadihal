@@ -21,7 +21,7 @@ class Homestate extends State<homescreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Color(0xff7f00ff),
+        backgroundColor: Colors.black,
         appBar: AppBar(
             title:Text('Shadihal'),
            // actions: <Widget>[
@@ -39,17 +39,20 @@ class Homestate extends State<homescreen> {
         ),
         drawer: Drawer(
 
-          child: ListView(
 
+
+          child: Container(
+            color: Colors.black,
+           child:ListView(
             children: <Widget>[
               SizedBox(
-              height: 120.0,
+              height: 65.0,
               child:DrawerHeader(
                 //margin: EdgeInsets.only(top:5.0),
                 child: Text('Menu',
-                textScaleFactor: 2.0,
+                textScaleFactor: 1.7,
                 style: TextStyle(
-                  color: Colors.red,
+                  color: Colors.white,
                 ),
                 ),
                 decoration: BoxDecoration(
@@ -59,7 +62,7 @@ class Homestate extends State<homescreen> {
               )
               ),
               ListTile(
-                title: Text('Login'),
+                title: Text('Login',style: TextStyle(color: Colors.yellow),textScaleFactor: 1.2),
                 onTap: () {
                   // Update the state of the app.
                   Get.to(Login());
@@ -67,15 +70,40 @@ class Homestate extends State<homescreen> {
                 },
               ),
               ListTile(
-                title: Text('Sign Up'),
+                title: Text('Sign Up',style: TextStyle(color: Colors.yellow),textScaleFactor: 1.2),
                 onTap: () {
                   // Update the state of the app.
                   Get.to(Signup());
                   // ...
                 },
               ),
+              ListTile(
+                title: Text('About Us',style: TextStyle(color: Colors.yellow),textScaleFactor: 1.2),
+                onTap: () {
+                  // Update the state of the app.
+
+                  // ...
+                },
+              ),
+              ListTile(
+                title: Text('Contact Us',style: TextStyle(color: Colors.yellow),textScaleFactor: 1.2),
+                onTap: () {
+                  // Update the state of the app.
+
+                  // ...
+                },
+              ),
+              ListTile(
+                title: Text('Join Us',style: TextStyle(color: Colors.yellow),textScaleFactor: 1.2),
+                onTap: () {
+                  // Update the state of the app.
+
+                  // ...
+                },
+              ),
+
             ],
-          ),
+          )),
         ),
 
 

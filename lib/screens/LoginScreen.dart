@@ -14,6 +14,7 @@ class LoginState extends State<Login>{
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.black,
       appBar: AppBar(
         title: Text("Login"),
 
@@ -25,6 +26,7 @@ class LoginState extends State<Login>{
               controller: usernameController,
               decoration: InputDecoration(
                 labelText: 'Username',
+                labelStyle: TextStyle(color: Colors.white),
 
               ),
               onChanged: (text){
@@ -38,6 +40,7 @@ class LoginState extends State<Login>{
               controller: passwordController,
               decoration: InputDecoration(
                 labelText: 'Password',
+                labelStyle: TextStyle(color: Colors.white),
 
               ),
               onChanged: (text){
