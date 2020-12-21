@@ -11,8 +11,16 @@ class Signup extends StatefulWidget{
 class SignupState extends State<Signup>{
   TextEditingController usernameController = TextEditingController();
   TextEditingController userpasswordController = TextEditingController();
+  TextEditingController fnameController = TextEditingController();
+  TextEditingController lnameController = TextEditingController();
+  TextEditingController phonenoController = TextEditingController();
+
   TextEditingController ownernameController = TextEditingController();
   TextEditingController ownerpasswordController = TextEditingController();
+  TextEditingController ofnameController = TextEditingController();
+  TextEditingController olnameController = TextEditingController();
+  TextEditingController NICController = TextEditingController();
+  TextEditingController ophonenoController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
@@ -67,6 +75,7 @@ class SignupState extends State<Signup>{
                             labelStyle: TextStyle(color: Colors.white),
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(5.0),
+
                             )
 
                         ),
@@ -74,6 +83,69 @@ class SignupState extends State<Signup>{
                           //debugPrint('$text');
                         },
                       ),
+                      Padding(
+                          padding: EdgeInsets.only(top: 10.0,bottom:10.0),
+
+                          child: TextField(
+                            controller: fnameController,
+                            decoration: InputDecoration(
+                                labelText: 'First Name',
+                                hintText: 'Enter your First name',
+                                hintStyle: TextStyle(color: Colors.grey),
+                                labelStyle: TextStyle(color: Colors.white),
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(5.0),
+                                )
+
+                            ),
+                            onChanged: (text){
+                              debugPrint('$fnameController');
+                            },
+
+
+                          )),
+                      Padding(
+                          padding: EdgeInsets.only(top: 10.0,bottom:10.0),
+
+                          child: TextField(
+                            controller: lnameController,
+                            decoration: InputDecoration(
+                                labelText: 'Last Name',
+                                hintText: 'Enter a Last Name',
+                                hintStyle: TextStyle(color: Colors.grey),
+                                labelStyle: TextStyle(color: Colors.white),
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(5.0),
+                                )
+
+                            ),
+                            onChanged: (text){
+                              debugPrint('$lnameController');
+                            },
+
+
+                          )),
+                      Padding(
+                          padding: EdgeInsets.only(top: 10.0,bottom:10.0),
+
+                          child: TextField(
+                            controller: phonenoController,
+                            decoration: InputDecoration(
+                                labelText: 'Phone No',
+                                hintText: 'Enter 11-Digit Phone Number',
+                                hintStyle: TextStyle(color: Colors.grey),
+                                labelStyle: TextStyle(color: Colors.white),
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(5.0),
+                                )
+
+                            ),
+                            onChanged: (text){
+                              debugPrint('$phonenoController');
+                            },
+
+
+                          )),
                       Padding(
                           padding: EdgeInsets.only(top:20.0,left: 120.00,right: 120.00),
                           child: RaisedButton(
@@ -136,12 +208,96 @@ class SignupState extends State<Signup>{
                         },
                       ),
                       Padding(
+                          padding: EdgeInsets.only(top: 10.0,bottom:10.0),
+
+                          child: TextField(
+                            controller: ofnameController,
+                            decoration: InputDecoration(
+                                labelText: 'First Name',
+                                hintText: 'Enter your First name',
+                                hintStyle: TextStyle(color: Colors.grey),
+                                labelStyle: TextStyle(color: Colors.white),
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(5.0),
+                                )
+
+                            ),
+                            onChanged: (text){
+                              debugPrint('$ofnameController');
+                            },
+
+
+                          )),
+                      Padding(
+                          padding: EdgeInsets.only(top: 10.0,bottom:10.0),
+
+                          child: TextField(
+                            controller: olnameController,
+                            decoration: InputDecoration(
+                                labelText: 'Last Name',
+                                hintText: 'Enter a Last Name',
+                                hintStyle: TextStyle(color: Colors.grey),
+                                labelStyle: TextStyle(color: Colors.white),
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(5.0),
+                                )
+
+                            ),
+                            onChanged: (text){
+                              debugPrint('$olnameController');
+                            },
+
+
+                          )),
+                      Padding(
+                          padding: EdgeInsets.only(top: 10.0,bottom:10.0),
+
+                          child: TextField(
+                            controller: NICController,
+                            decoration: InputDecoration(
+                                labelText: 'NIC',
+                                hintText: 'Enter Your NIC',
+                                hintStyle: TextStyle(color: Colors.grey),
+                                labelStyle: TextStyle(color: Colors.white),
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(5.0),
+                                )
+
+                            ),
+                            onChanged: (text){
+                              debugPrint('$NICController');
+                            },
+
+
+                          )),
+                      Padding(
+                          padding: EdgeInsets.only(top: 10.0,bottom:10.0),
+
+                          child: TextField(
+                            controller: ophonenoController,
+                            decoration: InputDecoration(
+                                labelText: 'Phone No',
+                                hintText: 'Enter 11-Digit Phone Number',
+                                hintStyle: TextStyle(color: Colors.grey),
+                                labelStyle: TextStyle(color: Colors.white),
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(5.0),
+                                )
+
+                            ),
+                            onChanged: (text){
+                              debugPrint('$ophonenoController');
+                            },
+
+
+                          )),
+                      Padding(
                           padding: EdgeInsets.only(top:20.0,left: 120.00,right: 120.00),
                           child: RaisedButton(
                             color: Theme.of(context).primaryColorDark,
                             textColor: Theme.of(context).primaryColorLight,
                             child: Text(
-                              'Login',
+                              'Register',
                               textScaleFactor: 1.5,
                             ),
                             onPressed: () {
