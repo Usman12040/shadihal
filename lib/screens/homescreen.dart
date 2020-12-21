@@ -4,8 +4,8 @@ import 'package:get/get.dart';
 import 'package:shadihal/screens/CateringList.dart';
 import 'package:shadihal/screens/PhotographyList.dart';
 import 'package:shadihal/screens/RentaCarList.dart';
-import 'LoginScreen.dart';
-import 'Signup.dart';
+import 'package:shadihal/screens/LoginScreen.dart';
+import 'package:shadihal/screens/Signup.dart';
 import 'VenueList.dart';
 
 class homescreen extends StatefulWidget {
