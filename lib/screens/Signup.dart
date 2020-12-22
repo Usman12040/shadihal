@@ -29,6 +29,7 @@ class SignupState extends State<Signup>{
             backgroundColor: Colors.black,
             appBar: AppBar(
               //My name is jawwad
+              //My name is Usman
               title: Text("SIGNUP"),
               bottom: TabBar(
                 tabs: [
