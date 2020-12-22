@@ -28,6 +28,7 @@ class SignupState extends State<Signup>{
         child:Scaffold(
             backgroundColor: Colors.black,
             appBar: AppBar(
+              //My name is jawwad
               title: Text("SIGNUP"),
               bottom: TabBar(
                 tabs: [
