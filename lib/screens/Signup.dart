@@ -21,9 +21,13 @@ class SignupState extends State<Signup>{
   TextEditingController olnameController = TextEditingController();
   TextEditingController NICController = TextEditingController();
   TextEditingController ophonenoController = TextEditingController();
+  final _formKey = GlobalKey<FormState>();
+  
   @override
   Widget build(BuildContext context) {
-    return DefaultTabController(
+    return Form(
+        key: _formKey,
+        child: DefaultTabController(
         length: 2,
         child:Scaffold(
             backgroundColor: Colors.black,
@@ -49,10 +53,11 @@ class SignupState extends State<Signup>{
                       Padding(
                           padding: EdgeInsets.only(top: 10.0,bottom:10.0),
 
-                          child: TextField(
+                          child: TextFormField(
+                            style: TextStyle(color: Colors.white),
                             controller: usernameController,
                             decoration: InputDecoration(
-                                labelText: 'Username',
+                                labelText: 'Username *',
                                 hintText: 'Enter a unique Username',
                                 hintStyle: TextStyle(color: Colors.grey),
                                 labelStyle: TextStyle(color: Colors.white),
@@ -64,14 +69,21 @@ class SignupState extends State<Signup>{
                             onChanged: (text){
                               debugPrint('$usernameController');
                             },
+                            validator: (value) {
+                              if (value.isEmpty) {
+                                return 'This Field is Required ';
+                              }
+                              return null;
+                            },
 
 
                           )),
                       //password
-                      TextField(
+                      TextFormField(
+                        style: TextStyle(color: Colors.white),
                         controller: userpasswordController,
                         decoration: InputDecoration(
-                            labelText: 'Password',
+                            labelText: 'Password *',
                             hintText: 'Enter 8-digit Password',
                             hintStyle: TextStyle(color: Colors.grey),
                             labelStyle: TextStyle(color: Colors.white),
@@ -84,14 +96,21 @@ class SignupState extends State<Signup>{
                         onChanged: (text){
                           //debugPrint('$text');
                         },
+                        validator: (value) {
+                          if (value.isEmpty) {
+                            return 'This Field is Required ';
+                          }
+                          return null;
+                        },
                       ),
                       Padding(
                           padding: EdgeInsets.only(top: 10.0,bottom:10.0),
 
-                          child: TextField(
+                          child: TextFormField(
+                            style: TextStyle(color: Colors.white),
                             controller: fnameController,
                             decoration: InputDecoration(
-                                labelText: 'First Name',
+                                labelText: 'First Name *',
                                 hintText: 'Enter your First name',
                                 hintStyle: TextStyle(color: Colors.grey),
                                 labelStyle: TextStyle(color: Colors.white),
@@ -103,16 +122,23 @@ class SignupState extends State<Signup>{
                             onChanged: (text){
                               debugPrint('$fnameController');
                             },
+                            validator: (value) {
+                              if (value.isEmpty) {
+                                return 'This Field is Required ';
+                              }
+                              return null;
+                            },
 
 
                           )),
                       Padding(
                           padding: EdgeInsets.only(top: 10.0,bottom:10.0),
 
-                          child: TextField(
+                          child: TextFormField(
+                            style: TextStyle(color: Colors.white),
                             controller: lnameController,
                             decoration: InputDecoration(
-                                labelText: 'Last Name',
+                                labelText: 'Last Name *',
                                 hintText: 'Enter a Last Name',
                                 hintStyle: TextStyle(color: Colors.grey),
                                 labelStyle: TextStyle(color: Colors.white),
@@ -124,13 +150,21 @@ class SignupState extends State<Signup>{
                             onChanged: (text){
                               debugPrint('$lnameController');
                             },
+                            validator: (value) {
+                              if (value.isEmpty) {
+                                return 'This Field is Required ';
+                              }
+                              return null;
+                            },
 
 
                           )),
                       Padding(
                           padding: EdgeInsets.only(top: 10.0,bottom:10.0),
 
-                          child: TextField(
+                          child: TextFormField(
+                            keyboardType: TextInputType.number,
+                            style: TextStyle(color: Colors.white),
                             controller: phonenoController,
                             decoration: InputDecoration(
                                 labelText: 'Phone No',
@@ -150,20 +184,25 @@ class SignupState extends State<Signup>{
                           )),
                       Padding(
                           padding: EdgeInsets.only(top:20.0,left: 120.00,right: 120.00),
-                          child: RaisedButton(
-                            color: Theme.of(context).primaryColorDark,
-                            textColor: Theme.of(context).primaryColorLight,
-                            child: Text(
-                              'Register',
-                              textScaleFactor: 1.5,
-                            ),
-                            onPressed: () {
+                          child: Builder(
+                              builder:(context)=> RaisedButton(
+                                color: Theme.of(context).primaryColorDark,
+                                textColor: Theme.of(context).primaryColorLight,
 
-                            },
+                                child: Text(
+                                  'Register',
+                                  textScaleFactor: 1.5,
+                                ),
+
+                                onPressed: () {
+                                  if(_formKey.currentState.validate()) {
+                                    // If the form is valid, display a Snackbar.
+                                    Scaffold.of(context).showSnackBar(SnackBar(content: Text('please wait')));
+                                  }
+                                },
 
 
-
-                          ))
+                              )))
 
 
                     ],
@@ -174,10 +213,11 @@ class SignupState extends State<Signup>{
                       //username
                       Padding(
                           padding: EdgeInsets.only(top: 10.0,bottom: 10.0),
-                          child: TextField(
+                          child: TextFormField(
+                            style: TextStyle(color: Colors.white),
                             controller: ownernameController,
                             decoration: InputDecoration(
-                                labelText: 'Username',
+                                labelText: 'Username *',
                                 labelStyle: TextStyle(color: Colors.white),
                                 hintText: 'Enter a unique Username',
                                 hintStyle: TextStyle(color: Colors.grey),
@@ -189,14 +229,21 @@ class SignupState extends State<Signup>{
                             onChanged: (text){
                               debugPrint('$ownernameController');
                             },
+                            validator: (value) {
+                              if (value.isEmpty) {
+                                return 'This Field is Required ';
+                              }
+                              return null;
+                            },
 
 
                           )),
                       //password
-                      TextField(
+                      TextFormField(
+                        style: TextStyle(color: Colors.white),
                         controller: ownerpasswordController,
                         decoration: InputDecoration(
-                            labelText: 'Password',
+                            labelText: 'Password *',
                             labelStyle: TextStyle(color: Colors.white),
                             hintText: 'Enter a 8-digit Password',
                             hintStyle: TextStyle(color: Colors.grey),
@@ -208,14 +255,21 @@ class SignupState extends State<Signup>{
                         onChanged: (text){
                           //debugPrint('$text');
                         },
+                        validator: (value) {
+                          if (value.isEmpty) {
+                            return 'This Field is Required ';
+                          }
+                          return null;
+                        },
                       ),
                       Padding(
                           padding: EdgeInsets.only(top: 10.0,bottom:10.0),
 
-                          child: TextField(
+                          child: TextFormField(
+                            style: TextStyle(color: Colors.white),
                             controller: ofnameController,
                             decoration: InputDecoration(
-                                labelText: 'First Name',
+                                labelText: 'First Name *',
                                 hintText: 'Enter your First name',
                                 hintStyle: TextStyle(color: Colors.grey),
                                 labelStyle: TextStyle(color: Colors.white),
@@ -227,16 +281,23 @@ class SignupState extends State<Signup>{
                             onChanged: (text){
                               debugPrint('$ofnameController');
                             },
+                            validator: (value) {
+                              if (value.isEmpty) {
+                                return 'This Field is Required ';
+                              }
+                              return null;
+                            },
 
 
                           )),
                       Padding(
                           padding: EdgeInsets.only(top: 10.0,bottom:10.0),
 
-                          child: TextField(
+                          child: TextFormField(
+                            style: TextStyle(color: Colors.white),
                             controller: olnameController,
                             decoration: InputDecoration(
-                                labelText: 'Last Name',
+                                labelText: 'Last Name *',
                                 hintText: 'Enter a Last Name',
                                 hintStyle: TextStyle(color: Colors.grey),
                                 labelStyle: TextStyle(color: Colors.white),
@@ -248,17 +309,25 @@ class SignupState extends State<Signup>{
                             onChanged: (text){
                               debugPrint('$olnameController');
                             },
+                            validator: (value) {
+                              if (value.isEmpty) {
+                                return 'This Field is Required ';
+                              }
+                              return null;
+                            },
 
 
                           )),
                       Padding(
                           padding: EdgeInsets.only(top: 10.0,bottom:10.0),
 
-                          child: TextField(
+                          child: TextFormField(
+                            keyboardType: TextInputType.number,
+                            style: TextStyle(color: Colors.white),
                             controller: NICController,
                             decoration: InputDecoration(
-                                labelText: 'NIC',
-                                hintText: 'Enter Your NIC',
+                                labelText: 'CNIC *',
+                                hintText: 'Enter Your CNIC',
                                 hintStyle: TextStyle(color: Colors.grey),
                                 labelStyle: TextStyle(color: Colors.white),
                                 border: OutlineInputBorder(
@@ -269,16 +338,24 @@ class SignupState extends State<Signup>{
                             onChanged: (text){
                               debugPrint('$NICController');
                             },
+                            validator: (value) {
+                              if (value.isEmpty) {
+                                return 'This Field is Required ';
+                              }
+                              return null;
+                            },
 
 
                           )),
                       Padding(
                           padding: EdgeInsets.only(top: 10.0,bottom:10.0),
 
-                          child: TextField(
+                          child: TextFormField(
+                            keyboardType: TextInputType.number,
+                            style: TextStyle(color: Colors.white),
                             controller: ophonenoController,
                             decoration: InputDecoration(
-                                labelText: 'Phone No',
+                                labelText: 'Phone No *',
                                 hintText: 'Enter 11-Digit Phone Number',
                                 hintStyle: TextStyle(color: Colors.grey),
                                 labelStyle: TextStyle(color: Colors.white),
@@ -291,32 +368,38 @@ class SignupState extends State<Signup>{
                             {
                               debugPrint('$ophonenoController');
                             },
+                            validator: (value) {
+                              if (value.isEmpty) {
+                                return 'This Field is Required ';
+                              }
+                              return null;
+                            },
 
 
                           )),
                       Padding(
                           padding: EdgeInsets.only(top:20.0,left: 120.00,right: 120.00),
-                          child: RaisedButton(
-                            color: Theme.of(context).primaryColorDark,
-                            textColor: Theme.of(context).primaryColorLight,
-                            child: Text(
-                              'Register',
-                              textScaleFactor: 1.5,
-                            ),
-                            onPressed: () {
-                              if(ownernameController.text=='admin'){
-                                if(ownerpasswordController.text=='admin'){
-                                  debugPrint('correct username and password');
-                                }
-                              }
-                              else{
-                                debugPrint("incorrect");
-                              }
-                            },
+                          child: Builder(
+                              builder:(context)=> RaisedButton(
+                                color: Theme.of(context).primaryColorDark,
+                                textColor: Theme.of(context).primaryColorLight,
+
+                                child: Text(
+                                  'Register',
+                                  textScaleFactor: 1.5,
+                                ),
+
+                                onPressed: () {
+                                  if(_formKey.currentState.validate()) {
+                                    // If the form is valid, display a Snackbar.
+                                    Scaffold.of(context).showSnackBar(SnackBar(content: Text('please wait')));
+                                  }
+                                },
 
 
+                              )))
+                                    
 
-                          ))
 
 
                     ],
@@ -324,7 +407,7 @@ class SignupState extends State<Signup>{
 
 
                 ]
-                 )));
+                 ))));
   }
 
 
