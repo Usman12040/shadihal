@@ -13,9 +13,13 @@ class LoginState extends State<Login>{
   TextEditingController userpasswordController = TextEditingController();
   TextEditingController ownernameController = TextEditingController();
   TextEditingController ownerpasswordController = TextEditingController();
+
+  final _formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
-    return DefaultTabController(
+    return Form(
+        key: _formKey,
+        child: DefaultTabController(
         length: 2,
         child:Scaffold(
       backgroundColor: Colors.black,
@@ -39,7 +43,8 @@ class LoginState extends State<Login>{
             Padding(
           padding: EdgeInsets.only(top: 10.0,bottom:10.0),
 
-          child: TextField(
+          child: TextFormField(
+            style: TextStyle(color: Colors.white),
               controller: usernameController,
               decoration: InputDecoration(
                 labelText: 'Username',
@@ -55,10 +60,16 @@ class LoginState extends State<Login>{
                 debugPrint('$usernameController');
               },
 
-
+            validator: (value) {
+              if (value.isEmpty) {
+                return 'This Field is Required ';
+              }
+              return null;
+            },
             )),
             //password
-            TextField(
+            TextFormField(
+              style: TextStyle(color: Colors.white),
               controller: userpasswordController,
               decoration: InputDecoration(
                 labelText: 'Password',
@@ -73,30 +84,37 @@ class LoginState extends State<Login>{
               onChanged: (text){
                 //debugPrint('$text');
               },
+              validator: (value) {
+                if (value.isEmpty) {
+                  return 'This Field is Required ';
+                }
+                return null;
+              },
             ),
             Padding(
               padding: EdgeInsets.only(top:20.0,left: 120.00,right: 120.00),
-            child: RaisedButton(
+            child: Builder(
+                builder:(context)=> RaisedButton(
         color: Theme.of(context).primaryColorDark,
     textColor: Theme.of(context).primaryColorLight,
+
     child: Text(
     'Login',
     textScaleFactor: 1.5,
     ),
-    onPressed: () {
-      if(usernameController.text=='admin'){
-        if(userpasswordController.text=='admin'){
-          debugPrint('correct username and password');
-        }
-      }
-      else{
-        debugPrint("incorrect");
-      }
+
+               onPressed: () {
+    if(_formKey.currentState.validate()) {
+    // If the form is valid, display a Snackbar.
+    Scaffold.of(context).showSnackBar(SnackBar(content: Text('please wait')));
+    }
     },
 
 
 
-            ))
+
+
+            )))
 
 
           ],
@@ -107,7 +125,8 @@ class LoginState extends State<Login>{
               //username
               Padding(
                 padding: EdgeInsets.only(top: 10.0,bottom: 10.0),
-                child: TextField(
+                child: TextFormField(
+                  style: TextStyle(color: Colors.white),
                 controller: ownernameController,
                 decoration: InputDecoration(
                   labelText: 'Username',
@@ -123,10 +142,16 @@ class LoginState extends State<Login>{
                   debugPrint('$ownernameController');
                 },
 
-
+                  validator: (value) {
+                    if (value.isEmpty) {
+                      return 'This Field is Required ';
+                    }
+                    return null;
+                  },
               )),
               //password
-              TextField(
+              TextFormField(
+                style: TextStyle(color: Colors.white),
                 controller: ownerpasswordController,
                 decoration: InputDecoration(
                   labelText: 'Password',
@@ -141,37 +166,38 @@ class LoginState extends State<Login>{
                 onChanged: (text){
                   //debugPrint('$text');
                 },
+                validator: (value) {
+                  if (value.isEmpty) {
+                    return 'This Field is Required ';
+                  }
+                  return null;
+                },
               ),
     Padding(
     padding: EdgeInsets.only(top:20.0,left: 120.00,right: 120.00),
-              child: RaisedButton(
-                color: Theme.of(context).primaryColorDark,
-                textColor: Theme.of(context).primaryColorLight,
-                child: Text(
-                  'Login',
-                  textScaleFactor: 1.5,
-                ),
-                onPressed: () {
-                  if(ownernameController.text=='admin'){
-                    if(ownerpasswordController.text=='admin'){
-                      debugPrint('correct username and password');
-                    }
-                  }
-                  else{
-                    debugPrint("incorrect");
-                  }
-                },
+    child: Builder(
+    builder:(context)=> RaisedButton(
+    color: Theme.of(context).primaryColorDark,
+    textColor: Theme.of(context).primaryColorLight,
+
+    child: Text(
+    'Login',
+    textScaleFactor: 1.5,
+    ),
+
+    onPressed: () {
+    if(_formKey.currentState.validate()) {
+    // If the form is valid, display a Snackbar.
+    Scaffold.of(context).showSnackBar(SnackBar(content: Text('please wait')));
+    }
+    },
 
 
-
-              ))
-
-
-            ],
+    )))],
           ),
 
 
-    ])));
+    ]))));
   }
 
 
