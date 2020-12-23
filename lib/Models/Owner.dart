@@ -1,37 +1,53 @@
-import 'dart:async';
-import 'package:path/path.dart';
-import 'package:sqflite/sqflite.dart';
-class Owner{
-  int _owner_id;
-  String _owner_name;
-  String _NIC;
-  String _contact_no;
+class Owner
+{
+  //int _owner_id;
+   String _firstName;
+   String _lastName;
+   String _userName;
+   String _pass;
+   int _nic;
+   int _phoneNo;
 
-  Owner(this._owner_id,this._owner_name,this._contact_no,[this._NIC]);
+  Owner( this._firstName , this._lastName , this._userName , this._pass, this._nic , this._phoneNo);
 
-  int get owner_id=>_owner_id;
-  String get owner_name=>_owner_name;
-  String get NIC =>_NIC;
-  String get contact_no=> _contact_no;
-  set owner_name(String newOwnername){
-    if(newOwnername.length<=20) {
-      this._owner_name = newOwnername;
-    }
-  }
-  set NIC(String newNIC){
-    if(newNIC.length<=14){
-      this._NIC=newNIC;
-
-    }
-
-  }
-  set contact_no(String newContactno){
-    if(newContactno.length<=11){
-      this._contact_no=newContactno;
-    }
+  Owner.fromMapObject(Map<String, dynamic> map)
+  {
+    this._firstName = map['firstName'];
+    this._lastName = map['lastName'];
+    this._userName = map['userName'];
+    this._pass = map['pass'];
+    this._nic = map['nic'];
+    this._phoneNo = map['phoneNo'];
   }
 
+  Map<String, dynamic> toMap ()
+  {
+    var map = Map<String, dynamic>();
 
+    map['firstName'] = _firstName;
+    map['lastName'] = _lastName;
+    map['userName'] = _userName;
+    map['pass'] = _pass;
+    map['nic'] = _nic;
+    map['phoneNo'] = _phoneNo;
 
+    return map;
+  }
+
+  void fun ()
+  {
+    print(this._firstName);
+    print(this._lastName);
+    print(this._userName);
+    print(this._pass);
+    print(this._nic);
+    print(this._phoneNo);
+  }
 
 }
+
+/*void main ()
+{
+  var o1 = new Owner("Muhammad", "Jawwad", "Jayyhub", "abcxyz", 4220128401261, 03423869615);
+  o1.fun();
+}*/
