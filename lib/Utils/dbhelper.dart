@@ -4,7 +4,7 @@ import 'package:sqflite/sqflite.dart';
 import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:shadihal/Models/Owner.dart';
-import 'package:shadihal/Models/User.dart';
+//import 'package:shadihal/Models/User.dart';
 
 class dbHelper
 {
@@ -79,11 +79,11 @@ class dbHelper
     //GET OPERATIONS
       Future<List<Map<String, dynamic>>> getOwnersMapList() async
         {
-          debugPrint("Hello");
+          //debugPrint("Hello");
           Database db = await this.database;
-          debugPrint("Hello1");
+          //debugPrint("Hello1");
           var result = await db.rawQuery('SELECT * FROM $otablename');
-          debugPrint("Hello2");
+          //debugPrint("Hello2");
           return result;
         }
     //INSERT OPERATIONS
@@ -101,7 +101,7 @@ class dbHelper
         return result;
       }
     //DELETE OPERATIONS
-    Future<int> deleteOwner (int id) async
+      Future<int> deleteOwner (int id) async
     {
       var db = await this.database;
       int result = await db.rawDelete('DELETE FROM $otablename WHERE $ocolid = $id');
@@ -116,24 +116,21 @@ class dbHelper
         return result;
       }
 
-    Future<List<Owner>> getOwnerList ( ) async
-    {
-      var ownerMapList = await getOwnersMapList();
-      int count = ownerMapList.length;
-
-      List<Owner> ownerList = List<Owner>();
-
-      for(int i=0; i<count; i++)
+      Future<List<Owner>> getOwnerList ( ) async
       {
-        ownerList.add(Owner.fromMapObject(ownerMapList[i]));
+        var ownerMapList = await getOwnersMapList();
+        int count = ownerMapList.length;
+
+        List<Owner> ownerList = List<Owner>();
+
+        for(int i=0; i<count; i++)
+        {
+          ownerList.add(Owner.fromMapObject(ownerMapList[i]));
+        }
+
+        return ownerList;
       }
 
-      return ownerList;
-    }
-  //USER CRUD OPERATIONS
-
-
-
-
+    // //USER CRUD OPERATIONS
 
 }
