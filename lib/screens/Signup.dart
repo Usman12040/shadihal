@@ -1,4 +1,9 @@
+import 'dart:async';
 import "package:flutter/material.dart";
+import 'package:shadihal/Models/Owner.dart';
+import 'package:shadihal/Utils/dbhelper.dart';
+import 'package:sqflite/sqflite.dart';
+import 'package:shadihal/Models/User.dart';
 
 class Signup extends StatefulWidget{
   @override
@@ -9,6 +14,11 @@ class Signup extends StatefulWidget{
 
 }
 class SignupState extends State<Signup>{
+  dbHelper sdbHelper = dbHelper();
+  List<Owner> ownerList;
+  int count = 0;
+  Owner owner = new Owner(' ', ' ', ' ', ' ', 0, 0);
+
   TextEditingController usernameController = TextEditingController();
   TextEditingController userpasswordController = TextEditingController();
   TextEditingController fnameController = TextEditingController();
@@ -25,6 +35,12 @@ class SignupState extends State<Signup>{
   
   @override
   Widget build(BuildContext context) {
+
+    if (ownerList == null)
+    {
+        ownerList = List<Owner>();
+    }
+
     return Form(
         key: _formKey,
         child: DefaultTabController(
@@ -389,9 +405,30 @@ class SignupState extends State<Signup>{
                                   textScaleFactor: 1.5,
                                 ),
 
-                                onPressed: () {
-                                  if(_formKey.currentState.validate()) {
+                                onPressed: ()
+                                {
+                                  if(_formKey.currentState.validate())
+                                  {
                                     // If the form is valid, display a Snackbar.
+                                    // debugPrint(ofnameController.text);
+                                    // debugPrint(olnameController.text);
+                                    // debugPrint(ownernameController.text);
+                                    // debugPrint(ownerpasswordController.text);
+                                    // debugPrint(NICController.text.toString());
+                                    // debugPrint(ophonenoController.text.toString());
+                                    this.owner.firstName = ofnameController.text;
+                                    this.owner.lastName = olnameController.text;
+                                    this.owner.userName = ownernameController.text;
+                                    this.owner.pass = ownerpasswordController.text;
+                                    this.owner.nic = int.parse(NICController.text);
+                                    this.owner.phoneNo = int.parse(ophonenoController.text);
+                                    // debugPrint(this.owner.firstName);
+                                    // debugPrint(this.owner.lastName);
+                                    // debugPrint(this.owner.userName);
+                                    // debugPrint(this.owner.pass);
+                                    // debugPrint(this.owner.nic.toString());
+                                    // debugPrint(this.owner.phoneNo.toString());
+                                    _insert(this.owner);
                                     Scaffold.of(context).showSnackBar(SnackBar(content: Text('please wait')));
                                   }
                                 },
@@ -410,5 +447,14 @@ class SignupState extends State<Signup>{
                  ))));
   }
 
+  void _delete (BuildContext context, Owner owner) async
+  {
+    int result = await sdbHelper.deleteOwner(owner.owner_id);
+  }
+
+  void _insert (Owner owner) async
+  {
+    await sdbHelper.insertOwner(owner);
+  }
 
 }
