@@ -78,12 +78,12 @@ class Owner
    Owner.fromMapObject (Map<String, dynamic> map)
   {
     this._owner_id = map['owner_id'];
-    this._firstName = map['firstName'];
-    this._lastName = map['lastName'];
-    this._userName = map['userName'];
-    this._pass = map['pass'];
-    this._nic = map['nic'];
-    this._phoneNo = map['phoneNo'];
+    this._firstName = map['first_name'];
+    this._lastName = map['last_name'];
+    this._userName = map['username'];
+    this._pass = map['password'];
+    this._nic = map['nic_no'];
+    this._phoneNo = map['phone_no'];
 
     //fun();
   }
@@ -96,12 +96,12 @@ class Owner
     {
       map['owner_id'] = _owner_id;
     }
-    map['firstName'] = _firstName;
-    map['lastName'] = _lastName;
-    map['userName'] = _userName;
-    map['pass'] = _pass;
-    map['nic'] = _nic;
-    map['phoneNo'] = _phoneNo;
+    map['first_name'] = _firstName;
+    map['last_name'] = _lastName;
+    map['username'] = _userName;
+    map['password'] = _pass;
+    map['nic_no'] = _nic;
+    map['phone_no'] = _phoneNo;
 
     return map;
   }

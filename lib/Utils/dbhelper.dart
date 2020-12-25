@@ -89,6 +89,12 @@ class dbHelper
     //INSERT OPERATIONS
       Future<int> insertOwner (Owner owner) async
       {
+        debugPrint(owner.firstName);
+        debugPrint(owner.lastName);
+        debugPrint(owner.userName);
+        debugPrint(owner.pass);
+        debugPrint(owner.nic.toString());
+        debugPrint(owner.phoneNo.toString());
         Database db = await this.database;
         var result = await db.insert(otablename, owner.toMap());
         return result;
