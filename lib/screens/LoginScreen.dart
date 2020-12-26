@@ -71,6 +71,7 @@ class LoginState extends State<Login>{
             TextFormField(
               style: TextStyle(color: Colors.white),
               controller: userpasswordController,
+              obscureText: true,
               decoration: InputDecoration(
                 labelText: 'Password',
                 hintText: 'Enter 8-digit Password',
@@ -153,6 +154,7 @@ class LoginState extends State<Login>{
               TextFormField(
                 style: TextStyle(color: Colors.white),
                 controller: ownerpasswordController,
+                obscureText: true,
                 decoration: InputDecoration(
                   labelText: 'Password',
                   labelStyle: TextStyle(color: Colors.white),

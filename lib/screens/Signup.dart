@@ -97,6 +97,7 @@ class SignupState extends State<Signup>{
                       //password
                       TextFormField(
                         style: TextStyle(color: Colors.white),
+                        obscureText: true,
                         controller: userpasswordController,
                         decoration: InputDecoration(
                             labelText: 'Password *',
@@ -257,6 +258,7 @@ class SignupState extends State<Signup>{
                       //password
                       TextFormField(
                         style: TextStyle(color: Colors.white),
+                        obscureText: true,
                         controller: ownerpasswordController,
                         decoration: InputDecoration(
                             labelText: 'Password *',
