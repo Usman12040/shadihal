@@ -72,7 +72,18 @@ class dbHelper
           $ocolnicno	NUMERIC NOT NULL CHECK(length(nic_no) = 13) UNIQUE,
           $ocolphoneno	NUMERIC NOT NULL CHECK(length(phone_no) = 10),
           PRIMARY KEY( $ocolid AUTOINCREMENT)
-          )"""
+          );
+          
+          CREATE TABLE $utablename (
+	        $ucolid	INTEGER NOT NULL,
+          $ucolfname	TEXT NOT NULL,
+	        $ucollname	TEXT NOT NULL,
+	        $ucolusername	TEXT NOT NULL CHECK(length(username) > 7) UNIQUE,
+	        $ucolpass	TEXT NOT NULL CHECK(length(password) > 7),
+	        $ucolphoneno	NUMERIC CHECK(length(phone_no) = 10) UNIQUE,
+	        PRIMARY KEY($ucolid AUTOINCREMENT)
+          );
+          """
     );
   }
 
