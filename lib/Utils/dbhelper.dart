@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:io';
+import 'package:shadihal/Models/User.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
@@ -108,11 +109,11 @@ class dbHelper
       }
     //DELETE OPERATIONS
       Future<int> deleteOwner (int id) async
-    {
+      {
       var db = await this.database;
       int result = await db.rawDelete('DELETE FROM $otablename WHERE $ocolid = $id');
       return result;
-    }
+      }
     //GET NUMBER OF ROWS
       Future<int> getCount () async
       {
@@ -122,6 +123,7 @@ class dbHelper
         return result;
       }
 
+    //OWNER RETRIEVE OPERATIONS
       Future<List<Owner>> getOwnerList ( ) async
       {
         var ownerMapList = await getOwnersMapList();
@@ -136,7 +138,4 @@ class dbHelper
 
         return ownerList;
       }
-
-    // //USER CRUD OPERATIONS
-
 }
