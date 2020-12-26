@@ -28,6 +28,8 @@ dependencies:
   intl: ^0.16.1
   custom_splash: ^0.0.2
   get: ^3.20.0
+  carousel_slider: ^2.3.1
+  carousel_pro : ^1.0.0
 
 
   # The following adds the Cupertino Icons font to your application.
@@ -58,6 +60,10 @@ flutter:
     - assets/photo.jpg
     - assets/venue.jpg
     - assets/BeachLuxury.jpg
+    - assets/MCatering.jpg
+    - assets/Mvenue.jpg
+    - assets/MRent.jpg
+    - assets/Mphoto.jpg
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
 
