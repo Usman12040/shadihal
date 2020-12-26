@@ -73,8 +73,10 @@ class dbHelper
           $ocolphoneno	NUMERIC NOT NULL CHECK(length(phone_no) = 10),
           PRIMARY KEY( $ocolid AUTOINCREMENT)
           );
-          
-          CREATE TABLE $utablename (
+          """
+    );
+    await db.execute(
+        """CREATE TABLE $utablename (
 	        $ucolid	INTEGER NOT NULL,
           $ucolfname	TEXT NOT NULL,
 	        $ucollname	TEXT NOT NULL,
