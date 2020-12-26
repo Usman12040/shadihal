@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:shadihal/screens/CateringList.dart';
 import 'package:shadihal/screens/PhotographyList.dart';
@@ -20,7 +21,9 @@ class Homestate extends State<homescreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return WillPopScope(
+        onWillPop: () => SystemNavigator.pop(),
+        child: Scaffold(
         backgroundColor: Colors.black,
         appBar: AppBar(
             title:Text('Shadihal'),
@@ -122,7 +125,7 @@ class Homestate extends State<homescreen> {
                 Container(height: 25.0),
                 Photography(),
               ],
-            )));
+            ))));
   }
 
   Widget venue_opt() {
