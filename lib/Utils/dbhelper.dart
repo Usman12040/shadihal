@@ -151,4 +151,63 @@ class dbHelper
 
         return ownerList;
       }
+
+  //USER CRUD OPERATIONS
+    //GET OPERATIONS
+    Future<List<Map<String, dynamic>>> getUsersMapList() async
+    {
+      //debugPrint("Hello");
+      Database db = await this.database;
+      //debugPrint("Hello1");
+      var result = await db.rawQuery('SELECT * FROM $utablename');
+      //debugPrint("Hello2");
+      return result;
+    }
+    //INSERT OPERATIONS
+    Future<int> insertUser (User user) async
+    {
+      debugPrint(user.firstName);
+      debugPrint(user.lastName);
+      debugPrint(user.userName);
+      debugPrint(user.pass);
+      debugPrint(user.phoneNo.toString());
+      Database db = await this.database;
+      var result = await db.insert(utablename, user.toMap());
+      return result;
+    }
+    //UPDATE OPERATIONS
+    Future<int> updateUser (User user) async
+    {
+      Database db = await this.database;
+      var result = await db.update(utablename, user.toMap(), where: '$ucolid ?', whereArgs: [user.user_id]);
+      return result;
+    }
+    //DELETE OPERATIONS
+    Future<int> deleteUser (int id) async
+    {
+      var db = await this.database;
+      int result = await db.rawDelete('DELETE FROM $utablename WHERE $ucolid = $id');
+      return result;
+    }
+    //GET NUMBER OF ROWS
+    Future<int> getoCount () async
+    {
+      Database db = await this.database;
+      List<Map<String, dynamic>> x = await db.rawQuery('SELECT COUNT(*) FROM $utablename');
+      int result = Sqflite.firstIntValue(x);
+      return result;
+    }
+
+  //USER RETRIEVE OPERATIONS
+  Future<List<User>> getUsersList ( ) async
+  {
+    var userMapList = await getUsersMapList();
+    int count = userMapList.length;
+
+    List<User> userList = List<User>();
+
+    for (int i = 0; i < count; i++) {
+      userList.add(User.fromMapObject(userMapList[i]));
+    }
+  }
 }
