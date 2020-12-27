@@ -82,9 +82,7 @@ class SignupState extends State<Signup>{
                                 )
 
                             ),
-                            onChanged: (text){
-                              debugPrint('$usernameController');
-                            },
+
                             validator: (value) {
                               if (value.isEmpty) {
                                 return 'This Field is Required ';
@@ -164,11 +162,9 @@ class SignupState extends State<Signup>{
                                 )
 
                             ),
-                            onChanged: (text){
-                              debugPrint('$lnameController');
-                            },
-                            validator: (value) {
-                              if (value.isEmpty) {
+
+                            validator: (value){
+                              if (value.isEmpty){
                                 return 'This Field is Required ';
                               }
                               return null;

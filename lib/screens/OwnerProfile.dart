@@ -14,6 +14,10 @@ class ownerprofilestate extends State<Ownerprofile>{
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: Text("Owner name"),
+      ),
+      //body: ,
 
     );
   }
