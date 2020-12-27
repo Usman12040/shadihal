@@ -103,12 +103,12 @@ class dbHelper
     //INSERT OPERATIONS
       Future<int> insertOwner (Owner owner) async
       {
-        debugPrint(owner.firstName);
-        debugPrint(owner.lastName);
-        debugPrint(owner.userName);
-        debugPrint(owner.pass);
-        debugPrint(owner.nic.toString());
-        debugPrint(owner.phoneNo.toString());
+        // debugPrint(owner.firstName);
+        // debugPrint(owner.lastName);
+        // debugPrint(owner.userName);
+        // debugPrint(owner.pass);
+        // debugPrint(owner.nic.toString());
+        // debugPrint(owner.phoneNo.toString());
         Database db = await this.database;
         var result = await db.insert(otablename, owner.toMap());
         return result;
@@ -150,6 +150,28 @@ class dbHelper
         }
 
         return ownerList;
+      }
+
+    //OWNER PROFILE CHECK
+      Future<dynamic> checkOwnerProfie (String oname, String opass) async
+      {
+        Database db = await this.database;
+        var result = await db.rawQuery('SELECT * FROM $otablename WHERE $otablename.$ocolusername = "$oname" AND $otablename.$ocolpass = "$opass"');
+        if (result.length != 0)
+        {
+          //debugPrint("Success");
+          Owner owner = Owner.fromMapObject(result[0]);
+          // debugPrint(user.firstName);
+          // debugPrint(user.lastName);
+          // debugPrint(user.userName);
+          // debugPrint(user.pass);
+          // debugPrint(user.phoneNo.toString());
+          return owner;
+        }
+        else
+        {
+          return 0;
+        }
       }
 
   //USER CRUD OPERATIONS
@@ -208,6 +230,28 @@ class dbHelper
 
     for (int i = 0; i < count; i++) {
       userList.add(User.fromMapObject(userMapList[i]));
+    }
+  }
+
+  //USER PROFILE CHECK
+  Future<dynamic> checkUserProfie (String uname, String upass) async
+  {
+    Database db = await this.database;
+    var result = await db.rawQuery('SELECT * FROM $utablename WHERE $utablename.$ucolusername = "$uname" AND $utablename.$ucolpass = "$upass"');
+    if (result.length != 0)
+    {
+      //debugPrint("Success");
+      User user = User.fromMapObject(result[0]);
+      // debugPrint(user.firstName);
+      // debugPrint(user.lastName);
+      // debugPrint(user.userName);
+      // debugPrint(user.pass);
+      // debugPrint(user.phoneNo.toString());
+      return user;
+    }
+    else
+    {
+      return 0;
     }
   }
 }
