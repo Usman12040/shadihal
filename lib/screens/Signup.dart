@@ -18,6 +18,7 @@ class SignupState extends State<Signup>{
   List<Owner> ownerList;
   int count = 0;
   Owner owner = new Owner(' ', ' ', ' ', ' ', 0, 0);
+  User user = new User(' ', ' ', ' ', ' ', 0);
 
   TextEditingController usernameController = TextEditingController();
   TextEditingController userpasswordController = TextEditingController();
@@ -210,6 +211,12 @@ class SignupState extends State<Signup>{
                                 onPressed: () {
                                   if(_formKey.currentState.validate()) {
                                     // If the form is valid, display a Snackbar.
+                                    this.user.firstName = fnameController.text;
+                                    this.user.lastName = lnameController.text;
+                                    this.user.userName = usernameController.text;
+                                    this.user.pass = userpasswordController.text;
+                                    this.user.phoneNo = int.parse(phonenoController.text);
+                                    _insertuser(this.user);
                                     Scaffold.of(context).showSnackBar(SnackBar(content: Text('please wait')));
                                   }
                                 },
@@ -426,7 +433,7 @@ class SignupState extends State<Signup>{
                                     // debugPrint(this.owner.pass);
                                     // debugPrint(this.owner.nic.toString());
                                     // debugPrint(this.owner.phoneNo.toString());
-                                    _insert(this.owner);
+                                    _insertowner(this.owner);
                                     Scaffold.of(context).showSnackBar(SnackBar(content: Text('please wait')));
                                   }
                                 },
@@ -445,14 +452,24 @@ class SignupState extends State<Signup>{
                  ))));
   }
 
-  void _delete (BuildContext context, Owner owner) async
+  void _deleteowner (BuildContext context, Owner owner) async
   {
     int result = await sdbHelper.deleteOwner(owner.owner_id);
   }
 
-  void _insert (Owner owner) async
+  void _insertowner (Owner owner) async
   {
     await sdbHelper.insertOwner(owner);
+  }
+
+  void _deleteuser (BuildContext context, User user) async
+  {
+    int result = await sdbHelper.deleteUser(user.user_id);
+  }
+
+  void _insertuser (User user) async
+  {
+    await sdbHelper.insertUser(user);
   }
 
 }

@@ -74,11 +74,11 @@ class User
     {
       map['user_id'] = _user_id;
     }
-    map['firstName'] = _firstName;
-    map['lastName'] = _lastName;
-    map['userName'] = _userName;
-    map['pass'] = _pass;
-    map['phoneNo'] = _phoneNo;
+    map['first_name'] = _firstName;
+    map['last_name'] = _lastName;
+    map['username'] = _userName;
+    map['password'] = _pass;
+    map['phone_no'] = _phoneNo;
 
     return map;
   }
@@ -87,11 +87,11 @@ class User
   User.fromMapObject (Map<String, dynamic> map)
   {
     this._user_id = map['user_id'];
-    this._firstName = map['firstName'];
-    this._lastName = map['lastName'];
-    this._userName = map['userName'];
-    this._pass = map['pass'];
-    this._phoneNo = map['phoneNo'];
+    this._firstName = map['first_name'];
+    this._lastName = map['last_name'];
+    this._userName = map['username'];
+    this._pass = map['password'];
+    this._phoneNo = map['phone_no'];
   }
 
   void fun ()

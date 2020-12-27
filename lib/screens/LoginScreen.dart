@@ -1,4 +1,7 @@
 import "package:flutter/material.dart";
+import 'package:shadihal/Models/Owner.dart';
+import 'package:shadihal/Models/User.dart';
+import 'package:shadihal/Utils/dbhelper.dart';
 
 class Login extends StatefulWidget{
   @override
@@ -8,9 +11,15 @@ class Login extends StatefulWidget{
   }
 
 }
-class LoginState extends State<Login>{
+class LoginState extends State<Login>
+{
+  dbHelper sdbHelper = dbHelper();
+  Owner owner = new Owner(' ', ' ', ' ', ' ', 0, 0);
+  User user = new User (' ', ' ', ' ', ' ', 0);
+
   TextEditingController usernameController = TextEditingController();
   TextEditingController userpasswordController = TextEditingController();
+
   TextEditingController ownernameController = TextEditingController();
   TextEditingController ownerpasswordController = TextEditingController();
 
@@ -104,12 +113,17 @@ class LoginState extends State<Login>{
     textScaleFactor: 1.5,
     ),
 
-               onPressed: () {
-    if(_formKey.currentState.validate()) {
-    // If the form is valid, display a Snackbar.
-    Scaffold.of(context).showSnackBar(SnackBar(content: Text('please wait')));
-    }
-    },
+               onPressed: ()
+               {
+                  if(_formKey.currentState.validate())
+                  {
+                    // If the form is valid, display a Snackbar.
+                    //this.user.userName = usernameController.text;
+                    _checkProfile(usernameController.text, userpasswordController.text, 0);
+
+                    Scaffold.of(context).showSnackBar(SnackBar(content: Text('please wait')));
+                  }
+                },
 
 
 
@@ -187,11 +201,14 @@ class LoginState extends State<Login>{
     textScaleFactor: 1.5,
     ),
 
-    onPressed: () {
-    if(_formKey.currentState.validate()) {
-    // If the form is valid, display a Snackbar.
-    Scaffold.of(context).showSnackBar(SnackBar(content: Text('please wait')));
-    }
+    onPressed: ()
+    {
+      if(_formKey.currentState.validate())
+      {
+        // If the form is valid, display a Snackbar.
+        _checkProfile(ownernameController.text, ownerpasswordController.text, 1);
+        Scaffold.of(context).showSnackBar(SnackBar(content: Text('please wait')));
+      }
     },
 
 
@@ -202,5 +219,50 @@ class LoginState extends State<Login>{
     ]))));
   }
 
+  void _checkProfile (String nameToCheck, String passToCheck, int identifier) async
+  {
+    if (identifier == 0)
+    {
+      var res = await sdbHelper.checkUserProfie(nameToCheck, passToCheck);
+      if (res == 0)
+      {
+        //show alert dialog if wrong
+      }
+      else
+      {
+        user = res;
+        debugPrint("Hello");
+        debugPrint(user.firstName);
+        debugPrint(user.lastName);
+        debugPrint(user.userName);
+        debugPrint(user.pass);
+        debugPrint(user.phoneNo.toString());
+      }
+    }
+    else if (identifier == 1)
+    {
+      var res = await sdbHelper.checkOwnerProfie(nameToCheck, passToCheck);
+      if (res == 0)
+      {
+        //show alert dialog if wrong
+      }
+      else
+      {
+        owner = res;
+        debugPrint("Hello");
+        debugPrint(owner.firstName);
+        debugPrint(owner.lastName);
+        debugPrint(owner.userName);
+        debugPrint(owner.pass);
+        debugPrint(owner.nic.toString());
+        debugPrint(owner.phoneNo.toString());
+      }
+    }
+    else
+    {
+      debugPrint('Exception Encountered');
+    }
+
+  }
 
 }
