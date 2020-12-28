@@ -1,7 +1,13 @@
+import 'dart:io';
+
 import "package:flutter/material.dart";
+import 'package:flutter/services.dart';
 import 'package:shadihal/Models/Owner.dart';
 import 'package:shadihal/Models/User.dart';
 import 'package:shadihal/Utils/dbhelper.dart';
+import 'package:shadihal/screens/OwnerHome.dart';
+import 'package:get/get.dart';
+import 'package:shadihal/screens/homescreen.dart';
 
 class Login extends StatefulWidget{
   @override
@@ -119,10 +125,11 @@ class LoginState extends State<Login>
                   {
                     // If the form is valid, display a Snackbar.
                     //this.user.userName = usernameController.text;
-                    _checkProfile(usernameController.text, userpasswordController.text, 0);
 
                     Scaffold.of(context).showSnackBar(SnackBar(content: Text('please wait')));
+                    _checkProfile(usernameController.text, userpasswordController.text, 0);
                   }
+                  //_checkProfile(usernameController.text, userpasswordController.text, 0);
                 },
 
 
@@ -206,9 +213,10 @@ class LoginState extends State<Login>
       if(_formKey.currentState.validate())
       {
         // If the form is valid, display a Snackbar.
-        _checkProfile(ownernameController.text, ownerpasswordController.text, 1);
         Scaffold.of(context).showSnackBar(SnackBar(content: Text('please wait')));
+        _checkProfile(ownernameController.text, ownerpasswordController.text, 1);
       }
+
     },
 
 
@@ -219,14 +227,32 @@ class LoginState extends State<Login>
     ]))));
   }
 
-  void _checkProfile (String nameToCheck, String passToCheck, int identifier) async
+  Future <dynamic> _checkProfile (String nameToCheck, String passToCheck, int identifier) async
   {
     if (identifier == 0)
     {
       var res = await sdbHelper.checkUserProfie(nameToCheck, passToCheck);
       if (res == 0)
       {
-        //show alert dialog if wrong
+        debugPrint("Incorrect Username or password");
+       return showDialog(
+         context: context,
+           builder:(context){
+
+           return AlertDialog(
+         title: Text("ERROR"),
+         content: Text("Incorrect Username or password"),
+
+         actions: <Widget>[
+           FlatButton(child: Text("Enter Again"),
+           onPressed: (){
+             Navigator.of(context).pop();
+             usernameController.clear();
+             userpasswordController.clear();
+
+           },),
+         ],
+       );});
       }
       else
       {
@@ -237,6 +263,7 @@ class LoginState extends State<Login>
         debugPrint(user.userName);
         debugPrint(user.pass);
         debugPrint(user.phoneNo.toString());
+        Get.to(homescreen());
       }
     }
     else if (identifier == 1)
@@ -244,8 +271,25 @@ class LoginState extends State<Login>
       var res = await sdbHelper.checkOwnerProfie(nameToCheck, passToCheck);
       if (res == 0)
       {
-        //show alert dialog if wrong
-      }
+        debugPrint("incorrect");
+        return showDialog(
+            context: context,
+            builder:(context){
+        return AlertDialog(
+          title: Text("ERROR"),
+          content: Text("Incorrect Username or password"),
+
+          actions: <Widget>[
+            FlatButton(child: Text("Enter Again"),
+              onPressed: (){
+              Navigator.of(context).pop();
+              ownernameController.clear();
+              ownerpasswordController.clear();
+              }
+
+
+            )]
+        );});}
       else
       {
         owner = res;
@@ -256,6 +300,8 @@ class LoginState extends State<Login>
         debugPrint(owner.pass);
         debugPrint(owner.nic.toString());
         debugPrint(owner.phoneNo.toString());
+        Get.to(Ownerhome());
+
       }
     }
     else

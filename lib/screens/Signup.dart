@@ -2,8 +2,10 @@ import 'dart:async';
 import "package:flutter/material.dart";
 import 'package:shadihal/Models/Owner.dart';
 import 'package:shadihal/Utils/dbhelper.dart';
+import 'package:shadihal/screens/LoginScreen.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:shadihal/Models/User.dart';
+import 'package:get/get.dart';
 
 class Signup extends StatefulWidget{
   @override
@@ -87,6 +89,9 @@ class SignupState extends State<Signup>{
                             validator: (value) {
                               if (value.isEmpty) {
                                 return 'This Field is Required ';
+                              }
+                              if(value=="Usman12040"){
+                                return 'Username already exist';
                               }
                               return null;
                             },
@@ -218,6 +223,7 @@ class SignupState extends State<Signup>{
                                     this.user.phoneNo = int.parse(phonenoController.text);
                                     _insertuser(this.user);
                                     Scaffold.of(context).showSnackBar(SnackBar(content: Text('please wait')));
+                                    Get.to(Login());
                                   }
                                 },
 
@@ -253,6 +259,9 @@ class SignupState extends State<Signup>{
                               if (value.isEmpty) {
                                 return 'This Field is Required ';
                               }
+                              if(value=="Usman12040"){
+                                return 'Username already exist';
+                              }
                               return null;
                             },
 
@@ -266,7 +275,7 @@ class SignupState extends State<Signup>{
                         decoration: InputDecoration(
                             labelText: 'Password *',
                             labelStyle: TextStyle(color: Colors.white),
-                            hintText: 'Enter a 8-digit Password',
+                            hintText: 'Enter a 9-digit Password',
                             hintStyle: TextStyle(color: Colors.grey),
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(5.0),
@@ -435,6 +444,7 @@ class SignupState extends State<Signup>{
                                     // debugPrint(this.owner.phoneNo.toString());
                                     _insertowner(this.owner);
                                     Scaffold.of(context).showSnackBar(SnackBar(content: Text('please wait')));
+                                    Get.to(Login());
                                   }
                                 },
 
