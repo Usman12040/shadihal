@@ -103,7 +103,7 @@ class ownerprofilestate extends State<Ownerprofile>{
         //lIST WILL BE RETRIEVED FROM DB
       ),
 
-      floatingActionButton: FloatingActionButton(
+      /*floatingActionButton: FloatingActionButton(
         onPressed: () {
           debugPrint('FAB clickeD');
 
@@ -114,11 +114,11 @@ class ownerprofilestate extends State<Ownerprofile>{
 
         child: Icon(Icons.add_box_rounded),
 
-      ),
+      ),*/
     )
 
 
-  ];
+    ];
   void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;

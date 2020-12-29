@@ -22,7 +22,7 @@ class dbHelper
   String ocolnicno = 'nic_no';
   String ocolphoneno = 'phone_no';
 
-  //USER COLUNS
+  //USER COLUMNS
   String utablename = 'user';
   String ucolid = 'user_id';
   String ucolfname = 'first_name';
@@ -30,6 +30,80 @@ class dbHelper
   String ucolusername = 'username';
   String ucolpass = 'password';
   String ucolphoneno = 'phone_no';
+
+  //VENUE COLUMNS
+  String vtablename = "venue";
+  String vid = "venue_id";
+  String vname = "venue_name";
+  String vpricelb = "price_lb";
+  String vpriceub = "price_ub";
+  String varea = "area";
+  String vcontact = "contact_no";
+  String vtype = "type";
+  String voffhrs = "office_hrs";
+  String vaddress = "address";
+  String vcapacity = "capacity";
+  String vrating = "rating";
+  String vdescription = "description";
+  String vfkey = "owner_id";
+
+  //RENT A CAR COLUMNS
+  String rtablename = "rent_a_car" ;
+  String rid = "service_id"	;
+  String rname = "service_name"	;
+  String rcontact = "phone_no"	;
+  String rarea = "area";
+  String raddress = "address";
+  String roffhrs = "office_hrs";
+  String rrating = "rating";
+  String rdescription = "description";
+  String rfkey = "owner_id";
+
+  //CAR COLUMNS
+  String ctablename = "car"  ;
+  String cid = "car_id"		;
+  String cname = "car_name"		;
+  String cmodel = "model"		;
+  String cseats = "seats"	;
+  String cmileage = "mileage"	;
+  String ccolor = "color"		;
+  String crentperday = "rent_per_day"	;
+  String cfueltype = "fuel_type"	;
+  String ctransmission = "transmission"	;
+  String cfkey = "service_id"	;
+
+  //CATERING COLUMNS
+  String cat_tablename = "catering" 	 ;
+  String cat_id = 	"caterer_id"		;
+  String cat_name = "caterer_name"		;
+  String cat_contact = "phone_no"		;
+  String cat_area = "area"	;
+  String cat_address = "address"	;
+  String cat_price = "price"	;
+  String cat_description = "description"	;
+  String cat_rating = "rating" ;
+  String cat_fkey = "owner_id"	;
+
+  //PHOTOGRAPHY COLUMNS
+  String p_tablename = "photography"  	 ;
+  String p_id = 	"service_id"			;
+  String p_name = "service_name"			;
+  String p_contact = "phone_no"			;
+  String p_price = "price"		;
+  String p_rating = "rating"	 ;
+  String p_description = "description"		;
+  String p_fkey = "owner_id"		;
+
+  //REVIEWS COLUMNS
+  String rev_tablename = "reviews"   	 ;
+  String rev_content = "content"				;
+  String rev_fkey = "service_id"			;
+  String rev_fkey1 = "user_id"				;
+
+  //FAVORITES COLUMNS
+  String fav_tablename = "favorites"    	 ;
+  String fav_fkey = "user_id"				;
+  String fav_fkey1 = "service_id"					;
 
   dbHelper._createInstance();
 
@@ -87,6 +161,122 @@ class dbHelper
           );
           """
     );
+    await db.execute(
+      """CREATE TABLE $vtablename (
+	       $vid	INTEGER NOT NULL,
+	       $vname	TEXT NOT NULL CHECK(length("venue_name") < 21),
+	       $vpricelb	INTEGER NOT NULL,
+	       $vpriceub	INTEGER NOT NULL,
+	       $varea	TEXT NOT NULL CHECK(length("area") < 30),
+	       $vcontact	INTEGER NOT NULL CHECK(length("contact_no") = 11) UNIQUE,
+	       $vtype	TEXT NOT NULL,
+         $voffhrs	TEXT NOT NULL,
+         $vaddress	TEXT NOT NULL CHECK(length("address") < 256) UNIQUE,
+         $vcapacity	INTEGER NOT NULL CHECK("capacity" < 1000),
+         $vrating	REAL,
+         $vdescription	TEXT CHECK(length("description") < 500),
+         $vfkey	INTEGER,
+        PRIMARY KEY($vid AUTOINCREMENT),
+        FOREIGN KEY($vfkey) REFERENCES $otablename ($ocolid)
+        );
+        """
+    );
+
+    await db.execute(
+        """CREATE TABLE $rtablename (
+          $rid	INTEGER NOT NULL,
+          $rname	TEXT NOT NULL CHECK(length(service_name) < 20),
+          $rcontact	INTEGER NOT NULL CHECK(length(phone_no) = 11) UNIQUE,
+          $rarea	TEXT NOT NULL CHECK(length(area) < 30),
+          $raddress	TEXT NOT NULL CHECK(length(address)<256) UNIQUE,
+          $roffhrs TEXT NOT NULL,
+          $rrating	REAL,
+          $rdescription	TEXT CHECK(length(description) < 500),
+          $rfkey	INTEGER,
+          FOREIGN KEY($rfkey) 
+            REFERENCES $otablename ($ocolid),
+          PRIMARY KEY($rid AUTOINCREMENT)
+          );
+          """
+    );
+
+    await db.execute(
+        """CREATE TABLE $ctablename (
+          $cid	INTEGER NOT NULL,
+          $cname	TEXT NOT NULL CHECK(length("car_name") < 20),
+          $cmodel	TEXT NOT NULL CHECK(length("model") = 4),
+          $cseats	INTEGER NOT NULL,
+          $cmileage	REAL NOT NULL CHECK("mileage" < 99),
+          $ccolor	TEXT NOT NULL,
+          $crentperday	INTEGER NOT NULL,
+          $cfueltype	TEXT NOT NULL,
+          $ctransmission	TEXT NOT NULL,
+          $cfkey	INTEGER NOT NULL,
+          FOREIGN KEY($cfkey) REFERENCES $rtablename ($rid),
+          PRIMARY KEY($cid AUTOINCREMENT)
+          );
+          """
+    );
+
+    await db.execute(
+        """CREATE TABLE $cat_tablename (
+          $cat_id	INTEGER NOT NULL,
+          $cat_name	TEXT NOT NULL CHECK(length(caterer_name) < 20),
+          $cat_contact	INTEGER NOT NULL CHECK(length(phone_no) = 11) UNIQUE,
+          $cat_area	TEXT NOT NULL CHECK(length(area) <30),
+          $cat_address	TEXT NOT NULL CHECK(length(address) < 256) UNIQUE,
+          $cat_price	INTEGER NOT NULL,
+          $cat_description	TEXT CHECK(length(description) < 500),
+          $cat_rating REAL,
+          $cat_fkey	INTEGER,
+          PRIMARY KEY($cat_id AUTOINCREMENT),
+          FOREIGN KEY($cat_fkey) REFERENCES $otablename ($ocolid)
+          );
+          """
+    );
+
+    await db.execute(
+        """CREATE TABLE $p_tablename (
+          $p_id	INTEGER NOT NULL,
+          $p_name	TEXT NOT NULL CHECK(length(service_name) < 20),
+          $p_contact	INTEGER NOT NULL CHECK(length(phone_no) = 11) UNIQUE,
+          $p_price	INTEGER NOT NULL,
+          $p_rating	REAL,
+          $p_description	TEXT NOT NULL CHECK(length(description) < 256),
+          $p_fkey	INTEGER,
+          FOREIGN KEY($p_fkey) REFERENCES $otablename($ocolid),
+          PRIMARY KEY($p_id AUTOINCREMENT)
+          )
+          """
+    );
+
+    await db.execute(
+        """CREATE TABLE $rev_tablename (
+          $rev_content	TEXT NOT NULL CHECK(length(content) < 300),
+          $rev_fkey	INTEGER,
+          $rev_fkey1	INTEGER,
+          FOREIGN KEY($rev_fkey) REFERENCES $vtablename ($vid),
+          FOREIGN KEY($rev_fkey) REFERENCES $rtablename ($rid),
+          FOREIGN KEY($rev_fkey) REFERENCES $p_tablename ($p_id),
+          FOREIGN KEY($rev_fkey) REFERENCES $cat_tablename ($cat_id) ,
+          FOREIGN KEY($rev_fkey1) REFERENCES $utablename($ucolid)
+          );
+          """
+    );
+
+    await db.execute(
+        """CREATE TABLE $fav_tablename (
+          $fav_fkey	INTEGER,
+          $fav_fkey1	INTEGER,
+          FOREIGN KEY($fav_fkey) REFERENCES $utablename($ucolid),
+          FOREIGN KEY($fav_fkey1) REFERENCES $vtablename ($vid),
+          FOREIGN KEY($fav_fkey1) REFERENCES $rtablename ($rid),
+          FOREIGN KEY($fav_fkey1) REFERENCES $p_tablename ($p_id),
+          FOREIGN KEY($fav_fkey1) REFERENCES  $cat_tablename ($cat_id) 
+          );
+          """
+    );
+
   }
 
   //OWNER CRUD OPERATIONS
