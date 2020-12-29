@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:shadihal/screens/CarForm.dart';
 import 'dart:typed_data';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:async';
@@ -249,7 +251,8 @@ class RentaCarFormState extends State<RentaCarForm> {
                       child: Text("Add Cars", style: TextStyle(fontSize: 20.0,color: Colors.white)),
 
                       onPressed: () {
-                      
+                        Get.to(CarForm());
+
 
                       },
                     )]),

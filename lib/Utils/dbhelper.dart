@@ -214,7 +214,7 @@ class dbHelper
           $cname	TEXT NOT NULL CHECK(length("car_name") < 20),
           $cmodel	TEXT NOT NULL CHECK(length("model") = 4),
           $cseats	INTEGER NOT NULL,
-          $cmileage	REAL NOT NULL CHECK("mileage" < 99),
+          $cmileage	REAL NOT NULL,
           $ccolor	TEXT NOT NULL,
           $crentperday	INTEGER NOT NULL,
           $cfueltype	TEXT NOT NULL,
