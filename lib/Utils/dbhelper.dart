@@ -1,11 +1,12 @@
 import 'dart:async';
 import 'dart:io';
+import 'package:multi_image_picker/multi_image_picker.dart';
 import 'package:shadihal/Models/User.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:shadihal/Models/Owner.dart';
-//import 'package:shadihal/Models/User.dart';
+import 'package:shadihal/Models/Photo.dart';
 
 class dbHelper
 {
@@ -104,6 +105,13 @@ class dbHelper
   String fav_tablename = "favorites"    	 ;
   String fav_fkey = "user_id"				;
   String fav_fkey1 = "service_id"					;
+
+  //IMAGE COLUMN
+  String img_table = "image";
+  String id = 'id' ;
+  String img = "image";
+  String img_fkey = "service_id";
+  String img_fkey1 = "c_id";
 
   dbHelper._createInstance();
 
@@ -273,6 +281,21 @@ class dbHelper
           FOREIGN KEY($fav_fkey1) REFERENCES $rtablename ($rid) ON DELETE CASCADE,
           FOREIGN KEY($fav_fkey1) REFERENCES $p_tablename ($p_id) ON DELETE CASCADE,
           FOREIGN KEY($fav_fkey1) REFERENCES  $cat_tablename ($cat_id) ON DELETE CASCADE
+          );
+          """
+    );
+
+    await db.execute(
+        """CREATE TABLE $img_table (
+          $id INTEGER,
+          $img	BLOB NOT NULL,
+          $img_fkey	INTEGER NOT NULL,
+          $img_fkey1		INTEGER,
+          FOREIGN KEY($img_fkey) REFERENCES $vtablename ($vid) ON DELETE CASCADE,
+          FOREIGN KEY($img_fkey) REFERENCES $rtablename ($rid) ON DELETE CASCADE,
+          FOREIGN KEY($img_fkey) REFERENCES $p_tablename ($p_id) ON DELETE CASCADE,
+          FOREIGN KEY($img_fkey) REFERENCES  $cat_tablename ($cat_id) ON DELETE CASCADE,
+          FOREIGN KEY($img_fkey1) REFERENCES  $ctablename ($cid) ON DELETE CASCADE
           );
           """
     );
@@ -517,4 +540,26 @@ class dbHelper
     return result;
   }
 
+  //IMAGE CRUD OPERATIONS
+    Future<Photo> save(Photo employee) async
+    {
+    var dbClient = await this.database;
+    employee.id = await dbClient.insert(img_table , employee.toMap());
+    return employee;
+    }
+
+    Future<List<Photo>> getPhotos() async
+    {
+    var dbClient = await this.database;
+    List<Map> maps = await dbClient.rawQuery('SELECT * FROM $img_table');
+    List<Photo> employees = [];
+    if (maps.length > 0)
+    {
+      for (int i = 0; i < maps.length; i++)
+      {
+        employees.add(Photo.fromMap(maps[i]));
+      }
+    }
+    return employees;
+  }
 }

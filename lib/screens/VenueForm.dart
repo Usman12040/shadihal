@@ -1,4 +1,9 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:shadihal/Models/Photo.dart';
+import 'package:shadihal/Utils/imgutility.dart';
+import 'package:shadihal/Utils/dbhelper.dart';
 import 'dart:typed_data';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:async';
@@ -17,35 +22,39 @@ class VenueForm extends StatefulWidget {
 
 // Define a corresponding State class.
 // This class holds data related to the form.
-class VenueFormState extends State<VenueForm> {
-  List<Asset> images = List<Asset>();
+class VenueFormState extends State<VenueForm>
+{
+  Future<File> imageFile;
+  Image image;
+  dbHelper sdbHelper;
+  List<Photo> images;
+
+  @override
   void initState() {
     super.initState();
+    images = [];
+    sdbHelper = dbHelper();
+    refreshImages();
   }
 
-  Future<void> pickImages() async {
-    List<Asset> resultList = List<Asset>();
-
-    try {
-      resultList = await MultiImagePicker.pickImages(
-        maxImages: 5,
-        enableCamera: true,
-        selectedAssets: images,
-        materialOptions: MaterialOptions(
-          actionBarTitle: "Add images",
-        ),
-      );
-    } on Exception catch (e) {
-      print(e);
-    }
-
-    setState(() {
-      images = resultList;
+  refreshImages()
+  {
+    sdbHelper.getPhotos().then((imgs) {
+      setState(() {
+        images.clear();
+        images.addAll(imgs);
+      });
     });
   }
 
-
-
+  pickImageFromGallery() {
+    ImagePicker.pickImage(source: ImageSource.gallery).then((imgFile) {
+      String imgString = Utility.base64String(imgFile.readAsBytesSync());
+      Photo photo = Photo(0, imgString, 1);
+      sdbHelper.save(photo);
+      refreshImages();
+    });
+  }
 
   // Create a global key that uniquely identifies the Form widget
   // and allows validation of the form.
@@ -66,6 +75,7 @@ class VenueFormState extends State<VenueForm> {
   TextEditingController venuecapacityController = TextEditingController();
   TextEditingController venueratingController = TextEditingController();
   TextEditingController venuedescriptionController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
 
@@ -401,24 +411,24 @@ class VenueFormState extends State<VenueForm> {
                       style: OutlinedButton.styleFrom(backgroundColor: Colors.deepPurple),
                       child: Text("Add Images", style: TextStyle(fontSize: 20.0,color: Colors.white)),
 
-                      onPressed: () {
-                        pickImages();
+                      onPressed: ()
+                      {
+                            pickImageFromGallery();
 
                       },
                     )]),
                   SizedBox(
                       height: 200.0,
                       child: GridView.count(
-                        crossAxisCount: 3,
-                        children: List.generate(images.length, (index) {
-                          Asset asset = images[index];
-                          return AssetThumb(
-                            asset: asset,
-                            width: 300,
-                            height: 300,
-                          );
-                        }),
-                      )),
+                        crossAxisCount: 2,
+                        childAspectRatio: 1.0,
+                        mainAxisSpacing: 4.0,
+                        crossAxisSpacing: 4.0,
+                        children: images.map((photo) {
+                          return Utility.imageFromBase64String(photo.photo_name);
+                        }).toList(),
+                      ),
+                      ),
 
               Padding(
                   padding: EdgeInsets.only(top:20.0,left: 120.00,right: 120.00),
