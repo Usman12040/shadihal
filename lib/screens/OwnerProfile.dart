@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:shadihal/screens/CateringForm.dart';
 import 'package:shadihal/screens/VenueForm.dart';
 
 class Ownerprofile extends StatefulWidget{
@@ -18,6 +19,9 @@ class ownerprofilestate extends State<Ownerprofile>{
   static  List<Widget> _widgetOptions = <Widget>[
     //OWNER PROFILE
     Scaffold(
+        appBar: AppBar(
+          title: Text("Owner Info"),
+        ),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: <Widget>[
@@ -59,6 +63,7 @@ class ownerprofilestate extends State<Ownerprofile>{
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           debugPrint('FAB clicked');
+          Get.to(CateringForm());
 
         },
 
@@ -107,7 +112,7 @@ class ownerprofilestate extends State<Ownerprofile>{
         tooltip: 'Add Photography',
         backgroundColor: Colors.deepPurple,
 
-        child: Icon(Icons.add_box_rounded),f
+        child: Icon(Icons.add_box_rounded),
 
       ),
     )
@@ -123,9 +128,7 @@ class ownerprofilestate extends State<Ownerprofile>{
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text("Owner Menu"),
-      ),
+
         body:Center(
           child: _widgetOptions.elementAt(_selectedIndex),
         ),
