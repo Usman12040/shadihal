@@ -177,7 +177,7 @@ class dbHelper
          $vdescription	TEXT CHECK(length("description") < 500),
          $vfkey	INTEGER,
         PRIMARY KEY($vid AUTOINCREMENT),
-        FOREIGN KEY($vfkey) REFERENCES $otablename ($ocolid)
+        FOREIGN KEY($vfkey) REFERENCES $otablename ($ocolid) ON DELETE CASCADE
         );
         """
     );
@@ -194,7 +194,7 @@ class dbHelper
           $rdescription	TEXT CHECK(length(description) < 500),
           $rfkey	INTEGER,
           FOREIGN KEY($rfkey) 
-            REFERENCES $otablename ($ocolid),
+            REFERENCES $otablename ($ocolid) ON DELETE CASCADE,
           PRIMARY KEY($rid AUTOINCREMENT)
           );
           """
@@ -212,7 +212,7 @@ class dbHelper
           $cfueltype	TEXT NOT NULL,
           $ctransmission	TEXT NOT NULL,
           $cfkey	INTEGER NOT NULL,
-          FOREIGN KEY($cfkey) REFERENCES $rtablename ($rid),
+          FOREIGN KEY($cfkey) REFERENCES $rtablename ($rid) ON DELETE CASCADE,
           PRIMARY KEY($cid AUTOINCREMENT)
           );
           """
@@ -230,7 +230,7 @@ class dbHelper
           $cat_rating REAL,
           $cat_fkey	INTEGER,
           PRIMARY KEY($cat_id AUTOINCREMENT),
-          FOREIGN KEY($cat_fkey) REFERENCES $otablename ($ocolid)
+          FOREIGN KEY($cat_fkey) REFERENCES $otablename ($ocolid) ON DELETE CASCADE
           );
           """
     );
@@ -244,7 +244,7 @@ class dbHelper
           $p_rating	REAL,
           $p_description	TEXT NOT NULL CHECK(length(description) < 256),
           $p_fkey	INTEGER,
-          FOREIGN KEY($p_fkey) REFERENCES $otablename($ocolid),
+          FOREIGN KEY($p_fkey) REFERENCES $otablename($ocolid) ON DELETE CASCADE,
           PRIMARY KEY($p_id AUTOINCREMENT)
           )
           """
@@ -255,11 +255,11 @@ class dbHelper
           $rev_content	TEXT NOT NULL CHECK(length(content) < 300),
           $rev_fkey	INTEGER,
           $rev_fkey1	INTEGER,
-          FOREIGN KEY($rev_fkey) REFERENCES $vtablename ($vid),
-          FOREIGN KEY($rev_fkey) REFERENCES $rtablename ($rid),
-          FOREIGN KEY($rev_fkey) REFERENCES $p_tablename ($p_id),
-          FOREIGN KEY($rev_fkey) REFERENCES $cat_tablename ($cat_id) ,
-          FOREIGN KEY($rev_fkey1) REFERENCES $utablename($ucolid)
+          FOREIGN KEY($rev_fkey) REFERENCES $vtablename ($vid) ON DELETE CASCADE,
+          FOREIGN KEY($rev_fkey) REFERENCES $rtablename ($rid) ON DELETE CASCADE,
+          FOREIGN KEY($rev_fkey) REFERENCES $p_tablename ($p_id) ON DELETE CASCADE,
+          FOREIGN KEY($rev_fkey) REFERENCES $cat_tablename ($cat_id) ON DELETE CASCADE,
+          FOREIGN KEY($rev_fkey1) REFERENCES $utablename($ucolid) ON DELETE CASCADE
           );
           """
     );
@@ -268,11 +268,11 @@ class dbHelper
         """CREATE TABLE $fav_tablename (
           $fav_fkey	INTEGER,
           $fav_fkey1	INTEGER,
-          FOREIGN KEY($fav_fkey) REFERENCES $utablename($ucolid),
-          FOREIGN KEY($fav_fkey1) REFERENCES $vtablename ($vid),
-          FOREIGN KEY($fav_fkey1) REFERENCES $rtablename ($rid),
-          FOREIGN KEY($fav_fkey1) REFERENCES $p_tablename ($p_id),
-          FOREIGN KEY($fav_fkey1) REFERENCES  $cat_tablename ($cat_id) 
+          FOREIGN KEY($fav_fkey) REFERENCES $utablename($ucolid) ON DELETE CASCADE,
+          FOREIGN KEY($fav_fkey1) REFERENCES $vtablename ($vid) ON DELETE CASCADE,
+          FOREIGN KEY($fav_fkey1) REFERENCES $rtablename ($rid) ON DELETE CASCADE,
+          FOREIGN KEY($fav_fkey1) REFERENCES $p_tablename ($p_id) ON DELETE CASCADE,
+          FOREIGN KEY($fav_fkey1) REFERENCES  $cat_tablename ($cat_id) ON DELETE CASCADE
           );
           """
     );
@@ -364,6 +364,42 @@ class dbHelper
         }
       }
 
+      Future<int> checkOwnerUsername (String str) async
+      {
+        Database db = await this.database;
+        List<Map<String, dynamic>> x = await db.rawQuery('SELECT * FROM $otablename WHERE $ocolusername = "$str"');
+        int result;
+        if (x.length > 0)
+        {
+          //Username found in databse, Hence restrict
+          result = 0;
+        }
+        else
+        {
+          result = 1;
+        }
+
+        return result;
+      }
+
+      Future<int> checkOwnerNic (int tocheck) async
+      {
+        Database db = await this.database;
+        List<Map<String, dynamic>> x = await db.rawQuery('SELECT * FROM $otablename WHERE $ocolnicno = $tocheck');
+        int result;
+        if (x.length > 0)
+        {
+          //Username found in databse, Hence restrict
+          result = 0;
+        }
+        else
+        {
+          result = 1;
+        }
+
+        return result;
+      }
+
   //USER CRUD OPERATIONS
     //GET OPERATIONS
     Future<List<Map<String, dynamic>>> getUsersMapList() async
@@ -444,4 +480,41 @@ class dbHelper
       return 0;
     }
   }
+
+  Future<int> checkUserUsername (String str) async
+  {
+    Database db = await this.database;
+    List<Map<String, dynamic>> x = await db.rawQuery('SELECT * FROM $utablename WHERE $ucolusername = "$str"');
+    int result;
+    if (x.length > 0)
+    {
+      //Username found in databse, Hence restrict
+      result = 0;
+    }
+    else
+    {
+      result = 1;
+    }
+
+    return result;
+  }
+
+  Future<int> checkUserPhoneNo (int phno) async
+  {
+    Database db = await this.database;
+    List<Map<String, dynamic>> x = await db.rawQuery('SELECT * FROM $utablename WHERE $ucolphoneno = "$phno"');
+    int result;
+    if (x.length > 0)
+    {
+      //Username found in databse, Hence restrict
+      result = 0;
+    }
+    else
+    {
+      result = 1;
+    }
+
+    return result;
+  }
+
 }

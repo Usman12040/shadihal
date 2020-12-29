@@ -21,6 +21,7 @@ class SignupState extends State<Signup>{
   int count = 0;
   Owner owner = new Owner(' ', ' ', ' ', ' ', 0, 0);
   User user = new User(' ', ' ', ' ', ' ', 0);
+  Future<int> status;
 
   TextEditingController usernameController = TextEditingController();
   TextEditingController userpasswordController = TextEditingController();
@@ -213,17 +214,35 @@ class SignupState extends State<Signup>{
                                   textScaleFactor: 1.5,
                                 ),
 
-                                onPressed: () {
-                                  if(_formKey.currentState.validate()) {
-                                    // If the form is valid, display a Snackbar.
-                                    this.user.firstName = fnameController.text;
-                                    this.user.lastName = lnameController.text;
-                                    this.user.userName = usernameController.text;
-                                    this.user.pass = userpasswordController.text;
-                                    this.user.phoneNo = int.parse(phonenoController.text);
-                                    _insertuser(this.user);
-                                    Scaffold.of(context).showSnackBar(SnackBar(content: Text('please wait')));
-                                    Get.to(Login());
+                                onPressed: () async
+                                {
+                                  if(_formKey.currentState.validate())
+                                  {
+                                    int status = await sdbHelper.checkUserUsername(usernameController.text);
+                                    if (status == 0)
+                                    {
+                                      debugPrint("Failure2");
+                                    }
+                                    else
+                                    {
+                                      int status1 = await sdbHelper.checkUserPhoneNo(int.parse(phonenoController.text));
+                                      if(status1 == 0)
+                                      {
+                                        debugPrint("Failure3");
+                                      }
+                                      else
+                                      {
+                                        // If the form is valid, display a Snackbar.
+                                        this.user.firstName = fnameController.text;
+                                        this.user.lastName = lnameController.text;
+                                        this.user.userName = usernameController.text;
+                                        this.user.pass = userpasswordController.text;
+                                        this.user.phoneNo = int.parse(phonenoController.text);
+                                        _insertuser(this.user);
+                                        Scaffold.of(context).showSnackBar(SnackBar(content: Text('please wait')));
+                                        Get.to(Login());
+                                      }
+                                    }
                                   }
                                 },
 
@@ -255,11 +274,12 @@ class SignupState extends State<Signup>{
                             onChanged: (text){
                               debugPrint('$ownernameController');
                             },
-                            validator: (value) {
+                            validator: (value)
+                            {
                               if (value.isEmpty) {
                                 return 'This Field is Required ';
                               }
-                              if(value=="Usman12040"){
+                              if(value == "Usman12040"){
                                 return 'Username already exist';
                               }
                               return null;
@@ -419,32 +439,35 @@ class SignupState extends State<Signup>{
                                   textScaleFactor: 1.5,
                                 ),
 
-                                onPressed: ()
+                                onPressed: () async
                                 {
                                   if(_formKey.currentState.validate())
                                   {
-                                    // If the form is valid, display a Snackbar.
-                                    // debugPrint(ofnameController.text);
-                                    // debugPrint(olnameController.text);
-                                    // debugPrint(ownernameController.text);
-                                    // debugPrint(ownerpasswordController.text);
-                                    // debugPrint(NICController.text.toString());
-                                    // debugPrint(ophonenoController.text.toString());
-                                    this.owner.firstName = ofnameController.text;
-                                    this.owner.lastName = olnameController.text;
-                                    this.owner.userName = ownernameController.text;
-                                    this.owner.pass = ownerpasswordController.text;
-                                    this.owner.nic = int.parse(NICController.text);
-                                    this.owner.phoneNo = int.parse(ophonenoController.text);
-                                    // debugPrint(this.owner.firstName);
-                                    // debugPrint(this.owner.lastName);
-                                    // debugPrint(this.owner.userName);
-                                    // debugPrint(this.owner.pass);
-                                    // debugPrint(this.owner.nic.toString());
-                                    // debugPrint(this.owner.phoneNo.toString());
-                                    _insertowner(this.owner);
-                                    Scaffold.of(context).showSnackBar(SnackBar(content: Text('please wait')));
-                                    Get.to(Login());
+                                    int status = await sdbHelper.checkOwnerUsername(ownernameController.text);
+                                    if (status == 0)
+                                    {
+                                      debugPrint("Failure");
+                                    }
+                                    else
+                                    {
+                                      int status1 = await sdbHelper.checkOwnerNic(int.parse(NICController.text));
+                                      if(status1 == 0)
+                                      {
+                                        debugPrint("Failure1");
+                                      }
+                                      else
+                                      {
+                                        this.owner.firstName = ofnameController.text;
+                                        this.owner.lastName = olnameController.text;
+                                        this.owner.userName = ownernameController.text;
+                                        this.owner.pass = ownerpasswordController.text;
+                                        this.owner.nic = int.parse(NICController.text);
+                                        this.owner.phoneNo = int.parse(ophonenoController.text);
+                                        _insertowner(this.owner);
+                                        Scaffold.of(context).showSnackBar(SnackBar(content: Text('please wait')));
+                                        Get.to(Login());
+                                      }
+                                    }
                                   }
                                 },
 
@@ -481,5 +504,6 @@ class SignupState extends State<Signup>{
   {
     await sdbHelper.insertUser(user);
   }
+
 
 }
