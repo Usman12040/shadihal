@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:io';
 import 'package:multi_image_picker/multi_image_picker.dart';
 import 'package:shadihal/Models/User.dart';
+import 'package:shadihal/Models/Venue.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
@@ -330,7 +331,7 @@ class dbHelper
       Future<int> updateOwner (Owner owner) async
       {
         Database db = await this.database;
-        var result = await db.update(otablename, owner.toMap(), where: '$ocolid ?', whereArgs: [owner.owner_id]);
+        var result = await db.update(otablename, owner.toMap(), where: '$ocolid = ?', whereArgs: [owner.owner_id]);
         return result;
       }
     //DELETE OPERATIONS
@@ -450,7 +451,7 @@ class dbHelper
     Future<int> updateUser (User user) async
     {
       Database db = await this.database;
-      var result = await db.update(utablename, user.toMap(), where: '$ucolid ?', whereArgs: [user.user_id]);
+      var result = await db.update(utablename, user.toMap(), where: '$ucolid = ?', whereArgs: [user.user_id]);
       return result;
     }
     //DELETE OPERATIONS
@@ -562,4 +563,61 @@ class dbHelper
     }
     return employees;
   }
+
+  //VENUE CRUD OPERATIONS
+  //GET OPERATIONS
+  Future<List<Map<String, dynamic>>> getVenuesMapList(int ownerid) async
+  {
+    Database db = await this.database;
+    var result = await db.rawQuery('SELECT * FROM $vtablename WHERE $vfkey = $ownerid');
+    return result;
+  }
+
+  //INSERT OPERATIONS
+  Future<int> insertVenue (Venue venue) async
+  {
+    Database db = await this.database;
+    var result = await db.insert(vtablename, venue.toMap());
+    return result;
+  }
+
+  //UPDATE OPERATIONS
+  Future<int> updateVenue (Venue venue) async
+  {
+    Database db = await this.database;
+    var result = await db.update(vtablename, venue.toMap(), where: '$vid = ?', whereArgs: [venue.venue_id]);
+    return result;
+  }
+  //DELETE OPERATIONS
+  Future<int> deleteVenue (int id) async
+  {
+    var db = await this.database;
+    int result = await db.rawDelete('DELETE FROM $vtablename WHERE $vid = $id');
+    return result;
+  }
+  //GET NUMBER OF ROWS
+  Future<int> getVenueCount (int ownerid) async
+  {
+    Database db = await this.database;
+    List<Map<String, dynamic>> x = await db.rawQuery('SELECT COUNT(*) FROM $vtablename where $vfkey = $ownerid');
+    int result = Sqflite.firstIntValue(x);
+    return result;
+  }
+
+  //VENUE RETRIEVE OPERATIONS
+  Future<List<Venue>> getVenueList (int ownerid) async
+  {
+    var venueMapList = await getVenuesMapList(ownerid);
+    int count = venueMapList.length;
+
+    List<Venue> venueList = List<Venue>();
+
+    for(int i=0; i<count; i++)
+    {
+      venueList.add(Venue.fromMapObject(venueMapList[i]));
+    }
+
+    return venueList;
+  }
+
 }

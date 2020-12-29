@@ -9,17 +9,28 @@ import 'package:shadihal/screens/LoginScreen.dart';
 import 'package:shadihal/screens/Signup.dart';
 import 'VenueList.dart';
 import 'homescreen.dart';
+import 'package:shadihal/Models/Owner.dart';
 import 'OwnerProfile.dart';
 
-class Ownerhome extends StatefulWidget {
+class Ownerhome extends StatefulWidget
+{
+  final Owner owner;
+
+  Ownerhome(this.owner);
+
   @override
-  State<StatefulWidget> createState() {
-    return Ownerhomestate();
+  State<StatefulWidget> createState()
+  {
+    return Ownerhomestate(this.owner);
   }
 }
 
-class Ownerhomestate extends State<Ownerhome> {
+class Ownerhomestate extends State<Ownerhome>
+{
+  Owner owner;
   final _minimumPadding = 5.0;
+
+  Ownerhomestate (this.owner);
 
   @override
   Widget build(BuildContext context) {
@@ -38,8 +49,16 @@ class Ownerhomestate extends State<Ownerhome> {
                   Text("LOGOUT"),
                   Icon(Icons.logout),
               ]),
-                onTap: (){
-                Get.to(homescreen());
+                onTap: ()
+                {
+                  this.owner.firstName = ' ';
+                  this.owner.lastName = ' ';
+                  this.owner.userName = ' ';
+                  this.owner.pass = ' ';
+                  this.owner.nic = 0;
+                  this.owner.phoneNo = 0;
+
+                  Get.to(homescreen());
                 },
                 )
                 ),
@@ -76,14 +95,22 @@ class Ownerhomestate extends State<Ownerhome> {
                         title: Text('Your Profile',style: TextStyle(color: Colors.yellow),textScaleFactor: 1.2),
                         onTap: () {
                           // Update the state of the app.
-                          Get.to(Ownerprofile());
+                          Get.to(Ownerprofile(this.owner));
                           // ...
                         },
                       ),
                       ListTile(
                         title: Text('Log Out',style: TextStyle(color: Colors.yellow),textScaleFactor: 1.2),
-                        onTap: () {
+                        onTap: ()
+                        {
                           // Update the state of the app.
+                          this.owner.firstName = ' ';
+                          this.owner.lastName = ' ';
+                          this.owner.userName = ' ';
+                          this.owner.pass = ' ';
+                          this.owner.nic = 0;
+                          this.owner.phoneNo = 0;
+
                           Get.to(homescreen());
                           // ...
                         },

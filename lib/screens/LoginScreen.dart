@@ -263,7 +263,7 @@ class LoginState extends State<Login>
         debugPrint(user.userName);
         debugPrint(user.pass);
         debugPrint(user.phoneNo.toString());
-        Get.to(homescreen());
+        Get.to(homescreen(this.user));
       }
     }
     else if (identifier == 1)
@@ -300,7 +300,7 @@ class LoginState extends State<Login>
         debugPrint(owner.pass);
         debugPrint(owner.nic.toString());
         debugPrint(owner.phoneNo.toString());
-        Get.to(Ownerhome());
+        Get.to(Ownerhome(this.owner));
 
       }
     }

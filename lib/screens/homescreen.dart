@@ -2,6 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:shadihal/Models/Owner.dart';
+import 'package:shadihal/Models/User.dart';
 import 'package:shadihal/screens/CateringList.dart';
 import 'package:shadihal/screens/PhotographyList.dart';
 import 'package:shadihal/screens/RentaCarList.dart';
@@ -9,15 +11,24 @@ import 'package:shadihal/screens/LoginScreen.dart';
 import 'package:shadihal/screens/Signup.dart';
 import 'VenueList.dart';
 
-class homescreen extends StatefulWidget {
+class homescreen extends StatefulWidget
+{
+  final User user;
+
+  homescreen([this.user]);
+
   @override
   State<StatefulWidget> createState() {
-    return Homestate();
+    return Homestate(this.user);
   }
 }
 
-class Homestate extends State<homescreen> {
+class Homestate extends State<homescreen>
+{
   final _minimumPadding = 5.0;
+  User user;
+
+  Homestate([this.user]);
 
   @override
   Widget build(BuildContext context) {

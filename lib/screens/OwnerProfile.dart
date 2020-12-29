@@ -6,28 +6,42 @@ import 'package:shadihal/screens/CateringForm.dart';
 import 'package:shadihal/screens/RentaCarForm.dart';
 import 'package:shadihal/screens/VenueForm.dart';
 import 'PhotoGraphyForm.dart';
+import 'package:shadihal/Models/Owner.dart';
 
-class Ownerprofile extends StatefulWidget{
+class Ownerprofile extends StatefulWidget
+{
+  final Owner owner;
+
+  Ownerprofile(this.owner);
+
   @override
   State<StatefulWidget> createState() {
-      return ownerprofilestate();
+      return ownerprofilestate(this.owner);
   }
 
 }
-class ownerprofilestate extends State<Ownerprofile>{
+class ownerprofilestate extends State<Ownerprofile>
+{
+  Owner owner;
+
+  ownerprofilestate(this.owner);
+
   int _selectedIndex = 0;
   static const TextStyle optionStyle =
   TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
   static  List<Widget> _widgetOptions = <Widget>[
+
     //OWNER PROFILE
     Scaffold(
-        appBar: AppBar(
+        appBar: AppBar
+        (
           title: Text("Owner Info"),
         ),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      children: <Widget>[
-        Text("Ownername"),
+        body: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: <Widget>
+      [
+        Text("abc"),
         Text("CNIC"),
         Text("Phone No"),
       ],
@@ -130,7 +144,8 @@ class ownerprofilestate extends State<Ownerprofile>{
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context)
+  {
     return Scaffold(
 
         body:Center(
