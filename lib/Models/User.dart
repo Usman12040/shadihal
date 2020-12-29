@@ -1,5 +1,3 @@
-import 'package:shadihal/Models/Owner.dart';
-
 class User
 {
   //INITIALIZATIONS
