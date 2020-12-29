@@ -5,6 +5,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:image_picker/image_picker.dart';
 import 'package:multi_image_picker/multi_image_picker.dart';
+import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 
 
 class VenueForm extends StatefulWidget {
@@ -27,7 +28,7 @@ class VenueFormState extends State<VenueForm> {
 
     try {
       resultList = await MultiImagePicker.pickImages(
-        maxImages: 300,
+        maxImages: 5,
         enableCamera: true,
         selectedAssets: images,
         materialOptions: MaterialOptions(
@@ -52,10 +53,12 @@ class VenueFormState extends State<VenueForm> {
   // Note: This is a `GlobalKey<FormState>`,
   // not a GlobalKey<MyCustomFormState>.
   final _formKey = GlobalKey<FormState>();
+  var maskFormatter = new MaskTextInputFormatter(mask: '##:##-##:##', filter: { "#": RegExp(r'[0-9]') });
   String dropdownValue = 'Banquet';
   TextEditingController venuenameController = TextEditingController();
   TextEditingController venueminpriceController = TextEditingController();
   TextEditingController venuemaxpriceController = TextEditingController();
+  TextEditingController venueoffhrsController = TextEditingController();
   TextEditingController venueareaController = TextEditingController();
   TextEditingController venuecontactController = TextEditingController();
   TextEditingController venuetypeController = TextEditingController();
@@ -113,7 +116,6 @@ class VenueFormState extends State<VenueForm> {
               //VENUE MIN PRICE
               TextFormField(
                 style: TextStyle(color: Colors.white),
-                obscureText: true,
                 keyboardType: TextInputType.number,
                 controller: venueminpriceController,
                 decoration: InputDecoration(
@@ -154,6 +156,37 @@ class VenueFormState extends State<VenueForm> {
                     ),
                     onChanged: (text){
                       debugPrint('$venuemaxpriceController');
+                    },
+                    validator: (value) {
+                      if (value.isEmpty) {
+                        return 'This Field is Required ';
+                      }
+                      return null;
+                    },
+
+
+                  )),
+              Padding(
+                  padding: EdgeInsets.only(top: 10.0,bottom:10.0),
+
+                  child: TextFormField(
+                    maxLength: 11,
+                    keyboardType: TextInputType.number,
+                    inputFormatters: [maskFormatter],
+                    style: TextStyle(color: Colors.white),
+                    controller: venueoffhrsController,
+                    decoration: InputDecoration(
+                        labelText: 'Office Hours *',
+                        hintText: 'In Hour:Min - Hour:Min',
+                        hintStyle: TextStyle(color: Colors.grey),
+                        labelStyle: TextStyle(color: Colors.white),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(5.0),
+                        )
+
+                    ),
+                    onChanged: (text){
+                      debugPrint('$venueoffhrsController');
                     },
                     validator: (value) {
                       if (value.isEmpty) {
@@ -331,7 +364,9 @@ class VenueFormState extends State<VenueForm> {
                   padding: EdgeInsets.only(top: 10.0,bottom:10.0),
 
                   child: TextFormField(
-
+                    keyboardType: TextInputType.multiline,
+                    minLines: 1,
+                    maxLines: 20,
                     style: TextStyle(color: Colors.white),
                     controller: venuedescriptionController,
                     decoration: InputDecoration(
@@ -371,8 +406,7 @@ class VenueFormState extends State<VenueForm> {
 
                       },
                     )]),
-              Expanded(
-                  child: SizedBox(
+                  SizedBox(
                       height: 200.0,
                       child: GridView.count(
                         crossAxisCount: 3,
@@ -384,7 +418,7 @@ class VenueFormState extends State<VenueForm> {
                             height: 300,
                           );
                         }),
-                      ))),
+                      )),
 
               Padding(
                   padding: EdgeInsets.only(top:20.0,left: 120.00,right: 120.00),

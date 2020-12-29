@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:shadihal/screens/CateringForm.dart';
+import 'package:shadihal/screens/RentaCarForm.dart';
 import 'package:shadihal/screens/VenueForm.dart';
+import 'PhotoGraphyForm.dart';
 
 class Ownerprofile extends StatefulWidget{
   @override
@@ -85,6 +87,7 @@ class ownerprofilestate extends State<Ownerprofile>{
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           debugPrint('FAB clicked');
+          Get.to(RentaCarForm());
 
         },
 
@@ -103,9 +106,10 @@ class ownerprofilestate extends State<Ownerprofile>{
         //lIST WILL BE RETRIEVED FROM DB
       ),
 
-      /*floatingActionButton: FloatingActionButton(
+      floatingActionButton: FloatingActionButton(
         onPressed: () {
-          debugPrint('FAB clickeD');
+          debugPrint('FAB clicked');
+          Get.to(PhotographyForm());
 
         },
 
@@ -114,7 +118,7 @@ class ownerprofilestate extends State<Ownerprofile>{
 
         child: Icon(Icons.add_box_rounded),
 
-      ),*/
+      ),
     )
 
 
