@@ -67,119 +67,119 @@ class SignupState extends State<Signup>{
 
                 children:<Widget>[
                   ListView(
-                    children: <Widget>[
-                      //username
-                      Padding(
-                          padding: EdgeInsets.only(top: 10.0,bottom:10.0),
+                            children: <Widget>[
+                              //username
+                              Padding(
+                                  padding: EdgeInsets.only(top: 10.0,bottom:10.0),
 
-                          child: TextFormField(
-                            style: TextStyle(color: Colors.white),
-                            controller: usernameController,
-                            decoration: InputDecoration(
-                                labelText: 'Username *',
-                                hintText: 'Enter a unique Username',
-                                hintStyle: TextStyle(color: Colors.grey),
-                                labelStyle: TextStyle(color: Colors.white),
-                                border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(5.0),
-                                )
+                                  child: TextFormField(
+                                    style: TextStyle(color: Colors.white),
+                                    controller: usernameController,
+                                    decoration: InputDecoration(
+                                        labelText: 'Username *',
+                                        hintText: 'Enter a unique Username',
+                                        hintStyle: TextStyle(color: Colors.grey),
+                                        labelStyle: TextStyle(color: Colors.white),
+                                        border: OutlineInputBorder(
+                                          borderRadius: BorderRadius.circular(5.0),
+                                        )
 
-                            ),
+                                    ),
 
-                            validator: (value) {
-                              if (value.isEmpty) {
-                                return 'This Field is Required ';
-                              }
-                              if(value=="Usman12040"){
-                                return 'Username already exist';
-                              }
-                              return null;
-                            },
-
-
-                          )),
-                      //password
-                      TextFormField(
-                        style: TextStyle(color: Colors.white),
-                        obscureText: true,
-                        controller: userpasswordController,
-                        decoration: InputDecoration(
-                            labelText: 'Password *',
-                            hintText: 'Enter 8-digit Password',
-                            hintStyle: TextStyle(color: Colors.grey),
-                            labelStyle: TextStyle(color: Colors.white),
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(5.0),
-
-                            )
-
-                        ),
-                        onChanged: (text){
-                          //debugPrint('$text');
-                        },
-                        validator: (value) {
-                          if (value.isEmpty) {
-                            return 'This Field is Required ';
-                          }
-                          return null;
-                        },
-                      ),
-                      Padding(
-                          padding: EdgeInsets.only(top: 10.0,bottom:10.0),
-
-                          child: TextFormField(
-                            style: TextStyle(color: Colors.white),
-                            controller: fnameController,
-                            decoration: InputDecoration(
-                                labelText: 'First Name *',
-                                hintText: 'Enter your First name',
-                                hintStyle: TextStyle(color: Colors.grey),
-                                labelStyle: TextStyle(color: Colors.white),
-                                border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(5.0),
-                                )
-
-                            ),
-                            onChanged: (text){
-                              debugPrint('$fnameController');
-                            },
-                            validator: (value) {
-                              if (value.isEmpty) {
-                                return 'This Field is Required ';
-                              }
-                              return null;
-                            },
+                                    validator: (value) {
+                                      if (value.isEmpty) {
+                                        return 'This Field is Required ';
+                                      }
+                                      if(value=="Usman12040"){
+                                        return 'Username already exist';
+                                      }
+                                      return null;
+                                    },
 
 
-                          )),
-                      Padding(
-                          padding: EdgeInsets.only(top: 10.0,bottom:10.0),
+                                  )),
+                              //password
+                              TextFormField(
+                                style: TextStyle(color: Colors.white),
+                                obscureText: true,
+                                controller: userpasswordController,
+                                decoration: InputDecoration(
+                                    labelText: 'Password *',
+                                    hintText: 'Enter 8-digit Password',
+                                    hintStyle: TextStyle(color: Colors.grey),
+                                    labelStyle: TextStyle(color: Colors.white),
+                                    border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(5.0),
 
-                          child: TextFormField(
-                            style: TextStyle(color: Colors.white),
-                            controller: lnameController,
-                            decoration: InputDecoration(
-                                labelText: 'Last Name *',
-                                hintText: 'Enter a Last Name',
-                                hintStyle: TextStyle(color: Colors.grey),
-                                labelStyle: TextStyle(color: Colors.white),
-                                border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(5.0),
-                                )
+                                    )
 
-                            ),
+                                ),
+                                onChanged: (text){
+                                  //debugPrint('$text');
+                                },
+                                validator: (value) {
+                                  if (value.isEmpty) {
+                                    return 'This Field is Required ';
+                                  }
+                                  return null;
+                                },
+                              ),
+                              Padding(
+                                  padding: EdgeInsets.only(top: 10.0,bottom:10.0),
 
-                            validator: (value){
-                              if (value.isEmpty){
-                                return 'This Field is Required ';
-                              }
-                              return null;
-                            },
+                                  child: TextFormField(
+                                    style: TextStyle(color: Colors.white),
+                                    controller: fnameController,
+                                    decoration: InputDecoration(
+                                        labelText: 'First Name *',
+                                        hintText: 'Enter your First name',
+                                        hintStyle: TextStyle(color: Colors.grey),
+                                        labelStyle: TextStyle(color: Colors.white),
+                                        border: OutlineInputBorder(
+                                          borderRadius: BorderRadius.circular(5.0),
+                                        )
+
+                                    ),
+                                    onChanged: (text){
+                                      debugPrint('$fnameController');
+                                    },
+                                    validator: (value) {
+                                      if (value.isEmpty) {
+                                        return 'This Field is Required ';
+                                      }
+                                      return null;
+                                    },
 
 
-                          )),
-                      Padding(
-                          padding: EdgeInsets.only(top: 10.0,bottom:10.0),
+                                  )),
+                              Padding(
+                                  padding: EdgeInsets.only(top: 10.0,bottom:10.0),
+
+                                  child: TextFormField(
+                                    style: TextStyle(color: Colors.white),
+                                    controller: lnameController,
+                                    decoration: InputDecoration(
+                                        labelText: 'Last Name *',
+                                        hintText: 'Enter a Last Name',
+                                        hintStyle: TextStyle(color: Colors.grey),
+                                        labelStyle: TextStyle(color: Colors.white),
+                                        border: OutlineInputBorder(
+                                          borderRadius: BorderRadius.circular(5.0),
+                                        )
+
+                                    ),
+
+                                    validator: (value){
+                                      if (value.isEmpty){
+                                        return 'This Field is Required ';
+                                      }
+                                      return null;
+                                    },
+
+
+                                  )),
+                              Padding(
+                                  padding: EdgeInsets.only(top: 10.0,bottom:10.0),
 
                           child: TextFormField(
                             keyboardType: TextInputType.number,

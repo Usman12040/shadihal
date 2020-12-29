@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:shadihal/screens/VenueForm.dart';
 
 class Ownerprofile extends StatefulWidget{
   @override
@@ -15,29 +16,103 @@ class ownerprofilestate extends State<Ownerprofile>{
   static const TextStyle optionStyle =
   TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
   static  List<Widget> _widgetOptions = <Widget>[
-    Column(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+    //OWNER PROFILE
+    Scaffold(
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: <Widget>[
         Text("Ownername"),
         Text("CNIC"),
         Text("Phone No"),
       ],
+    )),
+    //OWNER VENUE LIST
+    Scaffold(
+      appBar: AppBar(
+        title: Text('VENUES'),
+      ),
+      body: ListView(
+        //lIST WILL BE RETRIEVED FROM DB
+      ),
+
+  floatingActionButton: FloatingActionButton(
+  onPressed: () {
+  debugPrint('FAB clicked');
+  Get.to(VenueForm());
+  },
+
+  tooltip: 'Add Venue',
+   backgroundColor: Colors.deepPurple,
+
+  child: Icon(Icons.add_business_rounded),
+
+  ),
     ),
-    Text(
-      'Venue',
-      style: optionStyle,
+    Scaffold(
+      appBar: AppBar(
+        title: Text('CATERING'),
+      ),
+      body: ListView(
+        //lIST WILL BE RETRIEVED FROM DB
+      ),
+
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          debugPrint('FAB clicked');
+
+        },
+
+        tooltip: 'Add Catering',
+        backgroundColor: Colors.deepPurple,
+
+        child: Icon(Icons.add_box_rounded),
+
+      ),
     ),
-    Text(
-      'Catering',
-      style: optionStyle,
+    Scaffold(
+      appBar: AppBar(
+        title: Text('RENTACAR'),
+      ),
+      body: ListView(
+        //lIST WILL BE RETRIEVED FROM DB
+      ),
+
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          debugPrint('FAB clicked');
+
+        },
+
+        tooltip: 'Add Rent a Car',
+        backgroundColor: Colors.deepPurple,
+
+        child: Icon(Icons.add_box_rounded),
+
+      ),
     ),
-    Text(
-      'Rent a Car',
-        style: optionStyle,
-    ),
-    Text(
-      'Photography',style: optionStyle,
+    Scaffold(
+      appBar: AppBar(
+        title: Text('PHOTOGRAPHY'),
+      ),
+      body: ListView(
+        //lIST WILL BE RETRIEVED FROM DB
+      ),
+
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          debugPrint('FAB clickeD');
+
+        },
+
+        tooltip: 'Add Photography',
+        backgroundColor: Colors.deepPurple,
+
+        child: Icon(Icons.add_box_rounded),f
+
+      ),
     )
+
+
   ];
   void _onItemTapped(int index) {
     setState(() {
