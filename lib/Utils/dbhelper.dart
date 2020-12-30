@@ -574,6 +574,14 @@ class dbHelper
     return result;
   }
 
+  Future<Venue> getVenuesMapList1(int ownerid, int cntctno) async
+  {
+    Database db = await this.database;
+    var result = await db.rawQuery('SELECT * FROM $vtablename WHERE $vfkey = $ownerid AND $vcontact = $cntctno');
+    Venue venue = Venue.fromMapObject(result[0]);
+    return venue;
+  }
+
   //INSERT OPERATIONS
   Future<int> insertVenue (Venue venue) async
   {

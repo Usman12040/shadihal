@@ -29,6 +29,115 @@ class ownerprofilestate extends State<Ownerprofile>
   Owner owner;
   ownerprofilestate(this.owner);
 
+<<<<<<< HEAD
+=======
+  int _selectedIndex = 0;
+  static const TextStyle optionStyle =
+  TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
+   List<Widget> _widgetOptions = <Widget>[
+
+    //OWNER PROFILE
+    Scaffold(
+        appBar: AppBar
+        (
+          title: Text("Owner Info"),
+        ),
+        body: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: <Widget>
+      [
+        Text("abc"),
+        Text("CNIC"),
+        Text("Phone No"),
+      ],
+    )),
+
+    Scaffold(
+      appBar: AppBar(
+        title: Text('CATERING'),
+      ),
+      body: ListView(
+        //lIST WILL BE RETRIEVED FROM DB
+      ),
+
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          debugPrint('FAB clicked');
+          Get.to(CateringForm());
+
+        },
+
+        tooltip: 'Add Catering',
+        backgroundColor: Colors.deepPurple,
+
+        child: Icon(Icons.add_box_rounded),
+
+      ),
+    ),
+    Scaffold(
+      appBar: AppBar(
+        title: Text('RENTACAR'),
+      ),
+      body: ListView(
+        //lIST WILL BE RETRIEVED FROM DB
+      ),
+
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          debugPrint('FAB clicked');
+          Get.to(RentaCarForm());
+
+        },
+
+        tooltip: 'Add Rent a Car',
+        backgroundColor: Colors.deepPurple,
+
+        child: Icon(Icons.add_box_rounded),
+
+      ),
+    ),
+    Scaffold(
+      appBar: AppBar(
+        title: Text('PHOTOGRAPHY'),
+      ),
+      body: ListView(
+        //lIST WILL BE RETRIEVED FROM DB
+      ),
+
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          debugPrint('FAB clicked');
+          Get.to(PhotographyForm());
+
+        },
+
+        tooltip: 'Add Photography',
+        backgroundColor: Colors.deepPurple,
+
+        child: Icon(Icons.add_box_rounded),
+
+      ),
+    )
+
+
+    ];
+  void _onItemTapped(int index)
+  {
+    setState(() {
+      _selectedIndex = index;
+      if(_selectedIndex==0){
+
+      }
+      if(_selectedIndex==1){
+
+        Get.to(OwnerVenueList(this.owner));
+
+      }
+
+    });
+  }
+
+>>>>>>> 831ad83c84d7562dc62cc53dc419d19668611087
   @override
   Widget build(BuildContext context)
   {
