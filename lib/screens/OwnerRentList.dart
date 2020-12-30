@@ -43,6 +43,6 @@ class ownerrentliststate extends State<Ownerrentlist> {
         child: Icon(Icons.add_box_rounded),
 
       ),
-    ),
+    );
   }
 }

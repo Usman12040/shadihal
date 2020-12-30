@@ -116,7 +116,8 @@ class ownerprofilestate extends State<Ownerprofile>
 
 
     ];
-  void _onItemTapped(int index) {
+  void _onItemTapped(int index)
+  {
     setState(() {
       _selectedIndex = index;
       if(_selectedIndex==0){

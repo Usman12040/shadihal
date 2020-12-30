@@ -1,7 +1,8 @@
 import 'dart:io';
-
+import 'package:shadihal/Models/Owner.dart';
 import 'package:flutter/material.dart';
 import 'package:shadihal/Models/Photo.dart';
+import 'package:shadihal/Models/Venue.dart';
 import 'package:shadihal/Utils/imgutility.dart';
 import 'package:shadihal/Utils/dbhelper.dart';
 import 'dart:typed_data';
@@ -11,12 +12,18 @@ import 'dart:convert';
 import 'package:image_picker/image_picker.dart';
 import 'package:multi_image_picker/multi_image_picker.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
+import 'package:shadihal/Utils/dbhelper.dart';
 
 
-class VenueForm extends StatefulWidget {
+class VenueForm extends StatefulWidget
+{
+  final Owner owner;
+
+  VenueForm(this.owner);
+
   @override
   VenueFormState createState() {
-    return VenueFormState();
+    return VenueFormState(this.owner);
   }
 }
 
@@ -28,12 +35,16 @@ class VenueFormState extends State<VenueForm>
   Image image;
   dbHelper sdbHelper;
   List<Photo> images;
+  Owner owner;
+
+  VenueFormState(this.owner);
 
   @override
-  void initState() {
+  void initState()
+  {
     super.initState();
     images = [];
-    sdbHelper = dbHelper();
+    dbHelper sdbHelper = dbHelper();
     refreshImages();
   }
 
@@ -446,6 +457,9 @@ class VenueFormState extends State<VenueForm>
                         {
                           if(_formKey.currentState.validate())
                           {
+                            Venue v1 = Venue(venuenameController.text, int.parse(venueminpriceController.text), int.parse(venuemaxpriceController.text), venueareaController.text , int.parse(venuecontactController.text), venuetypeController.text, venueoffhrsController.text, venueaddressController.text, int.parse(venuecapacityController.text), venuedescriptionController.text, this.owner.owner_id);
+                            _insertvenue(v1);
+                            Future<int> x = _getId(v1.owner_id, v1.contact_no);
 
                           }
                         },
@@ -460,5 +474,16 @@ class VenueFormState extends State<VenueForm>
           ),
 
         ));
+  }
+
+  void _insertvenue (Venue ven) async
+  {
+    await sdbHelper.insertVenue(ven);
+  }
+
+  Future<int> _getId (int ownerid, int cntctno) async
+  {
+    Venue v = await sdbHelper.getVenuesMapList1(ownerid, cntctno);
+    return v.venue_id;
   }
 }

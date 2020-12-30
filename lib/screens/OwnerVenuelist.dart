@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 import 'package:shadihal/screens/VenueForm.dart';
 class OwnerVenueList extends StatefulWidget
 {
-  Owner owner;
+  final Owner owner;
 
   OwnerVenueList(this.owner);
 
@@ -20,23 +20,26 @@ class ownervenueliststate extends State<OwnerVenueList> {
   ownervenueliststate(this.owner);
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context)
+  {
    return Scaffold(
       appBar: AppBar(
         title: Text('VENUES'),
       ),
       body: ListView(
 
-        children: <Widget>[
+        children: <Widget>
+        [
           Text(owner.phoneNo.toString()),
         ],
         //lIST WILL BE RETRIEVED FROM DB
+        //List<Venue> l1 = getVenueList (this.owner.owner_id);
       ),
 
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           debugPrint('FAB clicked');
-          Get.to(VenueForm());
+          Get.to(VenueForm(this.owner));
         },
 
         tooltip: 'Add Venue',
