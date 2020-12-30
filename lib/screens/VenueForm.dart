@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:get/get.dart';
 import 'package:shadihal/Models/Owner.dart';
 import 'package:flutter/material.dart';
 import 'package:shadihal/Models/Photo.dart';
@@ -13,6 +14,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:multi_image_picker/multi_image_picker.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:shadihal/Utils/dbhelper.dart';
+import 'AddImage.dart';
 
 
 class VenueForm extends StatefulWidget
@@ -415,31 +417,31 @@ class VenueFormState extends State<VenueForm>
 
 
                   )),
-              Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children:<Widget>[
-                    OutlinedButton(
-                      style: OutlinedButton.styleFrom(backgroundColor: Colors.deepPurple),
-                      child: Text("Add Images", style: TextStyle(fontSize: 20.0,color: Colors.white)),
-
-                      onPressed: ()
-                      {
-                            pickImageFromGallery();
-
-                      },
-                    )]),
-                  SizedBox(
-                      height: 200.0,
-                      child: GridView.count(
-                        crossAxisCount: 2,
-                        childAspectRatio: 1.0,
-                        mainAxisSpacing: 4.0,
-                        crossAxisSpacing: 4.0,
-                        children: images.map((photo) {
-                          return Utility.imageFromBase64String(photo.photo_name);
-                        }).toList(),
-                      ),
-                      ),
+              // Row(
+              //     mainAxisAlignment: MainAxisAlignment.center,
+              //     children:<Widget>[
+              //       OutlinedButton(
+              //         style: OutlinedButton.styleFrom(backgroundColor: Colors.deepPurple),
+              //         child: Text("Add Images", style: TextStyle(fontSize: 20.0,color: Colors.white)),
+              //
+              //         onPressed: ()
+              //         {
+              //               pickImageFromGallery();
+              //
+              //         },
+              //       )]),
+              //     SizedBox(
+              //         height: 800.0,
+              //         child: GridView.count(
+              //           crossAxisCount: 2,
+              //           childAspectRatio: 1.0,
+              //           mainAxisSpacing: 4.0,
+              //           crossAxisSpacing: 4.0,
+              //           children: images.map((photo) {
+              //             return Utility.imageFromBase64String(photo.photo_name);
+              //           }).toList(),
+              //         ),
+              //         ),
 
               Padding(
                   padding: EdgeInsets.only(top:20.0,left: 120.00,right: 120.00),
@@ -460,6 +462,7 @@ class VenueFormState extends State<VenueForm>
                             Venue v1 = Venue(venuenameController.text, int.parse(venueminpriceController.text), int.parse(venuemaxpriceController.text), venueareaController.text , int.parse(venuecontactController.text), venuetypeController.text, venueoffhrsController.text, venueaddressController.text, int.parse(venuecapacityController.text), venuedescriptionController.text, this.owner.owner_id);
                             _insertvenue(v1);
                             Future<int> x = _getId(v1.owner_id, v1.contact_no);
+                            Get.to(AddImage(this.owner,x));
 
                           }
                         },

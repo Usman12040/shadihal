@@ -297,7 +297,8 @@ class dbHelper
           FOREIGN KEY($img_fkey) REFERENCES $rtablename ($rid) ON DELETE CASCADE,
           FOREIGN KEY($img_fkey) REFERENCES $p_tablename ($p_id) ON DELETE CASCADE,
           FOREIGN KEY($img_fkey) REFERENCES  $cat_tablename ($cat_id) ON DELETE CASCADE,
-          FOREIGN KEY($img_fkey1) REFERENCES  $ctablename ($cid) ON DELETE CASCADE
+          FOREIGN KEY($img_fkey1) REFERENCES  $ctablename ($cid) ON DELETE CASCADE,
+          PRIMARY KEY($id AUTOINCREMENT)
           );
           """
     );
