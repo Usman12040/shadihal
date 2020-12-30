@@ -21,6 +21,7 @@ class ownervenueliststate extends State<OwnerVenueList> {
 
   @override
   Widget build(BuildContext context) {
+
    return Scaffold(
       appBar: AppBar(
         title: Text('VENUES'),
@@ -28,7 +29,7 @@ class ownervenueliststate extends State<OwnerVenueList> {
       body: ListView(
 
         children: <Widget>[
-          Text(owner.phoneNo.toString()),
+
         ],
         //lIST WILL BE RETRIEVED FROM DB
       ),

@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:shadihal/Models/Owner.dart';
 import 'package:shadihal/Models/User.dart';
 import 'package:shadihal/screens/CateringList.dart';
+import 'package:shadihal/screens/JoinUs.dart';
 import 'package:shadihal/screens/PhotographyList.dart';
 import 'package:shadihal/screens/RentaCarList.dart';
 import 'package:shadihal/screens/LoginScreen.dart';
@@ -111,7 +112,7 @@ class Homestate extends State<homescreen>
                 title: Text('Join Us',style: TextStyle(color: Colors.yellow),textScaleFactor: 1.2),
                 onTap: () {
                   // Update the state of the app.
-
+                    Get.to(JoinUs());
                   // ...
                 },
               ),
