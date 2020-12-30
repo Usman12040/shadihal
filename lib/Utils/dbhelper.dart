@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:io';
 import 'package:multi_image_picker/multi_image_picker.dart';
+import 'package:shadihal/Models/Rent_a_car.dart';
 import 'package:shadihal/Models/User.dart';
 import 'package:shadihal/Models/Venue.dart';
 import 'package:sqflite/sqflite.dart';
@@ -618,6 +619,63 @@ class dbHelper
     }
 
     return venueList;
+  }
+
+  //RENT A CAR CRUD OPERATIONS
+  //GET OPERATIONS
+  Future<List<Map<String, dynamic>>> getrRentServiceMapList(int ownerid) async
+  {
+    Database db = await this.database;
+    var result = await db.rawQuery('SELECT * FROM $rtablename WHERE $rfkey = $ownerid');
+    return result;
+  }
+
+  //INSERT OPERATIONS
+  Future<int> insertRentService (rent_a_Car r1) async
+  {
+    Database db = await this.database;
+    var result = await db.insert(rtablename, r1.toMap());
+    return result;
+  }
+
+  //UPDATE OPERATIONS
+  Future<int> updateRentService (rent_a_Car r) async
+  {
+    Database db = await this.database;
+    var result = await db.update(rtablename, r.toMap(), where: '$rid = ?', whereArgs: [r.service_id]);
+    return result;
+  }
+
+  //DELETE OPERATIONS
+  Future<int> deleteRentService (int id) async
+  {
+    var db = await this.database;
+    int result = await db.rawDelete('DELETE FROM $rtablename WHERE $rid = $id');
+    return result;
+  }
+  //GET NUMBER OF ROWS
+  Future<int> getRentServiceCount (int ownerid) async
+  {
+    Database db = await this.database;
+    List<Map<String, dynamic>> x = await db.rawQuery('SELECT COUNT(*) FROM $rtablename where $rfkey = $ownerid');
+    int result = Sqflite.firstIntValue(x);
+    return result;
+  }
+
+  //VENUE RETRIEVE OPERATIONS
+  Future<List<rent_a_Car>> getRentServiceList (int ownerid) async
+  {
+    var RentServiceMapList = await getrRentServiceMapList(ownerid);
+    int count = RentServiceMapList.length;
+
+    List<rent_a_Car> rentServiceList = List<rent_a_Car>();
+
+    for(int i=0; i<count; i++)
+    {
+      rentServiceList.add(rent_a_Car.fromMapObject(RentServiceMapList[i]));
+    }
+
+    return rentServiceList;
   }
 
 }
