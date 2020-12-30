@@ -61,7 +61,7 @@ class VenueFormState extends State<VenueForm>
   pickImageFromGallery() {
     ImagePicker.pickImage(source: ImageSource.gallery).then((imgFile) {
       String imgString = Utility.base64String(imgFile.readAsBytesSync());
-      Photo photo = Photo(0, imgString, 1);
+      Photo photo = Photo(0, imgString, 1, 1);
       sdbHelper.save(photo);
       refreshImages();
     });

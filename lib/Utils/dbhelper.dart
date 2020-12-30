@@ -113,7 +113,8 @@ class dbHelper
   String id = 'id' ;
   String img = "image";
   String img_fkey = "service_id";
-  String img_fkey1 = "c_id";
+  String img_fkey1 = "owner_id";
+  String img_fkey2 = "c_id";
 
   dbHelper._createInstance();
 
@@ -291,13 +292,15 @@ class dbHelper
         """CREATE TABLE $img_table (
           $id INTEGER,
           $img	BLOB NOT NULL,
-          $img_fkey	INTEGER NOT NULL,
-          $img_fkey1		INTEGER,
+          $img_fkey INTEGER NOT NULL,
+          $img_fkey1	INTEGER NOT NULL,
+          $img_fkey2		INTEGER,
           FOREIGN KEY($img_fkey) REFERENCES $vtablename ($vid) ON DELETE CASCADE,
           FOREIGN KEY($img_fkey) REFERENCES $rtablename ($rid) ON DELETE CASCADE,
           FOREIGN KEY($img_fkey) REFERENCES $p_tablename ($p_id) ON DELETE CASCADE,
           FOREIGN KEY($img_fkey) REFERENCES  $cat_tablename ($cat_id) ON DELETE CASCADE,
-          FOREIGN KEY($img_fkey1) REFERENCES  $ctablename ($cid) ON DELETE CASCADE
+          FOREIGN KEY($img_fkey1) REFERENCES $otablename($ocolid) ON DELETE CASCADE,
+          FOREIGN KEY($img_fkey2) REFERENCES  $ctablename ($cid) ON DELETE CASCADE
           );
           """
     );

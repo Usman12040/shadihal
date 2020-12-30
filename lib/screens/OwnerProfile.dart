@@ -29,8 +29,7 @@ class ownerprofilestate extends State<Ownerprofile>
   Owner owner;
   ownerprofilestate(this.owner);
 
-<<<<<<< HEAD
-=======
+
   int _selectedIndex = 0;
   static const TextStyle optionStyle =
   TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
@@ -137,7 +136,6 @@ class ownerprofilestate extends State<Ownerprofile>
     });
   }
 
->>>>>>> 831ad83c84d7562dc62cc53dc419d19668611087
   @override
   Widget build(BuildContext context)
   {
