@@ -24,7 +24,8 @@ class VenueForm extends StatefulWidget
   VenueForm(this.owner);
 
   @override
-  VenueFormState createState() {
+  VenueFormState createState()
+  {
     return VenueFormState(this.owner);
   }
 }
@@ -33,41 +34,11 @@ class VenueForm extends StatefulWidget
 // This class holds data related to the form.
 class VenueFormState extends State<VenueForm>
 {
-  Future<File> imageFile;
-  Image image;
-  dbHelper sdbHelper;
-  List<Photo> images;
   Owner owner;
+  dbHelper sdbHelper = dbHelper();
 
   VenueFormState(this.owner);
 
-  @override
-  void initState()
-  {
-    super.initState();
-    images = [];
-    dbHelper sdbHelper = dbHelper();
-    refreshImages();
-  }
-
-  refreshImages()
-  {
-    sdbHelper.getPhotos().then((imgs) {
-      setState(() {
-        images.clear();
-        images.addAll(imgs);
-      });
-    });
-  }
-
-  pickImageFromGallery() {
-    ImagePicker.pickImage(source: ImageSource.gallery).then((imgFile) {
-      String imgString = Utility.base64String(imgFile.readAsBytesSync());
-      Photo photo = Photo(0, imgString, 1);
-      sdbHelper.save(photo);
-      refreshImages();
-    });
-  }
 
   // Create a global key that uniquely identifies the Form widget
   // and allows validation of the form.
@@ -455,14 +426,14 @@ class VenueFormState extends State<VenueForm>
                           textScaleFactor: 1.5,
                         ),
 
-                        onPressed: ()
+                        onPressed: () async
                         {
                           if(_formKey.currentState.validate())
                           {
                             Venue v1 = Venue(venuenameController.text, int.parse(venueminpriceController.text), int.parse(venuemaxpriceController.text), venueareaController.text , int.parse(venuecontactController.text), venuetypeController.text, venueoffhrsController.text, venueaddressController.text, int.parse(venuecapacityController.text), venuedescriptionController.text, this.owner.owner_id);
                             _insertvenue(v1);
-                            Future<int> x = _getId(v1.owner_id, v1.contact_no);
-                            Get.to(AddImage(this.owner,x));
+                            int x = await _getId(v1.owner_id, v1.contact_no);
+                            Get.to(AddImage(this.owner, x));
 
                           }
                         },

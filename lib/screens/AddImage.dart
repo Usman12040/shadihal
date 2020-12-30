@@ -8,7 +8,7 @@ import 'package:shadihal/Utils/imgutility.dart';
 class AddImage extends StatefulWidget
 {
   final Owner owner;
-  Future <int> ven_id;
+  int ven_id;
   AddImage(this.owner,this.ven_id);
 
   @override
@@ -21,7 +21,7 @@ class AddImage extends StatefulWidget
 // This class holds data related to the form.
 class AddImageState extends State<AddImage>
 {
-  Future <int> ven_id;
+  int ven_id;
   Future<File> imageFile;
   Image image;
   dbHelper sdbHelper;
@@ -49,7 +49,7 @@ class AddImageState extends State<AddImage>
   pickImageFromGallery() {
     ImagePicker.pickImage(source: ImageSource.gallery).then((imgFile) {
       String imgString = Utility.base64String(imgFile.readAsBytesSync());
-      Photo photo = Photo(0, imgString, 1);
+      Photo photo = Photo(imgString, ven_id, this.owner.owner_id);
       sdbHelper.save(photo);
       refreshImages();
     });

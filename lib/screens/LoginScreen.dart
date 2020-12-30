@@ -294,6 +294,7 @@ class LoginState extends State<Login>
       {
         owner = res;
         debugPrint("Hello");
+        debugPrint(owner.owner_id.toString());
         debugPrint(owner.firstName);
         debugPrint(owner.lastName);
         debugPrint(owner.userName);

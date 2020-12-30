@@ -5,7 +5,7 @@ class Photo
   int service_id;
   int c_id;
 
-  Photo(this.id , this.photo_name, this.service_id, [this.c_id]);
+  Photo( this.photo_name, this.service_id, [this.id, this.c_id]);
 
   Map<String, dynamic> toMap()
   {

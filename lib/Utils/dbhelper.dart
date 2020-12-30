@@ -178,7 +178,7 @@ class dbHelper
 	       $vpricelb	INTEGER NOT NULL,
 	       $vpriceub	INTEGER NOT NULL,
 	       $varea	TEXT NOT NULL CHECK(length("area") < 30),
-	       $vcontact	INTEGER NOT NULL CHECK(length("contact_no") = 11) UNIQUE,
+	       $vcontact	INTEGER NOT NULL CHECK(length("contact_no") = 10) UNIQUE,
 	       $vtype	TEXT NOT NULL,
          $voffhrs	TEXT NOT NULL,
          $vaddress	TEXT NOT NULL CHECK(length("address") < 256) UNIQUE,
@@ -196,7 +196,7 @@ class dbHelper
         """CREATE TABLE $rtablename (
           $rid	INTEGER NOT NULL,
           $rname	TEXT NOT NULL CHECK(length(service_name) < 20),
-          $rcontact	INTEGER NOT NULL CHECK(length(phone_no) = 11) UNIQUE,
+          $rcontact	INTEGER NOT NULL CHECK(length(phone_no) = 10) UNIQUE,
           $rarea	TEXT NOT NULL CHECK(length(area) < 30),
           $raddress	TEXT NOT NULL CHECK(length(address)<256) UNIQUE,
           $roffhrs TEXT NOT NULL,
@@ -232,7 +232,7 @@ class dbHelper
         """CREATE TABLE $cat_tablename (
           $cat_id	INTEGER NOT NULL,
           $cat_name	TEXT NOT NULL CHECK(length(caterer_name) < 20),
-          $cat_contact	INTEGER NOT NULL CHECK(length(phone_no) = 11) UNIQUE,
+          $cat_contact	INTEGER NOT NULL CHECK(length(phone_no) = 10) UNIQUE,
           $cat_area	TEXT NOT NULL CHECK(length(area) <30),
           $cat_address	TEXT NOT NULL CHECK(length(address) < 256) UNIQUE,
           $cat_price	INTEGER NOT NULL,
@@ -249,7 +249,7 @@ class dbHelper
         """CREATE TABLE $p_tablename (
           $p_id	INTEGER NOT NULL,
           $p_name	TEXT NOT NULL CHECK(length(service_name) < 20),
-          $p_contact	INTEGER NOT NULL CHECK(length(phone_no) = 11) UNIQUE,
+          $p_contact	INTEGER NOT NULL CHECK(length(phone_no) = 10) UNIQUE,
           $p_price	INTEGER NOT NULL,
           $p_rating	REAL,
           $p_description	TEXT NOT NULL CHECK(length(description) < 256),
