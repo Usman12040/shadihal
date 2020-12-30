@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:shadihal/screens/CateringForm.dart';
+import 'package:shadihal/screens/OwnerVenuelist.dart';
 import 'package:shadihal/screens/RentaCarForm.dart';
 import 'package:shadihal/screens/VenueForm.dart';
 import 'PhotoGraphyForm.dart';
@@ -10,7 +11,7 @@ import 'package:shadihal/Models/Owner.dart';
 
 class Ownerprofile extends StatefulWidget
 {
-  final Owner owner;
+   Owner owner;
 
   Ownerprofile(this.owner);
 
@@ -23,13 +24,12 @@ class Ownerprofile extends StatefulWidget
 class ownerprofilestate extends State<Ownerprofile>
 {
   Owner owner;
-
   ownerprofilestate(this.owner);
 
   int _selectedIndex = 0;
   static const TextStyle optionStyle =
   TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
-  static  List<Widget> _widgetOptions = <Widget>[
+   List<Widget> _widgetOptions = <Widget>[
 
     //OWNER PROFILE
     Scaffold(
@@ -46,28 +46,7 @@ class ownerprofilestate extends State<Ownerprofile>
         Text("Phone No"),
       ],
     )),
-    //OWNER VENUE LIST
-    Scaffold(
-      appBar: AppBar(
-        title: Text('VENUES'),
-      ),
-      body: ListView(
-        //lIST WILL BE RETRIEVED FROM DB
-      ),
 
-  floatingActionButton: FloatingActionButton(
-  onPressed: () {
-  debugPrint('FAB clicked');
-  Get.to(VenueForm());
-  },
-
-  tooltip: 'Add Venue',
-   backgroundColor: Colors.deepPurple,
-
-  child: Icon(Icons.add_business_rounded),
-
-  ),
-    ),
     Scaffold(
       appBar: AppBar(
         title: Text('CATERING'),
@@ -140,6 +119,15 @@ class ownerprofilestate extends State<Ownerprofile>
   void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
+      if(_selectedIndex==0){
+
+      }
+      if(_selectedIndex==1){
+
+        Get.to(OwnerVenueList(this.owner));
+
+      }
+
     });
   }
 
@@ -147,10 +135,22 @@ class ownerprofilestate extends State<Ownerprofile>
   Widget build(BuildContext context)
   {
     return Scaffold(
-
-        body:Center(
-          child: _widgetOptions.elementAt(_selectedIndex),
+        appBar: AppBar
+          (
+          title: Text("Owner Menu"),
         ),
+        body: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: <Widget>
+          [
+            Text(owner.firstName+owner.lastName),
+            Text(owner.phoneNo.toString()),
+            Text(owner.nic.toString()),
+
+          ],
+        ),
+
+
       bottomNavigationBar: Theme(
     data: Theme.of(context).copyWith(
       // sets the background color of the `BottomNavigationBar`
