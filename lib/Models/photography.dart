@@ -10,7 +10,7 @@ class photography
   int _owner_id;
 
   //CONSTRUCTORS
-  photography(this._service_name ,this._phone_no, this._price ,this._rating, this._description, this._owner_id);
+  photography(this._service_name ,this._phone_no, this._price, this._description, this._owner_id,  [this._rating]);
 
   photography.withId(this._service_id, this._service_name ,this._phone_no, this._price ,this._rating, this._description, this._owner_id);
 

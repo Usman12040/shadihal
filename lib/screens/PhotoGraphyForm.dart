@@ -1,16 +1,36 @@
 import 'package:flutter/material.dart';
 
+import '../Models/Owner.dart';
+import '../Models/Owner.dart';
+import '../Models/photography.dart';
+import '../Models/photography.dart';
+import '../Models/photography.dart';
+import '../Models/photography.dart';
+import '../Utils/dbhelper.dart';
+import '../Utils/dbhelper.dart';
 
-class PhotographyForm extends StatefulWidget {
+
+class PhotographyForm extends StatefulWidget
+{
+  final Owner owner;
+
+  PhotographyForm(this.owner);
+
   @override
   PhotographyFormState createState() {
-    return PhotographyFormState();
+    return PhotographyFormState(this.owner);
   }
 }
 
 // Define a corresponding State class.
 // This class holds data related to the form.
-class PhotographyFormState extends State<PhotographyForm> {
+class PhotographyFormState extends State<PhotographyForm>
+{
+  Owner owner;
+  dbHelper sdbHelper = dbHelper();
+
+  PhotographyFormState(this.owner);
+
   // Create a global key that uniquely identifies the Form widge
   // and allows validation of the form.
   // Note: This is a `GlobalKey<FormState>`,
@@ -171,11 +191,14 @@ class PhotographyFormState extends State<PhotographyForm> {
                           textScaleFactor: 1.5,
                         ),
 
-                        onPressed: ()
+                        onPressed: () async
                         {
                           if(_formKey.currentState.validate())
                           {
-                            //DB FUNCTION
+                            photography photo = photography(PhotonameController.text, int.parse(PhotocontactController.text), int.parse(PhotopriceController.text), PhotodescriptionController.text, this.owner.owner_id);
+                            _insertphotography(photo);
+                            int x = await _getId(photo.owner_id, photo.phone_no);
+
                           }
                         },
 
@@ -189,5 +212,16 @@ class PhotographyFormState extends State<PhotographyForm> {
           ),
 
         ));
+  }
+
+  void _insertphotography (photography ph) async
+  {
+    await sdbHelper.insertPhotographyService(ph);
+  }
+
+  Future<int> _getId (int ownerid, int cntctno) async
+  {
+    photography p = await sdbHelper.getPhotographyMapList1(ownerid, cntctno);
+    return p.service_id;
   }
 }

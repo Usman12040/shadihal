@@ -8,17 +8,37 @@ import 'dart:convert';
 import 'package:image_picker/image_picker.dart';
 import 'package:multi_image_picker/multi_image_picker.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
+import 'package:shadihal/Models/Owner.dart';
 
-class RentaCarForm extends StatefulWidget {
+import '../Models/Rent_a_car.dart';
+import '../Models/Rent_a_car.dart';
+import '../Models/Rent_a_car.dart';
+import '../Models/Rent_a_car.dart';
+import '../Utils/dbhelper.dart';
+import '../Utils/dbhelper.dart';
+
+class RentaCarForm extends StatefulWidget
+{
+  Owner owner;
+
+  RentaCarForm(this.owner);
+
   @override
-  RentaCarFormState createState() {
-    return RentaCarFormState();
+  RentaCarFormState createState()
+  {
+    return RentaCarFormState(this.owner);
   }
 }
 
 // Define a corresponding State class.
 // This class holds data related to the form.
-class RentaCarFormState extends State<RentaCarForm> {
+class RentaCarFormState extends State<RentaCarForm>
+{
+  Owner owner;
+  dbHelper sdbHelper = dbHelper();
+
+  RentaCarFormState(this.owner);
+
   // Create a global key that uniquely identifies the Form widget
   // and allows validation of the form
   // Note: This is a `GlobalKey<FormState>`,
@@ -26,14 +46,14 @@ class RentaCarFormState extends State<RentaCarForm> {
   final _formKey = GlobalKey<FormState>();
   var maskFormatter = new MaskTextInputFormatter(mask: '##:##-##:##', filter: { "#": RegExp(r'[0-9]') });
   TextEditingController rentnameController = TextEditingController();
-  TextEditingController rentoffhrsController = TextEditingController();
-  TextEditingController rentareaController = TextEditingController();
   TextEditingController rentcontactController = TextEditingController();
+  TextEditingController rentareaController = TextEditingController();
   TextEditingController rentaddressController = TextEditingController();
+  TextEditingController rentoffhrsController = TextEditingController();
   TextEditingController rentdescriptionController = TextEditingController();
   @override
-  Widget build(BuildContext context) {
-
+  Widget build(BuildContext context) 
+  {
     // Build a Form widget using the _formKey created above.
     return  Scaffold(
         backgroundColor: Colors.black,
@@ -60,17 +80,22 @@ class RentaCarFormState extends State<RentaCarForm> {
                         )
 
                     ),
-                    onChanged: (text){
+                    onChanged: (text)
+                    {
                       debugPrint('$rentnameController');
                     },
-                    validator: (value) {
-                      if (value.isEmpty) {
+                    validator: (value)
+                    {
+                      if (value.isEmpty)
+                      {
                         return 'This Field is Required ';
                       }
-                      if(value=="Rent"){
+                      if(value=="Rent")
+                      {
                         return 'This Service already exist';
                       }
-                      if(value.length>20){
+                      if(value.length>20)
+                      {
                         return 'Servide name should be less than 20';
                       }
                       return null;
@@ -274,11 +299,13 @@ class RentaCarFormState extends State<RentaCarForm> {
                           textScaleFactor: 1.5,
                         ),
 
-                        onPressed: ()
+                        onPressed: () async
                         {
                           if(_formKey.currentState.validate())
                           {
-                            //DB function here
+                            rent_a_Car r1 = rent_a_Car(rentnameController.text, int.parse(rentcontactController.text), rentareaController.text, rentaddressController.text, rentoffhrsController.text, rentdescriptionController.text, owner.owner_id);
+                            _insertRentService(r1);
+                            int x = await _getId(r1.owner_id, r1.contact_no);
                           }
                         },
 
@@ -292,5 +319,16 @@ class RentaCarFormState extends State<RentaCarForm> {
           ),
 
         ));
+  }
+
+  void _insertRentService (rent_a_Car r) async
+  {
+    await sdbHelper.insertRentService(r);
+  }
+
+  Future<int> _getId (int ownerid, int cntctno) async
+  {
+    rent_a_Car rt = await sdbHelper.getRentServiceMapList1(ownerid, cntctno);
+    return rt.service_id;
   }
 }

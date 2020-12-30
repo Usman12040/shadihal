@@ -10,6 +10,25 @@ import 'package:path_provider/path_provider.dart';
 import 'package:shadihal/Models/Owner.dart';
 import 'package:shadihal/Models/Photo.dart';
 
+import '../Models/Rent_a_car.dart';
+import '../Models/Rent_a_car.dart';
+import '../Models/Rent_a_car.dart';
+import '../Models/catering.dart';
+import '../Models/catering.dart';
+import '../Models/catering.dart';
+import '../Models/catering.dart';
+import '../Models/catering.dart';
+import '../Models/catering.dart';
+import '../Models/photography.dart';
+import '../Models/photography.dart';
+import '../Models/photography.dart';
+import '../Models/photography.dart';
+import '../Models/photography.dart';
+import '../Models/photography.dart';
+import '../Models/photography.dart';
+import '../Models/photography.dart';
+import '../Models/photography.dart';
+
 class dbHelper
 {
   static dbHelper _helper;
@@ -639,6 +658,14 @@ class dbHelper
     return result;
   }
 
+  Future<rent_a_Car> getRentServiceMapList1(int ownerid, int cntctno) async
+  {
+    Database db = await this.database;
+    var result = await db.rawQuery('SELECT * FROM $rtablename WHERE $rfkey = $ownerid AND $rcontact = $cntctno');
+    rent_a_Car rentacar = rent_a_Car.fromMapObject(result[0]);
+    return rentacar;
+  }
+
   //INSERT OPERATIONS
   Future<int> insertRentService (rent_a_Car r1) async
   {
@@ -671,7 +698,7 @@ class dbHelper
     return result;
   }
 
-  //VENUE RETRIEVE OPERATIONS
+  //RENT A CAR RETRIEVE OPERATIONS
   Future<List<rent_a_Car>> getRentServiceList (int ownerid) async
   {
     var RentServiceMapList = await getrRentServiceMapList(ownerid);
@@ -687,4 +714,133 @@ class dbHelper
     return rentServiceList;
   }
 
+  //PHOTOGRAPHY CRUD OPERATIONS
+  //GET OPERATIONS
+  Future<List<Map<String, dynamic>>> getPhotographyMapList(int ownerid) async
+  {
+    Database db = await this.database;
+    var result = await db.rawQuery('SELECT * FROM $p_tablename WHERE $p_fkey = $ownerid');
+    return result;
+  }
+
+  Future<photography> getPhotographyMapList1(int ownerid, int cntctno) async
+  {
+    Database db = await this.database;
+    var result = await db.rawQuery('SELECT * FROM $p_tablename WHERE $p_fkey = $ownerid AND $p_contact = $cntctno');
+    photography phtgrphy = photography.fromMapObject(result[0]);
+    return phtgrphy;
+  }
+
+  //INSERT OPERATIONS
+  Future<int> insertPhotographyService (photography p1) async
+  {
+    Database db = await this.database;
+    var result = await db.insert(p_tablename, p1.toMap());
+    return result;
+  }
+
+  //UPDATE OPERATIONS
+  Future<int> updatePhotographyService (photography p) async
+  {
+    Database db = await this.database;
+    var result = await db.update(p_tablename, p.toMap(), where: '$p_id = ?', whereArgs: [p.service_id]);
+    return result;
+  }
+
+  //DELETE OPERATIONS
+  Future<int> deletePhotographyService (int id) async
+  {
+    var db = await this.database;
+    int result = await db.rawDelete('DELETE FROM $p_tablename WHERE $p_id = $id');
+    return result;
+  }
+  //GET NUMBER OF ROWS
+  Future<int> getPhotographyCount (int ownerid) async
+  {
+    Database db = await this.database;
+    List<Map<String, dynamic>> x = await db.rawQuery('SELECT COUNT(*) FROM $p_tablename where $p_fkey = $ownerid');
+    int result = Sqflite.firstIntValue(x);
+    return result;
+  }
+
+  //PHOTOGRAPHY RETRIEVE OPERATIONS
+  Future<List<photography>> getPhotographyList (int ownerid) async
+  {
+    var photographyMapList = await getPhotographyMapList(ownerid);
+    int count = photographyMapList.length;
+
+    List<photography> photographyList = List<photography>();
+
+    for(int i=0; i<count; i++)
+    {
+      photographyList.add(photography.fromMapObject(photographyMapList[i]));
+    }
+
+    return photographyList;
+  }
+
+  //CATERING CRUD OPERATIONS
+  //GET OPERATIONS
+  Future<List<Map<String, dynamic>>> getCateringMapList(int ownerid) async
+  {
+    Database db = await this.database;
+    var result = await db.rawQuery('SELECT * FROM $cat_tablename WHERE $cat_fkey = $ownerid');
+    return result;
+  }
+
+  Future<catering> getCateringMapList1(int ownerid, int cntctno) async
+  {
+    Database db = await this.database;
+    var result = await db.rawQuery('SELECT * FROM $cat_tablename WHERE $cat_fkey = $ownerid AND $cat_contact = $cntctno');
+    catering ctrng = catering.fromMapObject(result[0]);
+    return ctrng;
+  }
+
+  //INSERT OPERATIONS
+  Future<int> insertCateringService (catering c1) async
+  {
+    Database db = await this.database;
+    var result = await db.insert(cat_tablename, c1.toMap());
+    return result;
+  }
+
+  //UPDATE OPERATIONS
+  Future<int> updateCateringService (catering c) async
+  {
+    Database db = await this.database;
+    var result = await db.update(cat_tablename, c.toMap(), where: '$cat_id = ?', whereArgs: [c.caterer_id]);
+    return result;
+  }
+
+  //DELETE OPERATIONS
+  Future<int> deleteCateringService (int id) async
+  {
+    var db = await this.database;
+    int result = await db.rawDelete('DELETE FROM $cat_tablename WHERE $cat_id = $id');
+    return result;
+  }
+  //GET NUMBER OF ROWS
+  Future<int> getCateringCount (int ownerid) async
+  {
+    Database db = await this.database;
+    List<Map<String, dynamic>> x = await db.rawQuery('SELECT COUNT(*) FROM $cat_tablename where $cat_fkey = $ownerid');
+    int result = Sqflite.firstIntValue(x);
+    return result;
+  }
+
+  //PHOTOGRAPHY RETRIEVE OPERATIONS
+  Future<List<catering>> getCateringList (int ownerid) async
+  {
+    var cateringMapList = await getCateringMapList(ownerid);
+    int count = cateringMapList.length;
+
+    List<catering> cateringList = List<catering>();
+
+    for(int i=0; i<count; i++)
+    {
+      cateringList.add(catering.fromMapObject(cateringMapList[i]));
+    }
+
+    return cateringList;
+  }
 }

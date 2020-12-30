@@ -31,9 +31,10 @@ class ownerrentliststate extends State<Ownerrentlist> {
       ),
 
       floatingActionButton: FloatingActionButton(
-        onPressed: () {
+        onPressed: ()
+        {
           debugPrint('FAB clicked');
-          Get.to(RentaCarForm());
+          Get.to(RentaCarForm(this.owner));
 
         },
 

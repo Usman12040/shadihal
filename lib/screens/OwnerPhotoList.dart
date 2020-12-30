@@ -32,7 +32,7 @@ class ownerphotoliststate extends State<Ownerphotolist> {
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           debugPrint('FAB clicked');
-          Get.to(PhotographyForm());
+          Get.to(PhotographyForm(this.owner));
 
         },
 
