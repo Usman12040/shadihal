@@ -46,9 +46,11 @@ class AddImageState extends State<AddImage>
     });
   }
 
-  pickImageFromGallery() {
-    ImagePicker.pickImage(source: ImageSource.gallery).then((imgFile) {
-      String imgString = Utility.base64String(imgFile.readAsBytesSync());
+  pickImageFromGallery()
+  {
+    ImagePicker.pickImage(source: ImageSource.gallery).then((imgFile)
+    {
+      String imgString = Utility.base64String( imgFile.readAsBytesSync() );
       Photo photo = Photo(imgString, ven_id, this.owner.owner_id);
       sdbHelper.save(photo);
       refreshImages();
@@ -70,29 +72,31 @@ class AddImageState extends State<AddImage>
   }
 
   @override
-  Widget build(BuildContext context) {
-  return Scaffold(
-  appBar: AppBar(
-  title: Text("Add Image"),
-  actions: <Widget>[
-  IconButton(
-  icon: Icon(Icons.add),
-  onPressed: () {
-  pickImageFromGallery();
-  },
-  )
-  ],
-  ),
-  body: Center(
-  child: Column(
-  mainAxisAlignment: MainAxisAlignment.start,
-  children: <Widget>[
-  Flexible(
-  child: gridView(),
-  )
-  ],
-  ),
-  ),
-  );
-  }
+  Widget build(BuildContext context)
+  {
+    return Scaffold(
+        appBar: AppBar(
+            title: Text("Add Image"),
+            actions: <Widget>[
+            IconButton(
+                icon: Icon(Icons.add),
+                onPressed: ()
+                {
+                  pickImageFromGallery();
+                },
+            )
+            ],
+        ),
+        body: Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: <Widget>[
+                Flexible(
+                  child: gridView(),
+                )
+              ],
+            ),
+        ),
+      );
+    }
   }
