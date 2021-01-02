@@ -4,6 +4,7 @@ import 'package:multi_image_picker/multi_image_picker.dart';
 import 'package:shadihal/Models/Rent_a_car.dart';
 import 'package:shadihal/Models/User.dart';
 import 'package:shadihal/Models/Venue.dart';
+import 'package:shadihal/Models/car.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
@@ -93,6 +94,7 @@ class dbHelper
   String cfueltype = "fuel_type"	;
   String ctransmission = "transmission"	;
   String cfkey = "service_id"	;
+  String cregno = 'registration number';
 
   //CATERING COLUMNS
   String cat_tablename = "catering" 	 ;
@@ -234,6 +236,7 @@ class dbHelper
           $cid	INTEGER NOT NULL,
           $cname	TEXT NOT NULL CHECK(length("car_name") < 20),
           $cmodel	TEXT NOT NULL CHECK(length("model") = 4),
+          $cregno TEXT NOT NULL UNIQUE,
           $cseats	INTEGER NOT NULL,
           $cmileage	REAL NOT NULL,
           $ccolor	TEXT NOT NULL,
@@ -712,6 +715,71 @@ class dbHelper
     }
 
     return rentServiceList;
+  }
+
+  //CAR CRUD OPERATIONS
+  //GET OPERATIONS
+  Future<List<Map<String, dynamic>>> getCarMapList(int serviceid) async
+  {
+    Database db = await this.database;
+    var result = await db.rawQuery('SELECT * FROM $ctablename WHERE $cfkey = $serviceid');
+    return result;
+  }
+
+  //INSERT OPERATIONS
+  Future<int> insertCar (car c) async
+  {
+    Database db = await this.database;
+    var result = await db.insert(ctablename, c.toMap());
+    return result;
+  }
+
+  //UPDATE OPERATIONS
+  Future<int> updateCar (car c1) async
+  {
+    Database db = await this.database;
+    var result = await db.update(ctablename, c1.toMap(), where: '$cid = ?', whereArgs: [c1.car_id]);
+    return result;
+  }
+
+  //DELETE OPERATIONS
+  Future<int> deleteCar (int id) async
+  {
+    var db = await this.database;
+    int result = await db.rawDelete('DELETE FROM $ctablename WHERE $cid = $id');
+    return result;
+  }
+  //GET NUMBER OF ROWS
+  Future<int> getCarCount (int servid) async
+  {
+    Database db = await this.database;
+    List<Map<String, dynamic>> x = await db.rawQuery('SELECT COUNT(*) FROM $ctablename where $cfkey = $servid');
+    int result = Sqflite.firstIntValue(x);
+    return result;
+  }
+
+  //CAR RETRIEVE OPERATIONS
+  Future<List<car>> getCarList (int servid) async
+  {
+    var carMapList = await getCarMapList(servid);
+    int count = carMapList.length;
+
+    List<car> carList = List<car>();
+
+    for(int i=0; i<count; i++)
+    {
+      carList.add(car.fromMapObject(carMapList[i]));
+    }
+
+    return carList;
+  }
+
+  Future<car> getCarMapList1(int servid, String regno) async
+  {
+    Database db = await this.database;
+    var result = await db.rawQuery('SELECT * FROM $ctablename WHERE $cfkey = $servid AND $cregno = $regno');
+    car ca = car.fromMapObject(result[0]);
+    return ca;
   }
 
   //PHOTOGRAPHY CRUD OPERATIONS

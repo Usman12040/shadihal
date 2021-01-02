@@ -1,28 +1,46 @@
 import 'package:flutter/material.dart';
+import 'package:shadihal/Models/car.dart';
 import 'dart:typed_data';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:async';
 import 'dart:convert';
 import 'package:image_picker/image_picker.dart';
 import 'package:multi_image_picker/multi_image_picker.dart';
+import '../Utils/dbhelper.dart';
 
 
-class CarForm extends StatefulWidget {
+
+class CarForm extends StatefulWidget
+{
+  int serviceid;
+
+  CarForm(serviceid);
+
   @override
-  CarFormState createState() {
-    return CarFormState();
+  CarFormState createState()
+  {
+    return CarFormState(serviceid);
   }
 }
 
 // Define a corresponding State class.
 // This class holds data related to the form.
-class CarFormState extends State<CarForm> {
+class CarFormState extends State<CarForm>
+{
   List<Asset> images = List<Asset>();
-  void initState() {
+  List<car> carList = List<car>();
+  int sid;
+  dbHelper sdbHelper = dbHelper();
+
+  CarFormState(sid);
+
+  void initState()
+  {
     super.initState();
   }
 
-  Future<void> pickImages() async {
+  Future<void> pickImages() async
+  {
     List<Asset> resultList = List<Asset>();
 
     try {
@@ -34,17 +52,16 @@ class CarFormState extends State<CarForm> {
           actionBarTitle: "Add images",
         ),
       );
-    } on Exception catch (e) {
+    } on Exception catch (e)
+    {
       print(e);
     }
 
-    setState(() {
+    setState(()
+    {
       images = resultList;
     });
   }
-
-
-
 
   // Create a global key that uniquely identifies the Form widget
   // and allows validation of the form.
@@ -56,17 +73,18 @@ class CarFormState extends State<CarForm> {
   String fueldropdownValue = 'Gasoline';
   String transmissiondropdownValue = 'Manual';
   TextEditingController CarnameController = TextEditingController();
-  TextEditingController CarpriceController = TextEditingController();
   TextEditingController CarmodelController = TextEditingController();
+  TextEditingController CarNumberController = TextEditingController();
   TextEditingController CarseatController = TextEditingController();
   TextEditingController CarmileageController = TextEditingController();
   TextEditingController CarcolorController = TextEditingController();
   TextEditingController CarrentController = TextEditingController();
   TextEditingController CarfuelController = TextEditingController();
   TextEditingController CartransmissionController = TextEditingController();
-  @override
-  Widget build(BuildContext context) {
 
+  @override
+  Widget build(BuildContext context)
+  {
     // Build a Form widget using the _formKey created above.
     return  Scaffold(
         backgroundColor: Colors.black,
@@ -76,7 +94,8 @@ class CarFormState extends State<CarForm> {
         body: Form(
           key: _formKey,
           child: ListView(
-            children: <Widget>[
+            children: <Widget>
+            [
               //CAR NAME
               Padding(
                   padding: EdgeInsets.only(top: 10.0,bottom: 10.0),
@@ -93,17 +112,22 @@ class CarFormState extends State<CarForm> {
                         )
 
                     ),
-                    onChanged: (text){
+                    onChanged: (text)
+                    {
                       debugPrint('$CarnameController');
                     },
-                    validator: (value) {
-                      if (value.isEmpty) {
+                    validator: (value)
+                    {
+                      if (value.isEmpty)
+                      {
                         return 'This Field is Required ';
                       }
-                      if(value=="Car"){
+                      if(value=="Car")
+                      {
                         return 'This Car already exist';
                       }
-                      if(value.length>20){
+                      if(value.length>20)
+                      {
                         return 'Car name should be less than 20';
                       }
                       return null;
@@ -126,20 +150,62 @@ class CarFormState extends State<CarForm> {
                     )
 
                 ),
-                onChanged: (text){
+                onChanged: (text)
+                {
                   debugPrint(CarmodelController.text);
                 },
-                validator: (value) {
-                  if (value.isEmpty) {
+                validator: (value)
+                {
+                  if (value.isEmpty)
+                  {
                     return 'This Field is Required ';
                   }
 
-                  if (value.length!=4) {
+                  if (value.length!=4)
+                  {
                     return 'Model should 4-digit';
                   }
                   return null;
                 },
               ),
+
+              //REGISTRATION NUMBER
+              Padding(
+                  padding: EdgeInsets.only(top: 10.0,bottom:10.0),
+
+                  child: TextFormField(
+                    style: TextStyle(color: Colors.white),
+                    controller: CarNumberController,
+                    decoration: InputDecoration(
+                        labelText: 'Registration Number *',
+                        hintText: 'e.g ABC-123',
+                        hintStyle: TextStyle(color: Colors.grey),
+                        labelStyle: TextStyle(color: Colors.white),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(5.0),
+                        )
+
+                    ),
+                    onChanged: (text)
+                    {
+                      debugPrint('$CarNumberController');
+                    },
+                    validator: (value)
+                    {
+                      if (value.isEmpty)
+                      {
+                        return 'This Field is Required ';
+                      }
+                      if (value.length > 7)
+                      {
+                        return 'INAVLID FORMAT';
+                      }
+                      return null;
+                    },
+
+
+                  )),
+
               //SEATS
               Padding(
                   padding: EdgeInsets.only(top:20.0,left:10,right: 180),
@@ -159,15 +225,18 @@ class CarFormState extends State<CarForm> {
                                 height: 2,
                                 color: Colors.deepPurpleAccent,
                               ),
-                              onChanged: (String newValue) {
-                                setState(() {
+                              onChanged: (String newValue)
+                              {
+                                setState(()
+                                {
                                   seatdropdownValue = newValue;
                                 });
                                 CarseatController.text= seatdropdownValue;
                                 debugPrint('$CarseatController');
                               },
                               items: <String>['2', '4', '7']
-                                  .map<DropdownMenuItem<String>>((String value) {
+                                  .map<DropdownMenuItem<String>>((String value)
+                              {
                                 return DropdownMenuItem<String>(
                                   value: value,
                                   child: Text(value),
@@ -194,11 +263,14 @@ class CarFormState extends State<CarForm> {
                         )
 
                     ),
-                    onChanged: (text){
+                    onChanged: (text)
+                    {
                       debugPrint('$CarmileageController');
                     },
-                    validator: (value) {
-                      if (value.isEmpty) {
+                    validator: (value)
+                    {
+                      if (value.isEmpty)
+                      {
                         return 'This Field is Required ';
                       }
                       return null;
@@ -222,11 +294,14 @@ class CarFormState extends State<CarForm> {
                         )
 
                     ),
-                    onChanged: (text){
+                    onChanged: (text)
+                    {
                       debugPrint('$CarcolorController');
                     },
-                    validator: (value) {
-                      if (value.isEmpty) {
+                    validator: (value)
+                    {
+                      if (value.isEmpty)
+                      {
                         return 'This Field is Required ';
                       }
 
@@ -252,11 +327,14 @@ class CarFormState extends State<CarForm> {
                         )
 
                     ),
-                    onChanged: (text){
+                    onChanged: (text)
+                    {
                       debugPrint('$CarrentController');
                     },
-                    validator: (value) {
-                      if (value.isEmpty) {
+                    validator: (value)
+                    {
+                      if (value.isEmpty)
+                      {
                         return 'This Field is Required ';
                       }
                       return null;
@@ -282,8 +360,10 @@ class CarFormState extends State<CarForm> {
                                 height: 2,
                                 color: Colors.deepPurpleAccent,
                               ),
-                              onChanged: (String newValue) {
-                                setState(() {
+                              onChanged: (String newValue)
+                              {
+                                setState(()
+                                {
                                   fueldropdownValue = newValue;
                                 });
                                 CarfuelController.text= fueldropdownValue;
@@ -317,15 +397,18 @@ class CarFormState extends State<CarForm> {
                                 height: 2,
                                 color: Colors.deepPurpleAccent,
                               ),
-                              onChanged: (String newValue) {
-                                setState(() {
+                              onChanged: (String newValue)
+                              {
+                                setState(()
+                                {
                                   transmissiondropdownValue = newValue;
                                 });
                                 CartransmissionController.text= transmissiondropdownValue;
                                 debugPrint('$CartransmissionController');
                               },
                               items: <String>['Automatic','Manual']
-                                  .map<DropdownMenuItem<String>>((String value) {
+                                  .map<DropdownMenuItem<String>>((String value)
+                              {
                                 return DropdownMenuItem<String>(
                                   value: value,
                                   child: Text(value),
@@ -340,16 +423,17 @@ class CarFormState extends State<CarForm> {
                       style: OutlinedButton.styleFrom(backgroundColor: Colors.deepPurple),
                       child: Text("Add Images", style: TextStyle(fontSize: 20.0,color: Colors.white)),
 
-                      onPressed: () {
+                      onPressed: ()
+                      {
                         pickImages();
-
                       },
                     )]),
               SizedBox(
                   height: 200.0,
                   child: GridView.count(
                     crossAxisCount: 3,
-                    children: List.generate(images.length, (index) {
+                    children: List.generate(images.length, (index)
+                    {
                       Asset asset = images[index];
                       return AssetThumb(
                         asset: asset,
@@ -371,11 +455,13 @@ class CarFormState extends State<CarForm> {
                           textScaleFactor: 1.5,
                         ),
 
-                        onPressed: ()
+                        onPressed: () async
                         {
                           if(_formKey.currentState.validate())
                           {
-
+                            car c1 = car(CarnameController.text, CarmodelController.text, CarNumberController.text,  int.parse(CarseatController.text), double.parse(CarmileageController.text), CarcolorController.text, int.parse(CarrentController.text), CarfuelController.text, CartransmissionController.text, sid);
+                            _insertCar (c1);
+                            int x = await _getId (c1.service_id, c1.reg_no);
                           }
                         },
 
@@ -389,5 +475,16 @@ class CarFormState extends State<CarForm> {
           ),
 
         ));
+  }
+
+  void _insertCar (car c) async
+  {
+    await sdbHelper.insertCar(c);
+  }
+
+  Future<int> _getId (int servid, String regno) async
+  {
+    car cr = await sdbHelper.getCarMapList1(servid, regno);
+    return cr.service_id;
   }
 }

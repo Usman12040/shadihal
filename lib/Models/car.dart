@@ -4,6 +4,7 @@ class car
   int _car_id;
   String _car_name;
   String _model;
+  String _reg_no;
   int _seats;
   double _mileage;
   String _color;
@@ -13,14 +14,15 @@ class car
   int _service_id;
 
   //CONSTRUCTORS
-  car(this._car_name, this._model, this._seats ,this._mileage, this._color, this._rent_per_day, this._fuel_type, this._transmission, this._service_id);
+  car(this._car_name, this._model, this._reg_no,this._seats ,this._mileage, this._color, this._rent_per_day, this._fuel_type, this._transmission, this._service_id);
 
-  car.withId(this._car_id, this._car_name,this._model, this._seats ,this._mileage, this._color, this._rent_per_day, this._fuel_type, this._transmission, this._service_id);
+  car.withId(this._car_id, this._car_name, this._reg_no,this._model, this._seats ,this._mileage, this._color, this._rent_per_day, this._fuel_type, this._transmission, this._service_id);
 
   //GETTERS
   int get car_id => _car_id;
   String get car_name => _car_name;
   String get model =>_model;
+  String get reg_no => _reg_no;
   int get seats =>_seats;
   double get mileage => _mileage;
   String get color => _color;
@@ -38,6 +40,11 @@ class car
   set model (String newModel)
   {
     this._model = newModel;
+  }
+
+  set reg_no (String newreg)
+  {
+    this._reg_no = newreg ;
   }
 
   set seats (int newSeats)
@@ -85,6 +92,7 @@ class car
     }
     map['car_name'] = _car_name;
     map['model'] = _model;
+    map['reg_no'] = _reg_no;
     map['seats'] = _seats;
     map['mileage'] = _mileage;
     map['color'] = _color;
@@ -102,6 +110,7 @@ class car
     this._car_id = map['car_id'];
     this._car_name = map['car_name'];
     this._model = map['model'];
+    this._reg_no = map['reg_no'];
     this._seats = map['seats'];
     this._mileage = map['mileage'];
     this._color = map['color'];

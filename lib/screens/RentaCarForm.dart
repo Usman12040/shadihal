@@ -9,12 +9,10 @@ import 'package:image_picker/image_picker.dart';
 import 'package:multi_image_picker/multi_image_picker.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:shadihal/Models/Owner.dart';
+import 'package:shadihal/Models/car.dart';
+
 
 import '../Models/Rent_a_car.dart';
-import '../Models/Rent_a_car.dart';
-import '../Models/Rent_a_car.dart';
-import '../Models/Rent_a_car.dart';
-import '../Utils/dbhelper.dart';
 import '../Utils/dbhelper.dart';
 
 class RentaCarForm extends StatefulWidget
@@ -36,6 +34,8 @@ class RentaCarFormState extends State<RentaCarForm>
 {
   Owner owner;
   dbHelper sdbHelper = dbHelper();
+  List<car> carList = List<car>();
+  int serviceid;
 
   RentaCarFormState(this.owner);
 
@@ -275,10 +275,18 @@ class RentaCarFormState extends State<RentaCarForm>
                       style: OutlinedButton.styleFrom(backgroundColor: Colors.deepPurple),
                       child: Text("Add Cars", style: TextStyle(fontSize: 20.0,color: Colors.white)),
 
-                      onPressed: () {
-                        Get.to(CarForm());
-
-
+                      onPressed: () async
+                      {
+                        if (carList == null)
+                        {
+                          if(_formKey.currentState.validate())
+                          {
+                            rent_a_Car r1 = rent_a_Car(rentnameController.text, int.parse(rentcontactController.text), rentareaController.text, rentaddressController.text, rentoffhrsController.text, rentdescriptionController.text, owner.owner_id);
+                            _insertRentService(r1);
+                            serviceid = await _getId(r1.owner_id, r1.contact_no);
+                          }
+                        }
+                        Get.to(CarForm(serviceid));
                       },
                     )]),
           SizedBox(
@@ -287,30 +295,27 @@ class RentaCarFormState extends State<RentaCarForm>
 
             ),
           ),
-              Padding(
-                  padding: EdgeInsets.only(top:20.0,left: 120.00,right: 120.00),
-                  child: Builder(
-                      builder:(context)=> RaisedButton(
-                        color: Theme.of(context).primaryColorDark,
-                        textColor: Theme.of(context).primaryColorLight,
 
-                        child: Text(
-                          'Submit',
-                          textScaleFactor: 1.5,
-                        ),
+              // Padding(
 
-                        onPressed: () async
-                        {
-                          if(_formKey.currentState.validate())
-                          {
-                            rent_a_Car r1 = rent_a_Car(rentnameController.text, int.parse(rentcontactController.text), rentareaController.text, rentaddressController.text, rentoffhrsController.text, rentdescriptionController.text, owner.owner_id);
-                            _insertRentService(r1);
-                            int x = await _getId(r1.owner_id, r1.contact_no);
-                          }
-                        },
-
-
-                      )))
+              //     padding: EdgeInsets.only(top:20.0,left: 120.00,right: 120.00),
+              //     child: Builder(
+              //         builder:(context)=> RaisedButton(
+              //           color: Theme.of(context).primaryColorDark,
+              //           textColor: Theme.of(context).primaryColorLight,
+              //
+              //           child: Text(
+              //             'Submit',
+              //             textScaleFactor: 1.5,
+              //           ),
+              //
+              //           onPressed: ()
+              //           {
+              //
+              //           },
+              //
+              //
+              //         )))
 
 
 
