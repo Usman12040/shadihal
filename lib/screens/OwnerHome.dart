@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:shadihal/screens/CateringList.dart';
+import 'package:shadihal/screens/ContactUs.dart';
+import 'package:shadihal/screens/JoinUs.dart';
 import 'package:shadihal/screens/PhotographyList.dart';
 import 'package:shadihal/screens/RentaCarList.dart';
 import 'package:shadihal/screens/LoginScreen.dart';
@@ -92,7 +94,7 @@ class Ownerhomestate extends State<Ownerhome>
                           )
                       ),
                       ListTile(
-                        title: Text('Your Profile',style: TextStyle(color: Colors.yellow),textScaleFactor: 1.2),
+                        title: Text(this.owner.firstName+this.owner.lastName,style: TextStyle(color: Colors.yellow),textScaleFactor: 1.2),
                         onTap: () {
                           // Update the state of the app.
                           Get.to(Ownerprofile(this.owner));
@@ -127,7 +129,7 @@ class Ownerhomestate extends State<Ownerhome>
                         title: Text('Contact Us',style: TextStyle(color: Colors.yellow),textScaleFactor: 1.2),
                         onTap: () {
                           // Update the state of the app.
-
+                          Get.to(ContactUs());
                           // ...
                         },
                       ),
@@ -135,7 +137,7 @@ class Ownerhomestate extends State<Ownerhome>
                         title: Text('Join Us',style: TextStyle(color: Colors.yellow),textScaleFactor: 1.2),
                         onTap: () {
                           // Update the state of the app.
-
+                          Get.to(JoinUs());
                           // ...
                         },
                       ),

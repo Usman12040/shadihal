@@ -116,7 +116,6 @@ class PhotographyFormState extends State<PhotographyForm>
               //Photography price
               TextFormField(
                 style: TextStyle(color: Colors.white),
-                obscureText: true,
                 keyboardType: TextInputType.number,
                 controller: PhotopriceController,
                 decoration: InputDecoration(

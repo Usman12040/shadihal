@@ -20,13 +20,13 @@ import 'AddImage.dart';
 class VenueForm extends StatefulWidget
 {
   final Owner owner;
-
-  VenueForm(this.owner);
+  final Venue venue;
+  VenueForm(this.owner, [this.venue]);
 
   @override
   VenueFormState createState()
   {
-    return VenueFormState(this.owner);
+    return VenueFormState(this.owner, this.venue);
   }
 }
 
@@ -35,9 +35,10 @@ class VenueForm extends StatefulWidget
 class VenueFormState extends State<VenueForm>
 {
   Owner owner;
+  Venue venue;
   dbHelper sdbHelper = dbHelper();
 
-  VenueFormState(this.owner);
+  VenueFormState(this.owner, [this.venue]);
 
 
   // Create a global key that uniquely identifies the Form widget
@@ -62,6 +63,18 @@ class VenueFormState extends State<VenueForm>
 
   @override
   Widget build(BuildContext context) {
+    if(this.venue.isNull == false) {
+      venuenameController.text = this.venue.venue_name;
+      venueaddressController.text = this.venue.address;
+      venueareaController.text = this.venue.area;
+      venuecapacityController.text = this.venue.capacity.toString();
+      venuedescriptionController.text = this.venue.description;
+      venuemaxpriceController.text = this.venue.priceub.toString();
+      venueminpriceController.text = this.venue.pricelb.toString();
+      venueoffhrsController.text = this.venue.office_hrs;
+      venuecontactController.text = this.venue.contact_no.toString();
+      venuetypeController.text = this.venue.type;
+    }
 
     // Build a Form widget using the _formKey created above.
     return  Scaffold(
@@ -430,7 +443,17 @@ class VenueFormState extends State<VenueForm>
                         {
                           if(_formKey.currentState.validate())
                           {
-                            Venue v1 = Venue(venuenameController.text, int.parse(venueminpriceController.text), int.parse(venuemaxpriceController.text), venueareaController.text , int.parse(venuecontactController.text), venuetypeController.text, venueoffhrsController.text, venueaddressController.text, int.parse(venuecapacityController.text), venuedescriptionController.text, this.owner.owner_id);
+                            Venue v1 = Venue(venuenameController.text,
+                                int.parse(venueminpriceController.text),
+                                int.parse(venuemaxpriceController.text),
+                                venueareaController.text ,
+                                int.parse(venuecontactController.text),
+                                venuetypeController.text,
+                                venueoffhrsController.text,
+                                venueaddressController.text,
+                                int.parse(venuecapacityController.text),
+                                venuedescriptionController.text,
+                                this.owner.owner_id);
                             _insertvenue(v1);
                             int x = await _getId(v1.owner_id, v1.contact_no);
                             Get.to(AddImage(this.owner, x));
@@ -449,10 +472,18 @@ class VenueFormState extends State<VenueForm>
 
         ));
   }
+  void moveToLastScreen() {
+    Navigator.pop(context, true);
+  }
 
-  void _insertvenue (Venue ven) async
-  {
-    await sdbHelper.insertVenue(ven);
+
+  void _insertvenue (Venue ven) async{
+    if(this.venue.isNull==false){
+      sdbHelper.updateVenue(ven);
+    }
+    else {
+      await sdbHelper.insertVenue(ven);
+    }
   }
 
   Future<int> _getId (int ownerid, int cntctno) async
