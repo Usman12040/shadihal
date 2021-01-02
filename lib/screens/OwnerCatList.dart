@@ -33,7 +33,7 @@ class ownercatliststate extends State<OwnerCatlist> {
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           debugPrint('FAB clicked');
-          Get.to(CateringForm());
+          Get.to(CateringForm(this.owner));
 
         },
 
@@ -45,4 +45,6 @@ class ownercatliststate extends State<OwnerCatlist> {
       ),
     );
   }
+
+
 }

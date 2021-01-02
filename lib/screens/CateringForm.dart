@@ -1,21 +1,30 @@
 import 'package:flutter/material.dart';
 
+import '../Models/Owner.dart';
+import '../Models/catering.dart';
+import '../Utils/dbhelper.dart';
+import 'dart:async';
 
-class CateringForm extends StatefulWidget {
+class CateringForm extends StatefulWidget 
+{
+  final Owner owner;
+
+  CateringForm(this.owner);
   @override
-  CateringFormState createState() {
-    return CateringFormState();
+  CateringFormState createState() 
+  {
+    return CateringFormState(this.owner);
   }
 }
 
 // Define a corresponding State class.
 // This class holds data related to the form.
-class CateringFormState extends State<CateringForm> {
-
-
-
-
-
+class CateringFormState extends State<CateringForm>
+{
+  Owner owner;
+  dbHelper sdbHelper = dbHelper();
+  
+  CateringFormState(this.owner);
 
   // Create a global key that uniquely identifies the Form widget
   // and allows validation of the form.
@@ -29,6 +38,7 @@ class CateringFormState extends State<CateringForm> {
   TextEditingController CaterareaController = TextEditingController();
   TextEditingController CateraddressController = TextEditingController();
   TextEditingController CaterdescriptionController = TextEditingController();
+  TextEditingController CaterpriceController = TextEditingController();
   @override
   Widget build(BuildContext context) {
 
@@ -136,6 +146,38 @@ class CateringFormState extends State<CateringForm> {
 
 
                   )),
+              //Catering Price
+              Padding(
+                  padding: EdgeInsets.only(top: 10.0,bottom:10.0),
+
+                  child: TextFormField(
+                    style: TextStyle(color: Colors.white),
+                    controller: CaterpriceController,
+                    decoration: InputDecoration(
+                        labelText: 'Price per Head*',
+                        hintText: 'Enter minimum price',
+                        hintStyle: TextStyle(color: Colors.grey),
+                        labelStyle: TextStyle(color: Colors.white),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(5.0),
+                        )
+
+                    ),
+                    onChanged: (text){
+                      debugPrint('$CaterpriceController');
+                    },
+                    validator: (value) {
+                      if (value.isEmpty) {
+                        return 'This Field is Required ';
+                      }
+                      if(value.length>30){
+                        return 'Price length should be less than 30';
+                      }
+                      return null;
+                    },
+
+
+                  )),
 
               Padding(
                   padding: EdgeInsets.only(top: 10.0,bottom:10.0),
@@ -220,11 +262,14 @@ class CateringFormState extends State<CateringForm> {
                           textScaleFactor: 1.5,
                         ),
 
-                        onPressed: ()
+                        onPressed: () async
                         {
                           if(_formKey.currentState.validate())
                           {
-                            //DB FUNCTION
+                            catering caterS = catering(CaternameController.text, int.parse(CatercontactController.text), CaterareaController.text , CateraddressController.text, int.parse(CaterpriceController.text), CaterdescriptionController.text, this.owner.owner_id);
+                            _insertcatservice(caterS);
+                            int x = await _getId(caterS.owner_id, caterS.price);
+
                           }
                         },
 
@@ -238,5 +283,16 @@ class CateringFormState extends State<CateringForm> {
           ),
 
         ));
+  }
+
+  void _insertcatservice (catering c1) async
+  {
+    await sdbHelper.insertCateringService(c1);
+  }
+
+  Future<int> _getId (int ownerid, int cntctno) async
+  {
+    catering ct = await sdbHelper.getCateringMapList1(ownerid, cntctno);
+    return ct.caterer_id;
   }
 }

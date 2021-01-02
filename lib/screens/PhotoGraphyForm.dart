@@ -1,13 +1,9 @@
 import 'package:flutter/material.dart';
+import 'dart:async';
+import '../Models/Owner.dart';
+import '../Models/photography.dart';
+import '../Utils/dbhelper.dart';
 
-import '../Models/Owner.dart';
-import '../Models/Owner.dart';
-import '../Models/photography.dart';
-import '../Models/photography.dart';
-import '../Models/photography.dart';
-import '../Models/photography.dart';
-import '../Utils/dbhelper.dart';
-import '../Utils/dbhelper.dart';
 
 
 class PhotographyForm extends StatefulWidget
@@ -17,7 +13,8 @@ class PhotographyForm extends StatefulWidget
   PhotographyForm(this.owner);
 
   @override
-  PhotographyFormState createState() {
+  PhotographyFormState createState()
+  {
     return PhotographyFormState(this.owner);
   }
 }
