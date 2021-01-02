@@ -5,6 +5,9 @@ import 'dart:io';
 import 'package:shadihal/Models/Owner.dart';
 import 'package:shadihal/Models/Photo.dart';
 import 'package:shadihal/Utils/imgutility.dart';
+import 'package:shadihal/screens/OwnerVenuelist.dart';
+import 'package:get/get.dart';
+
 class AddImage extends StatefulWidget
 {
   final Owner owner;
@@ -93,7 +96,28 @@ class AddImageState extends State<AddImage>
               children: <Widget>[
                 Flexible(
                   child: gridView(),
-                )
+                ),
+                Padding(
+                    padding: EdgeInsets.only(top:20.0,left: 120.00,right: 120.00),
+                    child: Builder(
+                        builder:(context)=> RaisedButton(
+                          color: Theme.of(context).primaryColorDark,
+                          textColor: Theme.of(context).primaryColorLight,
+
+                          child: Text(
+                            'Submit',
+                            textScaleFactor: 1.5,
+                          ),
+
+                          onPressed: ()
+                          {
+                            Get.to(OwnerVenueList(this.owner));
+                          },
+
+
+                        )))
+
+
               ],
             ),
         ),

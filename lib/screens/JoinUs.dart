@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 class JoinUs extends StatefulWidget
 {
 
@@ -29,10 +30,17 @@ class joinusstate extends State<JoinUs> {
               child:Text("JOIN US", textAlign:TextAlign.center, style: TextStyle(fontSize: 30.0,fontWeight: FontWeight.bold,color: Colors.white),),),
             Container(height: 50.0,
                 child: Text("Send your CV at:",style: TextStyle(fontSize: 20.0,color: Colors.white),),),
-          Container(height: 50.0,
-              child: Text("k180159@nu.edu.pk", textAlign: TextAlign.center,style: TextStyle(fontSize: 20.0,fontWeight: FontWeight.bold,color: Colors.white)),)
+            GestureDetector(
+              onTap: (){
+                launch("mailto:k180159@nu.edu.pk");
+              },
+              child: Container(height: 50.0,
+              child: Text("k180159@nu.edu.pk",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(fontSize: 20.0,fontWeight: FontWeight.bold,color: Colors.white)),)
 
-            ]
+
+          )]
         )));
   }
 }

@@ -15,7 +15,6 @@ import 'package:shadihal/Models/Owner.dart';
 class Ownerprofile extends StatefulWidget
 {
    Owner owner;
-
   Ownerprofile(this.owner);
 
   @override
@@ -40,9 +39,9 @@ class ownerprofilestate extends State<Ownerprofile>
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: <Widget>
           [
-            Text(owner.firstName+owner.lastName),
-            Text(owner.phoneNo.toString()),
-            Text(owner.nic.toString()),
+            Text("Name: "+owner.firstName+owner.lastName,style: TextStyle(fontWeight: FontWeight.bold,fontSize: 30.0),),
+            Text("Phone No. : 0"+ owner.phoneNo.toString(),style: TextStyle(fontSize: 20.0),),
+            Text("CNIC: "+ owner.nic.toString(),style: TextStyle(fontSize: 20.0)),
             Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children:<Widget>[
@@ -87,7 +86,7 @@ class ownerprofilestate extends State<Ownerprofile>
                 children:<Widget>[
                   OutlinedButton(
                     style: OutlinedButton.styleFrom(backgroundColor: Colors.deepPurple),
-                    child: Text("Your RentaCar Services", style: TextStyle(fontSize: 20.0,color: Colors.white)),
+                    child: Text("Your Photography Services", style: TextStyle(fontSize: 20.0,color: Colors.white)),
 
                     onPressed: ()
                     {

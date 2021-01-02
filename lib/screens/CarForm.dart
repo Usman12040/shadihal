@@ -264,7 +264,7 @@ class CarFormState extends State<CarForm> {
 
 
                   )),
-              Padding(
+              Expanded(child:Padding(
                   padding: EdgeInsets.only(top:20.0,left:10,right: 180),
                   child: Row(
                       mainAxisAlignment: MainAxisAlignment.start,
@@ -296,7 +296,7 @@ class CarFormState extends State<CarForm> {
                                   child: Text(value),
                                 );
                               }).toList(),
-                            ))])),
+                            ))]))),
 
 
               Padding(
