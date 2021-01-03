@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
-
+import 'package:get/get.dart';
+import 'AddImage.dart';
 import '../Models/Owner.dart';
 import '../Models/catering.dart';
 import '../Utils/dbhelper.dart';
 import 'dart:async';
+
+
 
 class CateringForm extends StatefulWidget 
 {
@@ -266,33 +269,34 @@ class CateringFormState extends State<CateringForm>
                         {
                           if(_formKey.currentState.validate())
                           {
-                            int status = await sdbHelper.checkCateringContact(int.parse(CatercontactController.text));
-                            int status1 = await sdbHelper.checkCateringAddress(CateraddressController.text);
-                            if (status == 0 && status1 == 0)
-                            {
-                              //ALERT DIALOG FOR CONTACT AND ADDRESS BOTH
-                            }
-                            else if (status == 0 && status1 == 1)
-                            {
-                              //ALERT DIALOG FOR CONTACT ONLY
-                            }
-                            else if (status == 1 && status1 == 0)
-                            {
-                              //ALERT DIALOG FOR ADDRESS ONLY
-                            }
-                            else if (status == 1 && status1 == 1)
-                            {
+                            // int status = await sdbHelper.checkCateringContact(int.parse(CatercontactController.text));
+                            // int status1 = await sdbHelper.checkCateringAddress(CateraddressController.text);
+                            // if (status == 0 && status1 == 0)
+                            // {
+                            //   //ALERT DIALOG FOR CONTACT AND ADDRESS BOTH
+                            // }
+                            // else if (status == 0 && status1 == 1)
+                            // {
+                            //   //ALERT DIALOG FOR CONTACT ONLY
+                            // }
+                            // else if (status == 1 && status1 == 0)
+                            // {
+                            //   //ALERT DIALOG FOR ADDRESS ONLY
+                            // }
+                            // else if (status == 1 && status1 == 1)
+                            // {
                               ////////////////////////////////////////////////////
                               catering caterS = catering(CaternameController.text, int.parse(CatercontactController.text), CaterareaController.text , CateraddressController.text, int.parse(CaterpriceController.text), CaterdescriptionController.text, this.owner.owner_id);
                               ////////////////////////////////////////////////////
                               _insertcatservice(caterS);
                               int x = await _getId(caterS.owner_id, caterS.price);
+
+                              Get.to(AddImage(this.owner, x));
                             }
                             else
                             {
                               debugPrint("FAILURE IN CHECKING CATERING'S UNIQUE CONSTRAINTS");
                             }
-                          }
                         },
 
 

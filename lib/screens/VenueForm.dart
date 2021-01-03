@@ -477,22 +477,22 @@ class VenueFormState extends State<VenueForm>
                         {
                           if(_formKey.currentState.validate())
                           {
-                            int status = await sdbHelper.checkVenueContact(int.parse(venuecontactController.text));
-                            int status1 = await sdbHelper.checkVenueAddress(venueaddressController.text);
-                            if (status == 0 && status1 == 0)
-                            {
-                              //ALERT DIALOG FOR CONTACT AND ADDRESS BOTH
-                            }
-                            else if (status == 0 && status1 == 1)
-                            {
-                              //ALERT DIALOG FOR CONTACT ONLY
-                            }
-                            else if (status == 1 && status1 == 0)
-                            {
-                              //ALERT DIALOG FOR ADDRESS ONLY
-                            }
-                            else if (status == 1 && status1 == 1)
-                            {
+                            // int status = await sdbHelper.checkVenueContact(int.parse(venuecontactController.text));
+                            // int status1 = await sdbHelper.checkVenueAddress(venueaddressController.text);
+                            // if (status == 0 && status1 == 0)
+                            // {
+                            //   //ALERT DIALOG FOR CONTACT AND ADDRESS BOTH
+                            // }
+                            // else if (status == 0 && status1 == 1)
+                            // {
+                            //   //ALERT DIALOG FOR CONTACT ONLY
+                            // }
+                            // else if (status == 1 && status1 == 0)
+                            // {
+                            //   //ALERT DIALOG FOR ADDRESS ONLY
+                            // }
+                            // else if (status == 1 && status1 == 1)
+                            // {
                               ///////////////////////////////////////////////
                               Venue v1 = Venue(venuenameController.text,
                                   int.parse(venueminpriceController.text),
@@ -510,13 +510,12 @@ class VenueFormState extends State<VenueForm>
 
                               _insertvenue(v1);
                               int x = await _getId(v1.owner_id, v1.contact_no);
-                              Get.to(AddImage(this.owner, x));
+                              Get.to(AddImage(this.owner, x ));
                             }
                             else
                             {
                               debugPrint("FAILURE IN CHECKING VENUE'S UNIQUE CONSTRAINTS");
                             }
-                          }
                         },
 
 

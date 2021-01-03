@@ -8,6 +8,8 @@ import 'package:image_picker/image_picker.dart';
 import 'package:multi_image_picker/multi_image_picker.dart';
 import '../Utils/dbhelper.dart';
 import 'package:shadihal/Models/Owner.dart';
+import 'package:get/get.dart';
+import 'AddImage.dart';
 
 
 class CarForm extends StatefulWidget
@@ -466,13 +468,13 @@ class CarFormState extends State<CarForm>
                         {
                           if(_formKey.currentState.validate())
                           {
-                            int status = await sdbHelper.checkCarRegno(CarNumberController.text);
-                            if (status == 0)
-                            {
-                              //ALERT DIALOG FOR CAR REG NO
-                            }
-                            else if (status == 1)
-                            {
+                            // int status = await sdbHelper.checkCarRegno(CarNumberController.text);
+                            // if (status == 0)
+                            // {
+                            //   //ALERT DIALOG FOR CAR REG NO
+                            // }
+                            // else if (status == 1)
+                            // {
                               ////////////////////////////////////////////////////
                               car c1 = car(CarnameController.text,
                                   CarmodelController.text,
@@ -492,12 +494,14 @@ class CarFormState extends State<CarForm>
                               int x = await _getId (c1.service_id, c1.reg_no);
                               debugPrint("TESTING POINT 3");
                               debugPrint(x.toString());
+
+                              Get.to(AddImage(this.owner, this.sid, x));
                             }
                             else
                             {
                               debugPrint("FAILURE IN CHECKING RENT A CAR'S UNIQUE CONSTRAINTS");
                             }
-                          }
+
                         },
 
 
