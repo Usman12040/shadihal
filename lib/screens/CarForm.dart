@@ -7,19 +7,20 @@ import 'dart:convert';
 import 'package:image_picker/image_picker.dart';
 import 'package:multi_image_picker/multi_image_picker.dart';
 import '../Utils/dbhelper.dart';
-
+import 'package:shadihal/Models/Owner.dart';
 
 
 class CarForm extends StatefulWidget
 {
   int serviceid;
+  final Owner owner;
 
-  CarForm(this.serviceid);
+  CarForm(this.serviceid, this.owner);
 
   @override
   CarFormState createState()
   {
-    return CarFormState(this.serviceid);
+    return CarFormState(this.serviceid, this.owner);
   }
 }
 
@@ -30,39 +31,42 @@ class CarFormState extends State<CarForm>
   List<Asset> images = List<Asset>();
   List<car> carList = List<car>();
   int sid;
+  Owner owner;
+
   dbHelper sdbHelper = dbHelper();
   String _regnoerror;
 
-  CarFormState(this.sid);
+  CarFormState(this.sid, this.owner);
 
   void initState()
   {
     super.initState();
   }
 
-  Future<void> pickImages() async
-  {
-    List<Asset> resultList = List<Asset>();
-
-    try {
-      resultList = await MultiImagePicker.pickImages(
-        maxImages: 5,
-        enableCamera: true,
-        selectedAssets: images,
-        materialOptions: MaterialOptions(
-          actionBarTitle: "Add images",
-        ),
-      );
-    } on Exception catch (e)
-    {
-      print(e);
-    }
-
-    setState(()
-    {
-      images = resultList;
-    });
-  }
+  // Future<void> pickImages() async
+  // {
+  //   List<Asset> resultList = List<Asset>();
+  //
+  //   try
+  //   {
+  //     resultList = await MultiImagePicker.pickImages(
+  //       maxImages: 5,
+  //       enableCamera: true,
+  //       selectedAssets: images,
+  //       materialOptions: MaterialOptions(
+  //         actionBarTitle: "Add images",
+  //       ),
+  //     );
+  //   } on Exception catch (e)
+  //   {
+  //     print(e);
+  //   }
+  //
+  //   setState(()
+  //   {
+  //     images = resultList;
+  //   });
+  // }
 
   // Create a global key that uniquely identifies the Form widget
   // and allows validation of the form.
@@ -467,7 +471,7 @@ class CarFormState extends State<CarForm>
               Padding(
                   padding: EdgeInsets.only(top:20.0,left: 120.00,right: 120.00),
                   child: Builder(
-                      builder:(context)=> RaisedButton(
+                      builder:(context) => RaisedButton(
                         color: Theme.of(context).primaryColorDark,
                         textColor: Theme.of(context).primaryColorLight,
 
