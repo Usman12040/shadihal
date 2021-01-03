@@ -559,20 +559,20 @@ class dbHelper
     return result;
     }
 
-    Future<List<Photo>> getPhotos() async
+    Future<List<Photo>> getPhotos(int ownerid, int serviceid) async
     {
-    var dbClient = await this.database;
-    List<Map> maps = await dbClient.rawQuery('SELECT * FROM $img_table');
-    List<Photo> employees = [];
-    if (maps.length > 0)
-    {
-      for (int i = 0; i < maps.length; i++)
+      var dbClient = await this.database;
+      List<Map> maps = await dbClient.rawQuery('SELECT * FROM $img_table WHERE $img_fkey1 = $ownerid AND $img_fkey = $serviceid');
+      List<Photo> employees = [];
+      if (maps.length > 0)
       {
-        employees.add(Photo.fromMap(maps[i]));
+        for (int i = 0; i < maps.length; i++)
+        {
+          employees.add(Photo.fromMap(maps[i]));
+        }
       }
+      return employees;
     }
-    return employees;
-  }
 
   //VENUE CRUD OPERATIONS
   //GET OPERATIONS

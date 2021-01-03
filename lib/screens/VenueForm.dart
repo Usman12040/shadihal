@@ -62,8 +62,10 @@ class VenueFormState extends State<VenueForm>
   TextEditingController venuedescriptionController = TextEditingController();
 
   @override
-  Widget build(BuildContext context) {
-    if(this.venue.isNull == false) {
+  Widget build(BuildContext context)
+  {
+    if(this.venue.isNull == false)
+    {
       venuenameController.text = this.venue.venue_name;
       venueaddressController.text = this.venue.address;
       venueareaController.text = this.venue.area;
@@ -102,17 +104,22 @@ class VenueFormState extends State<VenueForm>
                         )
 
                     ),
-                    onChanged: (text){
+                    onChanged: (text)
+                    {
                       debugPrint('$venuenameController');
                     },
-                    validator: (value) {
-                      if (value.isEmpty) {
+                    validator: (value)
+                    {
+                      if (value.isEmpty)
+                      {
                         return 'This Field is Required ';
                       }
-                      if(value=="Venue"){
+                      if(value=="Venue")
+                      {
                         return 'This venue already exist';
                       }
-                      if(value.length>20){
+                      if(value.length>20)
+                      {
                         return 'Venue name should be less than 20';
                       }
                       return null;
@@ -135,11 +142,14 @@ class VenueFormState extends State<VenueForm>
                     )
 
                 ),
-                onChanged: (text){
+                onChanged: (text)
+                {
                   //debugPrint('$text');
                 },
-                validator: (value) {
-                  if (value.isEmpty) {
+                validator: (value)
+                {
+                  if (value.isEmpty)
+                  {
                     return 'This Field is Required ';
                   }
                   return null;
@@ -164,8 +174,10 @@ class VenueFormState extends State<VenueForm>
                     onChanged: (text){
                       debugPrint('$venuemaxpriceController');
                     },
-                    validator: (value) {
-                      if (value.isEmpty) {
+                    validator: (value)
+                    {
+                      if (value.isEmpty)
+                      {
                         return 'This Field is Required ';
                       }
                       return null;
@@ -192,11 +204,14 @@ class VenueFormState extends State<VenueForm>
                         )
 
                     ),
-                    onChanged: (text){
+                    onChanged: (text)
+                    {
                       debugPrint('$venueoffhrsController');
                     },
-                    validator: (value) {
-                      if (value.isEmpty) {
+                    validator: (value)
+                    {
+                      if (value.isEmpty)
+                      {
                         return 'This Field is Required ';
                       }
                       return null;
@@ -220,14 +235,18 @@ class VenueFormState extends State<VenueForm>
                         )
 
                     ),
-                    onChanged: (text){
+                    onChanged: (text)
+                    {
                       debugPrint('$venueareaController');
                     },
-                    validator: (value) {
-                      if (value.isEmpty) {
+                    validator: (value)
+                    {
+                      if (value.isEmpty)
+                      {
                         return 'This Field is Required ';
                       }
-                      if(value.length>20){
+                      if(value.length>20)
+                      {
                         return 'Area name length should be less than 20';
                       }
                       return null;
@@ -252,14 +271,18 @@ class VenueFormState extends State<VenueForm>
                         )
 
                     ),
-                    onChanged: (text){
+                    onChanged: (text)
+                    {
                       debugPrint('$venuecontactController');
                     },
-                    validator: (value) {
-                      if (value.isEmpty) {
+                    validator: (value)
+                    {
+                      if (value.isEmpty)
+                      {
                         return 'This Field is Required ';
                       }
-                      if(value.length!=11){
+                      if(value.length!=11)
+                      {
                         return 'Phone No length should be 11';
 
                       }
@@ -289,11 +312,14 @@ class VenueFormState extends State<VenueForm>
                     {
                       debugPrint('$venueaddressController');
                     },
-                    validator: (value) {
-                      if (value.isEmpty) {
+                    validator: (value)
+                    {
+                      if (value.isEmpty)
+                      {
                         return 'This Field is Required ';
                       }
-                      if(value.length>256){
+                      if(value.length>256)
+                      {
                         return 'This Field is too large';
                       }
                       return null;
@@ -322,11 +348,14 @@ class VenueFormState extends State<VenueForm>
                     {
                       debugPrint('$venueaddressController');
                     },
-                    validator: (value) {
-                      if (value.isEmpty) {
+                    validator: (value)
+                    {
+                      if (value.isEmpty)
+                      {
                         return 'This Field is Required ';
                       }
-                      if(int.parse(value) > 1000){
+                      if(int.parse(value) > 1000)
+                      {
                         return 'Capacity should be less than 1000';
                       }
                       return null;
@@ -352,8 +381,10 @@ class VenueFormState extends State<VenueForm>
                                 height: 2,
                                 color: Colors.deepPurpleAccent,
                               ),
-                              onChanged: (String newValue) {
-                                setState(() {
+                              onChanged: (String newValue)
+                              {
+                                setState(()
+                                {
                                   dropdownValue = newValue;
                                 });
                                 venuetypeController.text= dropdownValue;
@@ -389,11 +420,14 @@ class VenueFormState extends State<VenueForm>
                     {
                       debugPrint('$venuedescriptionController');
                     },
-                    validator: (value) {
-                      if (value.isEmpty) {
+                    validator: (value)
+                    {
+                      if (value.isEmpty)
+                      {
                         return 'This Field is Required ';
                       }
-                      if(value.length>500){
+                      if(value.length>500)
+                      {
                         return 'This Field is too large';
                       }
                       return null;

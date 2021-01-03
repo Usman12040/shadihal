@@ -11,12 +11,14 @@ import 'package:get/get.dart';
 class AddImage extends StatefulWidget
 {
   final Owner owner;
-  int ven_id;
-  AddImage(this.owner,this.ven_id);
+  int ser_id;
+
+  AddImage(this.owner,this.ser_id);
 
   @override
-  AddImageState createState() {
-    return AddImageState(this.owner,this.ven_id);
+  AddImageState createState()
+  {
+    return AddImageState(this.owner,this.ser_id);
   }
 }
 
@@ -24,25 +26,30 @@ class AddImage extends StatefulWidget
 // This class holds data related to the form.
 class AddImageState extends State<AddImage>
 {
-  int ven_id;
+  int ser_id;
   Future<File> imageFile;
   Image image;
   dbHelper sdbHelper;
   List<Photo> images;
   Owner owner;
-  AddImageState(this.owner,this.ven_id);
+
+  AddImageState(this.owner,this.ser_id);
+
   @override
-  void initState() {
-  super.initState();
-  images = [];
-  sdbHelper = dbHelper();
-  refreshImages();
+  void initState()
+  {
+    super.initState();
+    images = [];
+    sdbHelper = dbHelper();
+    refreshImages(this.owner.owner_id, this.ser_id);
   }
 
-  refreshImages()
+  refreshImages(int ownerid, int serviceid)
   {
-    sdbHelper.getPhotos().then((imgs) {
-      setState(() {
+    sdbHelper.getPhotos(ownerid, serviceid).then((imgs)
+    {
+      setState(()
+      {
         images.clear();
         images.addAll(imgs);
       });
@@ -54,24 +61,27 @@ class AddImageState extends State<AddImage>
     ImagePicker.pickImage(source: ImageSource.gallery).then((imgFile)
     {
       String imgString = Utility.base64String( imgFile.readAsBytesSync() );
-      Photo photo = Photo(imgString, ven_id, this.owner.owner_id);
+      Photo photo = Photo(imgString, ser_id, this.owner.owner_id);
       sdbHelper.save(photo);
-      refreshImages();
+      refreshImages(photo.owner_id, photo.service_id);
     });
   }
-  gridView() {
-  return Padding(
-  padding: EdgeInsets.all(5.0),
-  child: GridView.count(
-  crossAxisCount: 2,
-  childAspectRatio: 1.0,
-  mainAxisSpacing: 4.0,
-  crossAxisSpacing: 4.0,
-  children: images.map((photo) {
-  return Utility.imageFromBase64String(photo.photo_name);
-  }).toList(),
-  ),
-  );
+
+  gridView()
+  {
+    return Padding(
+        padding: EdgeInsets.all(5.0),
+        child: GridView.count(
+        crossAxisCount: 2,
+        childAspectRatio: 1.0,
+        mainAxisSpacing: 4.0,
+        crossAxisSpacing: 4.0,
+        children: images.map((photo)
+        {
+          return Utility.imageFromBase64String(photo.photo_name);
+        }).toList(),
+        ),
+        );
   }
 
   @override
@@ -80,14 +90,15 @@ class AddImageState extends State<AddImage>
     return Scaffold(
         appBar: AppBar(
             title: Text("Add Image"),
-            actions: <Widget>[
-            IconButton(
-                icon: Icon(Icons.add),
-                onPressed: ()
-                {
-                  pickImageFromGallery();
-                },
-            )
+            actions: <Widget>
+            [
+              IconButton(
+                  icon: Icon(Icons.add),
+                  onPressed: ()
+                  {
+                    pickImageFromGallery();
+                  },
+              )
             ],
         ),
         body: Center(
