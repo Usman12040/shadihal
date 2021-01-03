@@ -13,6 +13,7 @@ import 'VenueList.dart';
 import 'homescreen.dart';
 import 'package:shadihal/Models/Owner.dart';
 import 'OwnerProfile.dart';
+import 'AboutUs.dart';
 
 class Ownerhome extends StatefulWidget
 {
@@ -121,7 +122,7 @@ class Ownerhomestate extends State<Ownerhome>
                         title: Text('About Us',style: TextStyle(color: Colors.yellow),textScaleFactor: 1.2),
                         onTap: () {
                           // Update the state of the app.
-
+                          Get.to(aboutus());
                           // ...
                         },
                       ),

@@ -33,7 +33,7 @@ class PhotographyFormState extends State<PhotographyForm>
   // Note: This is a `GlobalKey<FormState>`,
   // not a GlobalKey<MyCustomFormState>.
   final _formKey = GlobalKey<FormState>();
-
+  String _contacterror;
   TextEditingController PhotonameController = TextEditingController();
   TextEditingController PhotocontactController = TextEditingController();
   TextEditingController PhotopriceController = TextEditingController();
@@ -95,6 +95,7 @@ class PhotographyFormState extends State<PhotographyForm>
                     labelStyle: TextStyle(color: Colors.white),
                     hintText: 'Enter your 11-Digit Phone No.',
                     hintStyle: TextStyle(color: Colors.grey),
+                    errorText: _contacterror,
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(5.0),
                     )
@@ -115,6 +116,23 @@ class PhotographyFormState extends State<PhotographyForm>
               ),
               //Photography price
               TextFormField(
+                onTap: () async{
+                  int xstatus = await checkcontact();
+                  setState(() {
+
+                    if( xstatus == 0)
+                    {
+                      debugPrint("Contact mojoud he");
+                      _contacterror= "This Contact Number Already exist";
+                    }
+                    else
+                    {
+                      _contacterror= null;
+                    }
+
+                  });
+                },
+
                 style: TextStyle(color: Colors.white),
                 keyboardType: TextInputType.number,
                 controller: PhotopriceController,
@@ -191,13 +209,13 @@ class PhotographyFormState extends State<PhotographyForm>
                         {
                           if(_formKey.currentState.validate())
                           {
-                            int status = await sdbHelper.checkPhotographyContact(int.parse(PhotocontactController.text));
-                            if (status == 0)
-                            {
-                              //ALERT DIALOG FOR CONTACT AND ADDRESS BOTH
-                            }
-                            else if(status == 1)
-                            {
+                            // int status = await sdbHelper.checkPhotographyContact(int.parse(PhotocontactController.text));
+                            // if (status == 0)
+                            // {
+                            //   //ALERT DIALOG FOR CONTACT AND ADDRESS BOTH
+                            // }
+                            // else if(status == 1)
+                            // {
                               ////////////////////////////////////////////////////
                               photography photo = photography(PhotonameController.text, int.parse(PhotocontactController.text), int.parse(PhotopriceController.text), PhotodescriptionController.text, this.owner.owner_id);
                               ////////////////////////////////////////////////////
@@ -208,7 +226,7 @@ class PhotographyFormState extends State<PhotographyForm>
                             {
                               debugPrint("FAILURE IN CHECKING PHOTOGRAPHY'S UNIQUE CONSTRAINTS");
                             }
-                          }
+
                         },
 
 
@@ -232,5 +250,10 @@ class PhotographyFormState extends State<PhotographyForm>
   {
     photography p = await sdbHelper.getPhotographyMapList1(ownerid, cntctno);
     return p.service_id;
+  }
+  Future<int> checkcontact () async{
+    int status = await sdbHelper.checkPhotographyContact(int.parse(PhotocontactController.text));
+    return status;
+
   }
 }

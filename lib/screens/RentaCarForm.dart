@@ -32,6 +32,8 @@ class RentaCarForm extends StatefulWidget
 // This class holds data related to the form.
 class RentaCarFormState extends State<RentaCarForm>
 {
+  String _addresserror;
+  String _contacterror;
   Owner owner;
   dbHelper sdbHelper = dbHelper();
   List<car> carList = List<car>();
@@ -96,7 +98,7 @@ class RentaCarFormState extends State<RentaCarForm>
                       }
                       if(value.length>20)
                       {
-                        return 'Servide name should be less than 20';
+                        return 'Service name should be less than 20';
                       }
                       return null;
                     },
@@ -178,6 +180,7 @@ class RentaCarFormState extends State<RentaCarForm>
                         hintText: 'Enter Your 11-Digit Phone No',
                         hintStyle: TextStyle(color: Colors.grey),
                         labelStyle: TextStyle(color: Colors.white),
+                        errorText: _contacterror,
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(5.0),
                         )
@@ -203,6 +206,22 @@ class RentaCarFormState extends State<RentaCarForm>
                   padding: EdgeInsets.only(top: 10.0,bottom:10.0),
 
                   child: TextFormField(
+                    onTap: () async{
+                      int xstatus = await checkcontact();
+                      setState(() {
+
+                        if( xstatus == 0)
+                        {
+                          debugPrint("Contact mojoud he");
+                          _contacterror= "This Contact Number Already exist";
+                        }
+                        else
+                        {
+                          _contacterror= null;
+                        }
+
+                      });
+                    },
 
                     style: TextStyle(color: Colors.white),
                     controller: rentaddressController,
@@ -211,6 +230,7 @@ class RentaCarFormState extends State<RentaCarForm>
                         hintText: 'Enter full Address ',
                         hintStyle: TextStyle(color: Colors.grey),
                         labelStyle: TextStyle(color: Colors.white),
+                        errorText: _addresserror,
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(5.0),
                         )
@@ -238,6 +258,22 @@ class RentaCarFormState extends State<RentaCarForm>
                   padding: EdgeInsets.only(top: 10.0,bottom:10.0),
 
                   child: TextFormField(
+                    onTap: () async{
+                      int xstatus = await checkaddress();
+                      setState(() {
+
+                        if( xstatus == 0)
+                        {
+                          debugPrint("Address mojoud he");
+                          _addresserror= "This Address Already exist";
+                        }
+                        else
+                        {
+                          _addresserror= null;
+                        }
+
+                      });
+                    },
                     keyboardType: TextInputType.multiline,
                     maxLines: 20,
                     minLines: 1,
@@ -282,36 +318,36 @@ class RentaCarFormState extends State<RentaCarForm>
                           debugPrint("Usman Jani 1");
                           if(_formKey.currentState.validate())
                           {
-                            int status = await sdbHelper.checkRentServiceContact(int.parse(rentcontactController.text));
-                            int status1 = await sdbHelper.checkRentServiceAddress(rentaddressController.text);
-                            if (status == 0 && status1 == 0)
-                            {
-                              //ALERT DIALOG FOR CONTACT AND ADDRESS BOTH
-                            }
-                            else if (status == 0 && status1 == 1)
-                            {
-                              //ALERT DIALOG FOR CONTACT ONLY
-                            }
-                            else if (status == 1 && status1 == 0)
-                            {
-                              //ALERT DIALOG FOR ADDRESS ONLY
-                            }
-                            else if (status == 1 && status1 == 1)
-                            {
-                              debugPrint("Usman Jani");
+                            // int status = await sdbHelper.checkRentServiceContact(int.parse(rentcontactController.text));
+                            // int status1 = await sdbHelper.checkRentServiceAddress(rentaddressController.text);
+                            // if (status == 0 && status1 == 0)
+                            // {
+                            //   //ALERT DIALOG FOR CONTACT AND ADDRESS BOTH
+                            // }
+                            // else if (status == 0 && status1 == 1)
+                            // {
+                            //   //ALERT DIALOG FOR CONTACT ONLY
+                            // }
+                            // else if (status == 1 && status1 == 0)
+                            // {
+                            //   //ALERT DIALOG FOR ADDRESS ONLY
+                            // }
+                            // else if (status == 1 && status1 == 1)
+                            // {
+                            //   debugPrint("Usman Jani");
                               ////////////////////////////////////////////////////
                               rent_a_Car r1 = rent_a_Car(rentnameController.text, int.parse(rentcontactController.text), rentareaController.text, rentaddressController.text, rentoffhrsController.text, rentdescriptionController.text, owner.owner_id);
                               ////////////////////////////////////////////////////
                               _insertRentService(r1);
                               serviceid = await _getId(r1.owner_id, r1.contact_no);
-                              Get.to(CarForm(serviceid));
+                              //Get.to(CarForm(serviceid));
                             }
                             else
                             {
                               debugPrint("FAILURE IN CHECKING RENT A CAR'S UNIQUE CONSTRAINTS");
                             }
                           }
-                        }
+
 
                       },
                     )]),
@@ -362,4 +398,16 @@ class RentaCarFormState extends State<RentaCarForm>
     rent_a_Car rt = await sdbHelper.getRentServiceMapList1(ownerid, cntctno);
     return rt.service_id;
   }
+  Future<int> checkcontact () async{
+    int status = await sdbHelper.checkRentServiceContact(int.parse(rentcontactController.text));
+    return status;
+
+  }
+
+  Future<int> checkaddress () async{
+    int status1 = await sdbHelper.checkRentServiceAddress(rentaddressController.text);
+    return status1;
+
+  }
+
 }

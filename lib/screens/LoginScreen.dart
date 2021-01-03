@@ -8,6 +8,7 @@ import 'package:shadihal/Utils/dbhelper.dart';
 import 'package:shadihal/screens/OwnerHome.dart';
 import 'package:get/get.dart';
 import 'package:shadihal/screens/homescreen.dart';
+import 'package:shadihal/screens/UserHome.dart';
 
 class Login extends StatefulWidget{
   @override
@@ -263,7 +264,7 @@ class LoginState extends State<Login>
         debugPrint(user.userName);
         debugPrint(user.pass);
         debugPrint(user.phoneNo.toString());
-        Get.to(homescreen(this.user));
+        Get.to(userhome(this.user));
       }
     }
     else if (identifier == 1)

@@ -37,6 +37,8 @@ class VenueFormState extends State<VenueForm>
   Owner owner;
   Venue venue;
   dbHelper sdbHelper = dbHelper();
+  String _contacterror = null;
+  String  _addresserror= null;
 
   VenueFormState(this.owner, [this.venue]);
 
@@ -108,9 +110,6 @@ class VenueFormState extends State<VenueForm>
                     validator: (value) {
                       if (value.isEmpty) {
                         return 'This Field is Required ';
-                      }
-                      if(value=="Venue"){
-                        return 'This venue already exist';
                       }
                       if(value.length>20){
                         return 'Venue name should be less than 20';
@@ -247,6 +246,7 @@ class VenueFormState extends State<VenueForm>
                         hintText: 'Enter Your 11-Digit Phone No',
                         hintStyle: TextStyle(color: Colors.grey),
                         labelStyle: TextStyle(color: Colors.white),
+                        errorText: _contacterror,
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(5.0),
                         )
@@ -272,6 +272,22 @@ class VenueFormState extends State<VenueForm>
                   padding: EdgeInsets.only(top: 10.0,bottom:10.0),
 
                   child: TextFormField(
+                    onTap: () async{
+                      int xstatus = await checkcontact(venuecontactController.text);
+                      setState(() {
+
+                        if( xstatus == 0)
+                        {
+                          debugPrint("Contact mojoud he");
+                          _contacterror= "This Contact Number Already exist";
+                        }
+                        else
+                        {
+                          _contacterror= null;
+                        }
+
+                      });
+                    },
 
                     style: TextStyle(color: Colors.white),
                     controller: venueaddressController,
@@ -280,6 +296,7 @@ class VenueFormState extends State<VenueForm>
                         hintText: 'Enter full Address ',
                         hintStyle: TextStyle(color: Colors.grey),
                         labelStyle: TextStyle(color: Colors.white),
+                        errorText: _addresserror,
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(5.0),
                         )
@@ -305,6 +322,22 @@ class VenueFormState extends State<VenueForm>
                   padding: EdgeInsets.only(top: 10.0,bottom:10.0),
 
                   child: TextFormField(
+                    onTap: () async{
+                      int xstatus = await checkaddress(venueaddressController.text);
+                      setState(() {
+
+                        if( xstatus == 0)
+                        {
+                          debugPrint("Address mojoud he");
+                          _addresserror= "This Address Already exist";
+                        }
+                        else
+                        {
+                          _addresserror= null;
+                        }
+
+                      });
+                    },
                     keyboardType: TextInputType.number,
                     style: TextStyle(color: Colors.white),
                     controller: venuecapacityController,
@@ -320,7 +353,7 @@ class VenueFormState extends State<VenueForm>
                     ),
                     onChanged: (text)
                     {
-                      debugPrint('$venueaddressController');
+                      debugPrint('$venuecapacityController');
                     },
                     validator: (value) {
                       if (value.isEmpty) {
@@ -443,22 +476,22 @@ class VenueFormState extends State<VenueForm>
                         {
                           if(_formKey.currentState.validate())
                           {
-                            int status = await sdbHelper.checkVenueContact(int.parse(venuecontactController.text));
-                            int status1 = await sdbHelper.checkVenueAddress(venueaddressController.text);
-                            if (status == 0 && status1 == 0)
-                            {
-                              //ALERT DIALOG FOR CONTACT AND ADDRESS BOTH
-                            }
-                            else if (status == 0 && status1 == 1)
-                            {
-                              //ALERT DIALOG FOR CONTACT ONLY
-                            }
-                            else if (status == 1 && status1 == 0)
-                            {
-                              //ALERT DIALOG FOR ADDRESS ONLY
-                            }
-                            else if (status == 1 && status1 == 1)
-                            {
+                            // int status = await sdbHelper.checkVenueContact(int.parse(venuecontactController.text));
+                            // int status1 = await sdbHelper.checkVenueAddress(venueaddressController.text);
+                            // if (status == 0 && status1 == 0)
+                            // {
+                            //   //ALERT DIALOG FOR CONTACT AND ADDRESS BOTH
+                            // }
+                            // else if (status == 0 && status1 == 1)
+                            // {
+                            //   //ALERT DIALOG FOR CONTACT ONLY
+                            // }
+                            // else if (status == 1 && status1 == 0)
+                            // {
+                            //   //ALERT DIALOG FOR ADDRESS ONLY
+                            // }
+                            // else if (status == 1 && status1 == 1)
+                            // {
                               ///////////////////////////////////////////////
                               Venue v1 = Venue(venuenameController.text,
                                   int.parse(venueminpriceController.text),
@@ -482,7 +515,7 @@ class VenueFormState extends State<VenueForm>
                             {
                               debugPrint("FAILURE IN CHECKING VENUE'S UNIQUE CONSTRAINTS");
                             }
-                          }
+
                         },
 
 
@@ -514,5 +547,17 @@ class VenueFormState extends State<VenueForm>
   {
     Venue v = await sdbHelper.getVenuesMapList1(ownerid, cntctno);
     return v.venue_id;
+  }
+
+  Future<int> checkcontact (text) async{
+    int status = await sdbHelper.checkVenueContact(int.parse(venuecontactController.text));
+    return status;
+
+  }
+
+  Future<int> checkaddress (text) async{
+    int status1 = await sdbHelper.checkVenueAddress(venueaddressController.text);
+    return status1;
+
   }
 }

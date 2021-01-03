@@ -12,6 +12,7 @@ import 'package:shadihal/screens/LoginScreen.dart';
 import 'package:shadihal/screens/Signup.dart';
 import 'ContactUs.dart';
 import 'VenueList.dart';
+import 'AboutUs.dart';
 
 class homescreen extends StatefulWidget
 {
@@ -97,7 +98,7 @@ class Homestate extends State<homescreen>
                 title: Text('About Us',style: TextStyle(color: Colors.yellow),textScaleFactor: 1.2),
                 onTap: () {
                   // Update the state of the app.
-
+                  Get.to(aboutus());
                   // ...
                 },
               ),

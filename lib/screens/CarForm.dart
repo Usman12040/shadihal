@@ -31,6 +31,7 @@ class CarFormState extends State<CarForm>
   List<car> carList = List<car>();
   int sid;
   dbHelper sdbHelper = dbHelper();
+  String _regnoerror;
 
   CarFormState(this.sid);
 
@@ -184,6 +185,7 @@ class CarFormState extends State<CarForm>
                         hintText: 'e.g ABC-123',
                         hintStyle: TextStyle(color: Colors.grey),
                         labelStyle: TextStyle(color: Colors.white),
+                        errorText: _regnoerror,
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(5.0),
                         )
@@ -252,6 +254,22 @@ class CarFormState extends State<CarForm>
                   padding: EdgeInsets.only(top: 10.0,bottom:10.0),
 
                   child: TextFormField(
+                    onTap: () async{
+                      int xstatus = await checkregno();
+                      setState(() {
+
+                        if( xstatus == 0)
+                        {
+                          debugPrint("Contact mojoud he");
+                          _regnoerror= "This Contact Number Already exist";
+                        }
+                        else
+                        {
+                          _regnoerror= null;
+                        }
+
+                      });
+                    },
                     maxLength: 11,
                     keyboardType: TextInputType.number,
                     style: TextStyle(color: Colors.white),
@@ -428,7 +446,7 @@ class CarFormState extends State<CarForm>
 
                       onPressed: ()
                       {
-                        pickImages();
+                        //pickImages();
                       },
                     )]),
               SizedBox(
@@ -462,13 +480,13 @@ class CarFormState extends State<CarForm>
                         {
                           if(_formKey.currentState.validate())
                           {
-                            int status = await sdbHelper.checkCarRegno(CarNumberController.text);
-                            if (status == 0)
-                            {
-                              //ALERT DIALOG FOR CAR REG NO
-                            }
-                            else if (status == 1)
-                            {
+                            // int status = await sdbHelper.checkCarRegno(CarNumberController.text);
+                            // if (status == 0)
+                            // {
+                            //   //ALERT DIALOG FOR CAR REG NO
+                            // }
+                            // else if (status == 1)
+                            // {
                               ////////////////////////////////////////////////////
                               car c1 = car(CarnameController.text,
                                   CarmodelController.text,
@@ -493,7 +511,7 @@ class CarFormState extends State<CarForm>
                             {
                               debugPrint("FAILURE IN CHECKING RENT A CAR'S UNIQUE CONSTRAINTS");
                             }
-                          }
+
                         },
 
 
@@ -517,5 +535,10 @@ class CarFormState extends State<CarForm>
   {
     car cr = await sdbHelper.getCarMapList1(servid, regno);
     return cr.service_id;
+  }
+  Future<int> checkregno () async{
+    int status = await sdbHelper.checkCarRegno(CarNumberController.text);
+    return status;
+
   }
 }

@@ -19,6 +19,10 @@ class Signup extends StatefulWidget
 }
 class SignupState extends State<Signup>
 {
+  String _nicerror=null;
+  String _ownernameerror=null;
+  String _usernameerror=null;
+  String _usercontacterror=null;
   dbHelper sdbHelper = dbHelper();
   List<Owner> ownerList;
   int count = 0;
@@ -85,6 +89,7 @@ class SignupState extends State<Signup>
                                         hintText: 'Enter a unique Username',
                                         hintStyle: TextStyle(color: Colors.grey),
                                         labelStyle: TextStyle(color: Colors.white),
+                                        errorText: _usernameerror,
                                         border: OutlineInputBorder(
                                           borderRadius: BorderRadius.circular(5.0),
                                         )
@@ -97,10 +102,7 @@ class SignupState extends State<Signup>
                                       {
                                         return 'This Field is Required ';
                                       }
-                                      if(value=="Usman12040")
-                                      {
-                                        return 'Username already exist';
-                                      }
+
                                       return null;
                                     },
 
@@ -108,6 +110,22 @@ class SignupState extends State<Signup>
                                   )),
                               //password
                               TextFormField(
+                                onTap: () async{
+                                  int xstatus = await checkuser();
+                                  setState(() {
+
+                                    if( xstatus == 0)
+                                    {
+                                      debugPrint("Username mojoud he");
+                                      _usernameerror= "This Username Already exist";
+                                    }
+                                    else
+                                    {
+                                      _usernameerror= null;
+                                    }
+
+                                  });
+                                },
                                 style: TextStyle(color: Colors.white),
                                 obscureText: true,
                                 controller: userpasswordController,
@@ -139,6 +157,48 @@ class SignupState extends State<Signup>
                                   padding: EdgeInsets.only(top: 10.0,bottom:10.0),
 
                                   child: TextFormField(
+                                    keyboardType: TextInputType.number,
+                                    style: TextStyle(color: Colors.white),
+                                    controller: phonenoController,
+                                    decoration: InputDecoration(
+                                        labelText: 'Phone No',
+                                        hintText: 'Enter 11-Digit Phone Number',
+                                        hintStyle: TextStyle(color: Colors.grey),
+                                        labelStyle: TextStyle(color: Colors.white),
+                                        errorText: _usercontacterror,
+                                        border: OutlineInputBorder(
+                                          borderRadius: BorderRadius.circular(5.0),
+                                        )
+
+                                    ),
+                                    onChanged: (text)
+                                    {
+                                      debugPrint('$phonenoController');
+                                    },
+
+
+                                  )),
+                              Padding(
+
+                                  padding: EdgeInsets.only(top: 10.0,bottom:10.0),
+
+                                  child: TextFormField(
+                                    onTap: () async{
+                                      int xstatus = await checkcontact();
+                                      setState(() {
+
+                                        if( xstatus == 0)
+                                        {
+                                          debugPrint("Contact mojoud he");
+                                          _usercontacterror= "This Contact Number Already exist";
+                                        }
+                                        else
+                                        {
+                                          _usercontacterror= null;
+                                        }
+
+                                      });
+                                    },
                                     style: TextStyle(color: Colors.white),
                                     controller: fnameController,
                                     decoration: InputDecoration(
@@ -194,30 +254,7 @@ class SignupState extends State<Signup>
 
 
                                   )),
-                              Padding(
-                                  padding: EdgeInsets.only(top: 10.0,bottom:10.0),
 
-                          child: TextFormField(
-                            keyboardType: TextInputType.number,
-                            style: TextStyle(color: Colors.white),
-                            controller: phonenoController,
-                            decoration: InputDecoration(
-                                labelText: 'Phone No',
-                                hintText: 'Enter 11-Digit Phone Number',
-                                hintStyle: TextStyle(color: Colors.grey),
-                                labelStyle: TextStyle(color: Colors.white),
-                                border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(5.0),
-                                )
-
-                            ),
-                            onChanged: (text)
-                            {
-                              debugPrint('$phonenoController');
-                            },
-
-
-                          )),
                       Padding(
                           padding: EdgeInsets.only(top:20.0,left: 120.00,right: 120.00),
                           child: Builder(
@@ -234,20 +271,20 @@ class SignupState extends State<Signup>
                                 {
                                   if(_formKey.currentState.validate())
                                   {
-                                    int status = await sdbHelper.checkUserUsername(usernameController.text);
-                                    if (status == 0)
-                                    {
-                                      debugPrint("Failure2");
-                                    }
-                                    else
-                                    {
-                                      int status1 = await sdbHelper.checkUserPhoneNo(int.parse(phonenoController.text));
-                                      if(status1 == 0)
-                                      {
-                                        debugPrint("Failure3");
-                                      }
-                                      else
-                                      {
+                                    // int status = await sdbHelper.checkUserUsername(usernameController.text);
+                                    // if (status == 0)
+                                    // {
+                                    //   debugPrint("Failure2");
+                                    // }
+                                    // else
+                                    // {
+                                    //   int status1 = await sdbHelper.checkUserPhoneNo(int.parse(phonenoController.text));
+                                    //   if(status1 == 0)
+                                    //   {
+                                    //     debugPrint("Failure3");
+                                    //   }
+                                    //   else
+                                    //   {
                                         // If the form is valid, display a Snackbar.
                                         this.user.firstName = fnameController.text;
                                         this.user.lastName = lnameController.text;
@@ -257,8 +294,8 @@ class SignupState extends State<Signup>
                                         _insertuser(this.user);
                                         Scaffold.of(context).showSnackBar(SnackBar(content: Text('please wait')));
                                         Get.to(Login());
-                                      }
-                                    }
+
+
                                   }
                                 },
 
@@ -282,6 +319,7 @@ class SignupState extends State<Signup>
                                 labelStyle: TextStyle(color: Colors.white),
                                 hintText: 'Enter a unique Username',
                                 hintStyle: TextStyle(color: Colors.grey),
+                                errorText: _ownernameerror,
                                 border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(5.0),
                                 )
@@ -295,9 +333,6 @@ class SignupState extends State<Signup>
                               if (value.isEmpty) {
                                 return 'This Field is Required ';
                               }
-                              if(value == "Usman12040"){
-                                return 'Username already exist';
-                              }
                               return null;
                             },
 
@@ -305,6 +340,22 @@ class SignupState extends State<Signup>
                           )),
                       //password
                       TextFormField(
+                        onTap: () async{
+                          int xstatus = await checkowner();
+                          setState(() {
+
+                            if( xstatus == 0)
+                            {
+                              debugPrint("Owner mojoud he");
+                              _ownernameerror= "This Owner Already exist";
+                            }
+                            else
+                            {
+                              _ownernameerror= null;
+                            }
+
+                          });
+                        },
                         style: TextStyle(color: Colors.white),
                         obscureText: true,
                         controller: ownerpasswordController,
@@ -328,6 +379,82 @@ class SignupState extends State<Signup>
                           return null;
                         },
                       ),
+                      Padding(
+                          padding: EdgeInsets.only(top: 10.0,bottom:10.0),
+
+                          child: TextFormField(
+                            keyboardType: TextInputType.number,
+                            style: TextStyle(color: Colors.white),
+                            controller: NICController,
+                            decoration: InputDecoration(
+                                labelText: 'CNIC *',
+                                hintText: 'Enter Your CNIC',
+                                hintStyle: TextStyle(color: Colors.grey),
+                                labelStyle: TextStyle(color: Colors.white),
+                                errorText: _nicerror,
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(5.0),
+                                )
+
+                            ),
+                            onChanged: (text){
+                              debugPrint('$NICController');
+                            },
+                            validator: (value) {
+                              if (value.isEmpty) {
+                                return 'This Field is Required ';
+                              }
+                              return null;
+                            },
+
+
+                          )),
+                      Padding(
+                          padding: EdgeInsets.only(top: 10.0,bottom:10.0),
+
+                          child: TextFormField(
+                            onTap: () async{
+                              int xstatus = await checknic();
+                              setState(() {
+
+                                if( xstatus == 0)
+                                {
+                                  debugPrint("CNIC mojoud he");
+                                  _nicerror= "This CNIC Already exist";
+                                }
+                                else
+                                {
+                                  _nicerror= null;
+                                }
+
+                              });
+                            },
+                            keyboardType: TextInputType.number,
+                            style: TextStyle(color: Colors.white),
+                            controller: ophonenoController,
+                            decoration: InputDecoration(
+                                labelText: 'Phone No *',
+                                hintText: 'Enter 11-Digit Phone Number',
+                                hintStyle: TextStyle(color: Colors.grey),
+                                labelStyle: TextStyle(color: Colors.white),
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(5.0),
+                                )
+
+                            ),
+                            onChanged: (text)
+                            {
+                              debugPrint('$ophonenoController');
+                            },
+                            validator: (value) {
+                              if (value.isEmpty) {
+                                return 'This Field is Required ';
+                              }
+                              return null;
+                            },
+
+
+                          )),
                       Padding(
                           padding: EdgeInsets.only(top: 10.0,bottom:10.0),
 
@@ -384,65 +511,7 @@ class SignupState extends State<Signup>
 
 
                           )),
-                      Padding(
-                          padding: EdgeInsets.only(top: 10.0,bottom:10.0),
 
-                          child: TextFormField(
-                            keyboardType: TextInputType.number,
-                            style: TextStyle(color: Colors.white),
-                            controller: NICController,
-                            decoration: InputDecoration(
-                                labelText: 'CNIC *',
-                                hintText: 'Enter Your CNIC',
-                                hintStyle: TextStyle(color: Colors.grey),
-                                labelStyle: TextStyle(color: Colors.white),
-                                border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(5.0),
-                                )
-
-                            ),
-                            onChanged: (text){
-                              debugPrint('$NICController');
-                            },
-                            validator: (value) {
-                              if (value.isEmpty) {
-                                return 'This Field is Required ';
-                              }
-                              return null;
-                            },
-
-
-                          )),
-                      Padding(
-                          padding: EdgeInsets.only(top: 10.0,bottom:10.0),
-
-                          child: TextFormField(
-                            keyboardType: TextInputType.number,
-                            style: TextStyle(color: Colors.white),
-                            controller: ophonenoController,
-                            decoration: InputDecoration(
-                                labelText: 'Phone No *',
-                                hintText: 'Enter 11-Digit Phone Number',
-                                hintStyle: TextStyle(color: Colors.grey),
-                                labelStyle: TextStyle(color: Colors.white),
-                                border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(5.0),
-                                )
-
-                            ),
-                            onChanged: (text)
-                            {
-                              debugPrint('$ophonenoController');
-                            },
-                            validator: (value) {
-                              if (value.isEmpty) {
-                                return 'This Field is Required ';
-                              }
-                              return null;
-                            },
-
-
-                          )),
                       Padding(
                           padding: EdgeInsets.only(top:20.0,left: 120.00,right: 120.00),
                           child: Builder(
@@ -459,20 +528,20 @@ class SignupState extends State<Signup>
                                 {
                                   if(_formKey.currentState.validate())
                                   {
-                                    int status = await sdbHelper.checkOwnerUsername(ownernameController.text);
-                                    if (status == 0)
-                                    {
-                                      debugPrint("Failure");
-                                    }
-                                    else
-                                    {
-                                      int status1 = await sdbHelper.checkOwnerNic(int.parse(NICController.text));
-                                      if(status1 == 0)
-                                      {
-                                        debugPrint("Failure1");
-                                      }
-                                      else
-                                      {
+                                    // int status = await sdbHelper.checkOwnerUsername(ownernameController.text);
+                                    // if (status == 0)
+                                    // {
+                                    //   debugPrint("Failure");
+                                    // }
+                                    // else
+                                    // {
+                                    //   int status1 = await sdbHelper.checkOwnerNic(int.parse(NICController.text));
+                                    //   if(status1 == 0)
+                                    //   {
+                                    //     debugPrint("Failure1");
+                                    //   }
+                                    //   else
+                                    //   {
                                         this.owner.firstName = ofnameController.text;
                                         this.owner.lastName = olnameController.text;
                                         this.owner.userName = ownernameController.text;
@@ -483,8 +552,8 @@ class SignupState extends State<Signup>
                                         Scaffold.of(context).showSnackBar(SnackBar(content: Text('please wait')));
                                         Get.to(Login());
                                       }
-                                    }
-                                  }
+
+
                                 },
 
 
@@ -520,6 +589,32 @@ class SignupState extends State<Signup>
   {
     await sdbHelper.insertUser(user);
   }
+  Future<int> checkuser () async{
+
+    int status = await sdbHelper.checkUserUsername(usernameController.text);
+    return status;
+
+  }
+  Future<int> checkowner () async{
+
+    int status = await sdbHelper.checkOwnerUsername(ownernameController.text);
+    return status;
+
+  }
+  Future<int> checkcontact () async{
+
+      int status1 = await sdbHelper.checkUserPhoneNo(int.parse(phonenoController.text));
+      return status1;
+
+
+  }
+  Future<int> checknic () async{
+
+    int status1 = await sdbHelper.checkOwnerNic(int.parse(NICController.text));
+    return status1;
+
+  }
+
 
 
 }

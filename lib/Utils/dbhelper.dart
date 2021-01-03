@@ -659,7 +659,7 @@ class dbHelper
   Future<int> checkVenueAddress (String addr) async
   {
     Database db = await this.database;
-    List<Map<String, dynamic>> x = await db.rawQuery('SELECT * FROM $vtablename WHERE $vaddress = $addr');
+    List<Map<String, dynamic>> x = await db.rawQuery('SELECT * FROM $vtablename WHERE $vaddress = "$addr"');
     int result;
     if (x.length > 0)
     {
@@ -760,7 +760,7 @@ class dbHelper
   Future<int> checkRentServiceAddress (String addr) async
   {
     Database db = await this.database;
-    List<Map<String, dynamic>> x = await db.rawQuery('SELECT * FROM $rtablename WHERE $raddress = $addr');
+    List<Map<String, dynamic>> x = await db.rawQuery('SELECT * FROM $rtablename WHERE $raddress = "$addr"');
     int result;
     if (x.length > 0)
     {
@@ -843,7 +843,7 @@ class dbHelper
   Future<int> checkCarRegno (String rgno) async
   {
     Database db = await this.database;
-    List<Map<String, dynamic>> x = await db.rawQuery('SELECT * FROM $ctablename WHERE $cregno = $rgno');
+    List<Map<String, dynamic>> x = await db.rawQuery('SELECT * FROM $ctablename WHERE $cregno = "$rgno"');
     int result;
     if (x.length > 0)
     {
@@ -1027,7 +1027,7 @@ class dbHelper
   Future<int> checkCateringAddress (String addr) async
   {
     Database db = await this.database;
-    List<Map<String, dynamic>> x = await db.rawQuery('SELECT * FROM $cat_tablename WHERE $cat_address = $addr');
+    List<Map<String, dynamic>> x = await db.rawQuery('SELECT * FROM $cat_tablename WHERE $cat_address = "$addr"');
     int result;
     if (x.length > 0)
     {

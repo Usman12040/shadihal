@@ -33,6 +33,8 @@ class CateringFormState extends State<CateringForm>
   // not a GlobalKey<MyCustomFormState>.
   final _formKey = GlobalKey<FormState>();
 
+  String _addresserrorText= null;
+  String _contacterrorText= null;
   TextEditingController CaternameController = TextEditingController();
   TextEditingController CatercontactController = TextEditingController();
   TextEditingController CaterareaController = TextEditingController();
@@ -79,7 +81,7 @@ class CateringFormState extends State<CateringForm>
                         //return 'This venue already exist';
                       //}
                       if(value.length>20){
-                        return 'Venue name should be less than 20';
+                        return 'Catering name should be less than 20';
                       }
                       return null;
                     },
@@ -96,13 +98,28 @@ class CateringFormState extends State<CateringForm>
                     labelStyle: TextStyle(color: Colors.white),
                     hintText: 'Enter your 11-Digit Phone No.',
                     hintStyle: TextStyle(color: Colors.grey),
+                    errorText: _contacterrorText,
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(5.0),
                     )
 
                 ),
-                onChanged: (text){
-                  //debugPrint('$text');
+
+                onChanged: (String text) async
+                {
+                  int xstatus = await checkcontact(text);
+                  setState(()
+                  {
+                    if( xstatus == 0)
+                    {
+                      debugPrint("Contact mojoud he");
+                      _contacterrorText= "This Contact Number Already exist";
+                    }
+                    else
+                    {
+                      _contacterrorText= null;
+                    }
+                  });
                 },
                 validator: (value) {
                   if (value.isEmpty) {
@@ -191,14 +208,27 @@ class CateringFormState extends State<CateringForm>
                         hintText: 'Enter full Address ',
                         hintStyle: TextStyle(color: Colors.grey),
                         labelStyle: TextStyle(color: Colors.white),
+                        errorText: _addresserrorText,
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(5.0),
                         )
 
                     ),
-                    onChanged: (text)
+                    onChanged: (String text) async
                     {
-                      debugPrint('$CateraddressController');
+                      int xstatus = await checkaddress(text);
+                      setState(()
+                      {
+                        if( xstatus == 0)
+                        {
+                          debugPrint("Address mojoud he");
+                          _addresserrorText= "This Address Already exist";
+                        }
+                        else
+                        {
+                          _addresserrorText= null;
+                        }
+                      });
                     },
                     validator: (value) {
                       if (value.isEmpty) {
@@ -266,22 +296,26 @@ class CateringFormState extends State<CateringForm>
                         {
                           if(_formKey.currentState.validate())
                           {
-                            int status = await sdbHelper.checkCateringContact(int.parse(CatercontactController.text));
-                            int status1 = await sdbHelper.checkCateringAddress(CateraddressController.text);
-                            if (status == 0 && status1 == 0)
-                            {
-                              //ALERT DIALOG FOR CONTACT AND ADDRESS BOTH
-                            }
-                            else if (status == 0 && status1 == 1)
-                            {
-                              //ALERT DIALOG FOR CONTACT ONLY
-                            }
-                            else if (status == 1 && status1 == 0)
-                            {
-                              //ALERT DIALOG FOR ADDRESS ONLY
-                            }
-                            else if (status == 1 && status1 == 1)
-                            {
+                            // int status = await sdbHelper.checkCateringContact(int.parse(CatercontactController.text));
+                            // int status1 = await sdbHelper.checkCateringAddress(CateraddressController.text);
+                            // if (status == 0 && status1 == 0)
+                            // {
+                            //   //ALERT DIALOG FOR CONTACT AND ADDRESS BOTH
+                            //
+                            //
+                            // }
+                            // else if (status == 0 && status1 == 1)
+                            // {
+                            //   //ALERT DIALOG FOR CONTACT ONLY
+                            //   debugPrint("Contact already");
+                            //
+                            // }
+                            // else if (status == 1 && status1 == 0)
+                            // {
+                            //   //ALERT DIALOG FOR ADDRESS ONLY
+                            // }
+                            // else if (status == 1 && status1 == 1)
+                            // {
                               ////////////////////////////////////////////////////
                               catering caterS = catering(CaternameController.text, int.parse(CatercontactController.text), CaterareaController.text , CateraddressController.text, int.parse(CaterpriceController.text), CaterdescriptionController.text, this.owner.owner_id);
                               ////////////////////////////////////////////////////
@@ -292,7 +326,7 @@ class CateringFormState extends State<CateringForm>
                             {
                               debugPrint("FAILURE IN CHECKING CATERING'S UNIQUE CONSTRAINTS");
                             }
-                          }
+
                         },
 
 
@@ -316,5 +350,16 @@ class CateringFormState extends State<CateringForm>
   {
     catering ct = await sdbHelper.getCateringMapList1(ownerid, cntctno);
     return ct.caterer_id;
+  }
+  Future<int> checkcontact (text) async{
+    int status = await sdbHelper.checkCateringContact(int.parse(text));
+    return status;
+
+  }
+
+  Future<int> checkaddress (text) async{
+    int status1 = await sdbHelper.checkCateringAddress(CateraddressController.text);
+    return status1;
+
   }
 }
