@@ -267,10 +267,8 @@ class SignupState extends State<Signup>
                                   textScaleFactor: 1.5,
                                 ),
 
-                                onPressed: () async
-                                {
-                                  if(_formKey.currentState.validate())
-                                  {
+                                onPressed: () async{
+
                                     // int status = await sdbHelper.checkUserUsername(usernameController.text);
                                     // if (status == 0)
                                     // {
@@ -285,6 +283,24 @@ class SignupState extends State<Signup>
                                     //   }
                                     //   else
                                     //   {
+
+                                   if(_formKey.currentState.validate())
+                                   {
+                                  //   int status = await sdbHelper.checkUserUsername(usernameController.text);
+                                  //   if (status == 0)
+                                  //   {
+                                  //     debugPrint("Failure2");
+                                  //   }
+                                  //   else
+                                  //   {
+                                  //     int status1 = await sdbHelper.checkUserPhoneNo(int.parse(phonenoController.text));
+                                  //     if(status1 == 0)
+                                  //     {
+                                  //       debugPrint("Failure3");
+                                  //     }
+                                  //     else
+                                  //     {
+
                                         // If the form is valid, display a Snackbar.
                                         this.user.firstName = fnameController.text;
                                         this.user.lastName = lnameController.text;
@@ -296,7 +312,11 @@ class SignupState extends State<Signup>
                                         Get.to(Login());
 
 
+
                                   }
+
+
+
                                 },
 
 
@@ -552,6 +572,8 @@ class SignupState extends State<Signup>
                                         Scaffold.of(context).showSnackBar(SnackBar(content: Text('please wait')));
                                         Get.to(Login());
                                       }
+
+
 
 
                                 },

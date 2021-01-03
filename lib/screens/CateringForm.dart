@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
-
+import 'package:get/get.dart';
+import 'AddImage.dart';
 import '../Models/Owner.dart';
 import '../Models/catering.dart';
 import '../Utils/dbhelper.dart';
 import 'dart:async';
+
+
 
 class CateringForm extends StatefulWidget 
 {
@@ -301,14 +304,19 @@ class CateringFormState extends State<CateringForm>
                             // if (status == 0 && status1 == 0)
                             // {
                             //   //ALERT DIALOG FOR CONTACT AND ADDRESS BOTH
+
                             //
                             //
+
+
                             // }
                             // else if (status == 0 && status1 == 1)
                             // {
                             //   //ALERT DIALOG FOR CONTACT ONLY
+
                             //   debugPrint("Contact already");
                             //
+
                             // }
                             // else if (status == 1 && status1 == 0)
                             // {
@@ -321,6 +329,8 @@ class CateringFormState extends State<CateringForm>
                               ////////////////////////////////////////////////////
                               _insertcatservice(caterS);
                               int x = await _getId(caterS.owner_id, caterS.price);
+
+                              Get.to(AddImage(this.owner, x));
                             }
                             else
                             {

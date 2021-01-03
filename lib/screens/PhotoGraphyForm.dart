@@ -3,7 +3,8 @@ import 'dart:async';
 import '../Models/Owner.dart';
 import '../Models/photography.dart';
 import '../Utils/dbhelper.dart';
-
+import 'package:get/get.dart';
+import 'AddImage.dart';
 
 
 class PhotographyForm extends StatefulWidget
@@ -207,8 +208,6 @@ class PhotographyFormState extends State<PhotographyForm>
 
                         onPressed: () async
                         {
-                          if(_formKey.currentState.validate())
-                          {
                             // int status = await sdbHelper.checkPhotographyContact(int.parse(PhotocontactController.text));
                             // if (status == 0)
                             // {
@@ -216,11 +215,24 @@ class PhotographyFormState extends State<PhotographyForm>
                             // }
                             // else if(status == 1)
                             // {
+
+                           if(_formKey.currentState.validate())
+                           {
+                          //   int status = await sdbHelper.checkPhotographyContact(int.parse(PhotocontactController.text));
+                          //   if (status == 0)
+                          //   {
+                          //     //ALERT DIALOG FOR CONTACT AND ADDRESS BOTH
+                          //   }
+                          //   else if(status == 1)
+                          //   {
+
                               ////////////////////////////////////////////////////
                               photography photo = photography(PhotonameController.text, int.parse(PhotocontactController.text), int.parse(PhotopriceController.text), PhotodescriptionController.text, this.owner.owner_id);
                               ////////////////////////////////////////////////////
                               _insertphotography(photo);
                               int x = await _getId(photo.owner_id, photo.phone_no);
+
+                              Get.to(AddImage(this.owner, x));
                             }
                             else
                             {

@@ -543,7 +543,7 @@ class VenueFormState extends State<VenueForm>
 
                               _insertvenue(v1);
                               int x = await _getId(v1.owner_id, v1.contact_no);
-                              Get.to(AddImage(this.owner, x));
+                              Get.to(AddImage(this.owner, x ));
                             }
                             else
                             {

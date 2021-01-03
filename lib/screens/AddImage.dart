@@ -12,13 +12,16 @@ class AddImage extends StatefulWidget
 {
   final Owner owner;
   int ser_id;
+  int cid;
 
-  AddImage(this.owner,this.ser_id);
+  AddImage(this.owner,this.ser_id, [this.cid]);
 
   @override
   AddImageState createState()
   {
-    return AddImageState(this.owner,this.ser_id);
+    debugPrint("TESTPOINT 1");
+    debugPrint(this.cid.runtimeType.toString());
+    return AddImageState(this.owner,this.ser_id, this.cid);
   }
 }
 
@@ -32,21 +35,23 @@ class AddImageState extends State<AddImage>
   dbHelper sdbHelper;
   List<Photo> images;
   Owner owner;
+  int cid;
 
-  AddImageState(this.owner,this.ser_id);
+  AddImageState(this.owner , this.ser_id, [this.cid]);
 
   @override
   void initState()
   {
+
     super.initState();
     images = [];
     sdbHelper = dbHelper();
-    refreshImages(this.owner.owner_id, this.ser_id);
+    refreshImages(this.owner.owner_id, this.ser_id, this.cid);
   }
 
-  refreshImages(int ownerid, int serviceid)
+  refreshImages(int ownerid, int serviceid, [int cid])
   {
-    sdbHelper.getPhotos(ownerid, serviceid).then((imgs)
+    sdbHelper.getPhotos(ownerid, serviceid, cid).then((imgs)
     {
       setState(()
       {
@@ -56,14 +61,14 @@ class AddImageState extends State<AddImage>
     });
   }
 
-  pickImageFromGallery()
+  pickImageFromGallery(int cid)
   {
     ImagePicker.pickImage(source: ImageSource.gallery).then((imgFile)
     {
       String imgString = Utility.base64String( imgFile.readAsBytesSync() );
-      Photo photo = Photo(imgString, ser_id, this.owner.owner_id);
+      Photo photo = Photo(imgString, ser_id, this.owner.owner_id, cid);
       sdbHelper.save(photo);
-      refreshImages(photo.owner_id, photo.service_id);
+      refreshImages(photo.owner_id, photo.service_id, photo.c_id);
     });
   }
 
@@ -87,6 +92,8 @@ class AddImageState extends State<AddImage>
   @override
   Widget build(BuildContext context)
   {
+    debugPrint("TESTPOINT 2");
+    debugPrint(this.cid.runtimeType.toString());
     return Scaffold(
         appBar: AppBar(
             title: Text("Add Image"),
@@ -96,7 +103,7 @@ class AddImageState extends State<AddImage>
                   icon: Icon(Icons.add),
                   onPressed: ()
                   {
-                    pickImageFromGallery();
+                    pickImageFromGallery(this.cid);
                   },
               )
             ],

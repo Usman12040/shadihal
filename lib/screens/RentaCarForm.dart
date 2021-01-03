@@ -10,7 +10,8 @@ import 'package:multi_image_picker/multi_image_picker.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:shadihal/Models/Owner.dart';
 import 'package:shadihal/Models/car.dart';
-
+import 'package:get/get.dart';
+import 'AddImage.dart';
 
 import '../Models/Rent_a_car.dart';
 import '../Utils/dbhelper.dart';
@@ -341,16 +342,25 @@ class RentaCarFormState extends State<RentaCarForm>
                               _insertRentService(r1);
                               serviceid = await _getId(r1.owner_id, r1.contact_no);
 
+
                               //Get.to(CarForm(serviceid));
 
-                              Get.to(CarForm(serviceid, this.owner));
+                             // Get.to(CarForm(serviceid, this.owner));
+
+                              Get.to(AddImage(this.owner, serviceid));
+                              //Get.to(CarForm(serviceid, this.owner));
 
                             }
                             else
                             {
                               debugPrint("FAILURE IN CHECKING RENT A CAR'S UNIQUE CONSTRAINTS");
                             }
+
                           }
+
+
+
+
 
 
                       },

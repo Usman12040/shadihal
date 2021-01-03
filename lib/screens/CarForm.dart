@@ -8,6 +8,8 @@ import 'package:image_picker/image_picker.dart';
 import 'package:multi_image_picker/multi_image_picker.dart';
 import '../Utils/dbhelper.dart';
 import 'package:shadihal/Models/Owner.dart';
+import 'package:get/get.dart';
+import 'AddImage.dart';
 
 
 class CarForm extends StatefulWidget
@@ -510,6 +512,8 @@ class CarFormState extends State<CarForm>
                               int x = await _getId (c1.service_id, c1.reg_no);
                               debugPrint("TESTING POINT 3");
                               debugPrint(x.toString());
+
+                              Get.to(AddImage(this.owner, this.sid, x));
                             }
                             else
                             {
