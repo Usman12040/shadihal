@@ -591,6 +591,13 @@ class dbHelper
 
   //VENUE CRUD OPERATIONS
   //GET OPERATIONS
+  Future<List<Map<String, dynamic>>> getVenuesMapList2() async
+  {
+    Database db = await this.database;
+    var result = await db.rawQuery('SELECT * FROM $vtablename');
+    return result;
+  }
+
   Future<List<Map<String, dynamic>>> getVenuesMapList(int ownerid) async
   {
     Database db = await this.database;
@@ -649,7 +656,20 @@ class dbHelper
     {
       venueList.add(Venue.fromMapObject(venueMapList[i]));
     }
+    return venueList;
+  }
 
+  Future<List<Venue>> getVenueList1 () async
+  {
+    var venueMapList = await getVenuesMapList2();
+    int count = venueMapList.length;
+
+    List<Venue> venueList = List<Venue>();
+
+    for(int i=0; i<count; i++)
+    {
+      venueList.add(Venue.fromMapObject(venueMapList[i]));
+    }
     return venueList;
   }
 
@@ -691,6 +711,13 @@ class dbHelper
 
   //RENT A CAR CRUD OPERATIONS
   //GET OPERATIONS
+  Future<List<Map<String, dynamic>>> getRentServiceMapList2() async
+  {
+    Database db = await this.database;
+    var result = await db.rawQuery('SELECT * FROM $rtablename');
+    return result;
+  }
+
   Future<List<Map<String, dynamic>>> getrRentServiceMapList(int ownerid) async
   {
     Database db = await this.database;
@@ -739,6 +766,21 @@ class dbHelper
   }
 
   //RENT A CAR RETRIEVE OPERATIONS
+  Future<List<rent_a_Car>> getRentServiceList1 () async
+  {
+    var RentServiceMapList = await getRentServiceMapList2();
+    int count = RentServiceMapList.length;
+
+    List<rent_a_Car> rentServiceList = List<rent_a_Car>();
+
+    for(int i=0; i<count; i++)
+    {
+      rentServiceList.add(rent_a_Car.fromMapObject(RentServiceMapList[i]));
+    }
+
+    return rentServiceList;
+  }
+
   Future<List<rent_a_Car>> getRentServiceList (int ownerid) async
   {
     var RentServiceMapList = await getrRentServiceMapList(ownerid);
@@ -875,6 +917,13 @@ class dbHelper
 
   //PHOTOGRAPHY CRUD OPERATIONS
   //GET OPERATIONS
+  Future<List<Map<String, dynamic>>> getPhotographyMapList2() async
+  {
+    Database db = await this.database;
+    var result = await db.rawQuery('SELECT * FROM $p_tablename');
+    return result;
+  }
+
   Future<List<Map<String, dynamic>>> getPhotographyMapList(int ownerid) async
   {
     Database db = await this.database;
@@ -923,6 +972,21 @@ class dbHelper
   }
 
   //PHOTOGRAPHY RETRIEVE OPERATIONS
+  Future<List<photography>> getPhotographyList1 ( ) async
+  {
+    var photographyMapList = await getPhotographyMapList2();
+    int count = photographyMapList.length;
+
+    List<photography> photographyList = List<photography>();
+
+    for(int i=0; i<count; i++)
+    {
+      photographyList.add(photography.fromMapObject(photographyMapList[i]));
+    }
+
+    return photographyList;
+  }
+
   Future<List<photography>> getPhotographyList (int ownerid) async
   {
     var photographyMapList = await getPhotographyMapList(ownerid);
@@ -958,6 +1022,13 @@ class dbHelper
 
   //CATERING CRUD OPERATIONS
   //GET OPERATIONS
+  Future<List<Map<String, dynamic>>> getCateringMapList2() async
+  {
+    Database db = await this.database;
+    var result = await db.rawQuery('SELECT * FROM $cat_tablename');
+    return result;
+  }
+
   Future<List<Map<String, dynamic>>> getCateringMapList(int ownerid) async
   {
     Database db = await this.database;
@@ -1006,6 +1077,21 @@ class dbHelper
   }
 
   //CATERING RETRIEVE OPERATIONS
+  Future<List<catering>> getCateringList1 () async
+  {
+    var cateringMapList = await getCateringMapList2();
+    int count = cateringMapList.length;
+
+    List<catering> cateringList = List<catering>();
+
+    for(int i=0; i<count; i++)
+    {
+      cateringList.add(catering.fromMapObject(cateringMapList[i]));
+    }
+
+    return cateringList;
+  }
+
   Future<List<catering>> getCateringList (int ownerid) async
   {
     var cateringMapList = await getCateringMapList(ownerid);
