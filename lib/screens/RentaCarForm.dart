@@ -277,16 +277,19 @@ class RentaCarFormState extends State<RentaCarForm>
 
                       onPressed: () async
                       {
-                        if (carList == null)
+                        if (carList.isEmpty)
                         {
+                          debugPrint("Usman Jani 1");
                           if(_formKey.currentState.validate())
                           {
+                            debugPrint("Usman Jani");
                             rent_a_Car r1 = rent_a_Car(rentnameController.text, int.parse(rentcontactController.text), rentareaController.text, rentaddressController.text, rentoffhrsController.text, rentdescriptionController.text, owner.owner_id);
                             _insertRentService(r1);
                             serviceid = await _getId(r1.owner_id, r1.contact_no);
+                            Get.to(CarForm(serviceid));
                           }
                         }
-                        Get.to(CarForm(serviceid));
+
                       },
                     )]),
           SizedBox(

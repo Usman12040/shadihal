@@ -443,6 +443,8 @@ class VenueFormState extends State<VenueForm>
                         {
                           if(_formKey.currentState.validate())
                           {
+
+                            ///////////////////////////////////////////////
                             Venue v1 = Venue(venuenameController.text,
                                 int.parse(venueminpriceController.text),
                                 int.parse(venuemaxpriceController.text),
@@ -454,6 +456,9 @@ class VenueFormState extends State<VenueForm>
                                 int.parse(venuecapacityController.text),
                                 venuedescriptionController.text,
                                 this.owner.owner_id);
+                            ////////////////////////////////////////////////
+
+
                             _insertvenue(v1);
                             int x = await _getId(v1.owner_id, v1.contact_no);
                             Get.to(AddImage(this.owner, x));

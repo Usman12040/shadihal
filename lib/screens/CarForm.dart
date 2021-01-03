@@ -14,12 +14,12 @@ class CarForm extends StatefulWidget
 {
   int serviceid;
 
-  CarForm(serviceid);
+  CarForm(this.serviceid);
 
   @override
   CarFormState createState()
   {
-    return CarFormState(serviceid);
+    return CarFormState(this.serviceid);
   }
 }
 
@@ -32,7 +32,7 @@ class CarFormState extends State<CarForm>
   int sid;
   dbHelper sdbHelper = dbHelper();
 
-  CarFormState(sid);
+  CarFormState(this.sid);
 
   void initState()
   {
@@ -86,6 +86,9 @@ class CarFormState extends State<CarForm>
   Widget build(BuildContext context)
   {
     // Build a Form widget using the _formKey created above.
+    debugPrint("Testing Point");
+    debugPrint(this.sid.toString());
+
     return  Scaffold(
         backgroundColor: Colors.black,
         appBar: AppBar(
@@ -459,9 +462,23 @@ class CarFormState extends State<CarForm>
                         {
                           if(_formKey.currentState.validate())
                           {
-                            car c1 = car(CarnameController.text, CarmodelController.text, CarNumberController.text,  int.parse(CarseatController.text), double.parse(CarmileageController.text), CarcolorController.text, int.parse(CarrentController.text), CarfuelController.text, CartransmissionController.text, sid);
-                            _insertCar (c1);
+                            car c1 = car(CarnameController.text,
+                                        CarmodelController.text,
+                                        CarNumberController.text,
+                                        int.parse(CarseatController.text),
+                                        double.parse(CarmileageController.text),
+                                        CarcolorController.text,
+                                        int.parse(CarrentController.text),
+                                        CarfuelController.text,
+                                        CartransmissionController.text,
+                                        this.sid);
+
+                            debugPrint("TESTING POINT 2");
+                            debugPrint(c1.service_id.toString());
+                            _insertcar (c1);
                             int x = await _getId (c1.service_id, c1.reg_no);
+                            debugPrint("TESTING POINT 3");
+                            debugPrint(x.toString());
                           }
                         },
 
@@ -477,7 +494,7 @@ class CarFormState extends State<CarForm>
         ));
   }
 
-  void _insertCar (car c) async
+  void _insertcar (car c) async
   {
     await sdbHelper.insertCar(c);
   }

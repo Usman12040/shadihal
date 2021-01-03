@@ -92,7 +92,7 @@ class car
     }
     map['car_name'] = _car_name;
     map['model'] = _model;
-    map['reg_no'] = _reg_no;
+    map['registration_number'] = _reg_no;
     map['seats'] = _seats;
     map['mileage'] = _mileage;
     map['color'] = _color;
@@ -110,7 +110,7 @@ class car
     this._car_id = map['car_id'];
     this._car_name = map['car_name'];
     this._model = map['model'];
-    this._reg_no = map['reg_no'];
+    this._reg_no = map['registration_number'];
     this._seats = map['seats'];
     this._mileage = map['mileage'];
     this._color = map['color'];

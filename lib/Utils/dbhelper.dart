@@ -12,23 +12,9 @@ import 'package:shadihal/Models/Owner.dart';
 import 'package:shadihal/Models/Photo.dart';
 
 import '../Models/Rent_a_car.dart';
-import '../Models/Rent_a_car.dart';
-import '../Models/Rent_a_car.dart';
-import '../Models/catering.dart';
-import '../Models/catering.dart';
-import '../Models/catering.dart';
-import '../Models/catering.dart';
-import '../Models/catering.dart';
 import '../Models/catering.dart';
 import '../Models/photography.dart';
-import '../Models/photography.dart';
-import '../Models/photography.dart';
-import '../Models/photography.dart';
-import '../Models/photography.dart';
-import '../Models/photography.dart';
-import '../Models/photography.dart';
-import '../Models/photography.dart';
-import '../Models/photography.dart';
+
 
 class dbHelper
 {
@@ -94,7 +80,7 @@ class dbHelper
   String cfueltype = "fuel_type"	;
   String ctransmission = "transmission"	;
   String cfkey = "service_id"	;
-  String cregno = 'registration number';
+  String cregno = 'registration_number';
 
   //CATERING COLUMNS
   String cat_tablename = "catering" 	 ;
@@ -652,6 +638,42 @@ class dbHelper
     return venueList;
   }
 
+  Future<int> checkVenueContact (int cntctno) async
+  {
+    Database db = await this.database;
+    List<Map<String, dynamic>> x = await db.rawQuery('SELECT * FROM $vtablename WHERE $vcontact = $cntctno');
+    int result;
+    if (x.length > 0)
+    {
+      //Contact no found in databse, Hence restrict
+      result = 0;
+    }
+    else
+    {
+      result = 1;
+    }
+
+    return result;
+  }
+
+  Future<int> checkVenueAddress (String addr) async
+  {
+    Database db = await this.database;
+    List<Map<String, dynamic>> x = await db.rawQuery('SELECT * FROM $vtablename WHERE $vaddress = $addr');
+    int result;
+    if (x.length > 0)
+    {
+      //Address found in databse, Hence restrict
+      result = 0;
+    }
+    else
+    {
+      result = 1;
+    }
+
+    return result;
+  }
+
   //RENT A CAR CRUD OPERATIONS
   //GET OPERATIONS
   Future<List<Map<String, dynamic>>> getrRentServiceMapList(int ownerid) async
@@ -717,6 +739,42 @@ class dbHelper
     return rentServiceList;
   }
 
+  Future<int> checkRentServiceContact (int cntctno) async
+  {
+    Database db = await this.database;
+    List<Map<String, dynamic>> x = await db.rawQuery('SELECT * FROM $rtablename WHERE $rcontact = $cntctno');
+    int result;
+    if (x.length > 0)
+    {
+      //Contact no found in databse, Hence restrict
+      result = 0;
+    }
+    else
+    {
+      result = 1;
+    }
+
+    return result;
+  }
+
+  Future<int> checkRentServiceAddress (String addr) async
+  {
+    Database db = await this.database;
+    List<Map<String, dynamic>> x = await db.rawQuery('SELECT * FROM $rtablename WHERE $raddress = $addr');
+    int result;
+    if (x.length > 0)
+    {
+      //Address found in databse, Hence restrict
+      result = 0;
+    }
+    else
+    {
+      result = 1;
+    }
+
+    return result;
+  }
+
   //CAR CRUD OPERATIONS
   //GET OPERATIONS
   Future<List<Map<String, dynamic>>> getCarMapList(int serviceid) async
@@ -724,6 +782,14 @@ class dbHelper
     Database db = await this.database;
     var result = await db.rawQuery('SELECT * FROM $ctablename WHERE $cfkey = $serviceid');
     return result;
+  }
+
+  Future<car> getCarMapList1(int servid, String regno) async
+  {
+    Database db = await this.database;
+    var result = await db.rawQuery('SELECT * FROM $ctablename WHERE $cfkey = $servid AND $cregno = "$regno"');
+    car ca = car.fromMapObject(result[0]);
+    return ca;
   }
 
   //INSERT OPERATIONS
@@ -774,12 +840,22 @@ class dbHelper
     return carList;
   }
 
-  Future<car> getCarMapList1(int servid, String regno) async
+  Future<int> checkCarRegno (String rgno) async
   {
     Database db = await this.database;
-    var result = await db.rawQuery('SELECT * FROM $ctablename WHERE $cfkey = $servid AND $cregno = $regno');
-    car ca = car.fromMapObject(result[0]);
-    return ca;
+    List<Map<String, dynamic>> x = await db.rawQuery('SELECT * FROM $ctablename WHERE $cregno = $rgno');
+    int result;
+    if (x.length > 0)
+    {
+      //Registration number found in databse, Hence restrict
+      result = 0;
+    }
+    else
+    {
+      result = 1;
+    }
+
+    return result;
   }
 
   //PHOTOGRAPHY CRUD OPERATIONS
@@ -847,6 +923,24 @@ class dbHelper
     return photographyList;
   }
 
+  Future<int> checkPhotographyContact (int cntctno) async
+  {
+    Database db = await this.database;
+    List<Map<String, dynamic>> x = await db.rawQuery('SELECT * FROM $p_tablename WHERE $p_contact = $cntctno');
+    int result;
+    if (x.length > 0)
+    {
+      //Contact no found in databse, Hence restrict
+      result = 0;
+    }
+    else
+    {
+      result = 1;
+    }
+
+    return result;
+  }
+
   //CATERING CRUD OPERATIONS
   //GET OPERATIONS
   Future<List<Map<String, dynamic>>> getCateringMapList(int ownerid) async
@@ -896,7 +990,7 @@ class dbHelper
     return result;
   }
 
-  //PHOTOGRAPHY RETRIEVE OPERATIONS
+  //CATERING RETRIEVE OPERATIONS
   Future<List<catering>> getCateringList (int ownerid) async
   {
     var cateringMapList = await getCateringMapList(ownerid);
@@ -910,5 +1004,41 @@ class dbHelper
     }
 
     return cateringList;
+  }
+
+  Future<int> checkCateringContact (int cntctno) async
+  {
+    Database db = await this.database;
+    List<Map<String, dynamic>> x = await db.rawQuery('SELECT * FROM $cat_tablename WHERE $cat_contact = $cntctno');
+    int result;
+    if (x.length > 0)
+    {
+      //Contact no found in databse, Hence restrict
+      result = 0;
+    }
+    else
+    {
+      result = 1;
+    }
+
+    return result;
+  }
+
+  Future<int> checkPhotographyAddress (String addr) async
+  {
+    Database db = await this.database;
+    List<Map<String, dynamic>> x = await db.rawQuery('SELECT * FROM $cat_tablename WHERE $cat_address = $addr');
+    int result;
+    if (x.length > 0)
+    {
+      //Address found in databse, Hence restrict
+      result = 0;
+    }
+    else
+    {
+      result = 1;
+    }
+
+    return result;
   }
 }

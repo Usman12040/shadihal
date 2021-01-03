@@ -7,15 +7,18 @@ import 'package:sqflite/sqflite.dart';
 import 'package:shadihal/Models/User.dart';
 import 'package:get/get.dart';
 
-class Signup extends StatefulWidget{
+class Signup extends StatefulWidget
+{
   @override
-  State<StatefulWidget> createState() {
+  State<StatefulWidget> createState()
+  {
     // TODO: implement createState
     return SignupState();
   }
 
 }
-class SignupState extends State<Signup>{
+class SignupState extends State<Signup>
+{
   dbHelper sdbHelper = dbHelper();
   List<Owner> ownerList;
   int count = 0;
@@ -38,7 +41,8 @@ class SignupState extends State<Signup>{
   final _formKey = GlobalKey<FormState>();
   
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context)
+  {
 
     if (ownerList == null)
     {
@@ -87,11 +91,14 @@ class SignupState extends State<Signup>{
 
                                     ),
 
-                                    validator: (value) {
-                                      if (value.isEmpty) {
+                                    validator: (value)
+                                    {
+                                      if (value.isEmpty)
+                                      {
                                         return 'This Field is Required ';
                                       }
-                                      if(value=="Usman12040"){
+                                      if(value=="Usman12040")
+                                      {
                                         return 'Username already exist';
                                       }
                                       return null;
@@ -115,11 +122,14 @@ class SignupState extends State<Signup>{
                                     )
 
                                 ),
-                                onChanged: (text){
+                                onChanged: (text)
+                                {
                                   //debugPrint('$text');
                                 },
-                                validator: (value) {
-                                  if (value.isEmpty) {
+                                validator: (value)
+                                {
+                                  if (value.isEmpty)
+                                  {
                                     return 'This Field is Required ';
                                   }
                                   return null;
@@ -141,11 +151,14 @@ class SignupState extends State<Signup>{
                                         )
 
                                     ),
-                                    onChanged: (text){
+                                    onChanged: (text)
+                                    {
                                       debugPrint('$fnameController');
                                     },
-                                    validator: (value) {
-                                      if (value.isEmpty) {
+                                    validator: (value)
+                                    {
+                                      if (value.isEmpty)
+                                      {
                                         return 'This Field is Required ';
                                       }
                                       return null;
@@ -170,8 +183,10 @@ class SignupState extends State<Signup>{
 
                                     ),
 
-                                    validator: (value){
-                                      if (value.isEmpty){
+                                    validator: (value)
+                                    {
+                                      if (value.isEmpty)
+                                      {
                                         return 'This Field is Required ';
                                       }
                                       return null;
@@ -196,7 +211,8 @@ class SignupState extends State<Signup>{
                                 )
 
                             ),
-                            onChanged: (text){
+                            onChanged: (text)
+                            {
                               debugPrint('$phonenoController');
                             },
 
