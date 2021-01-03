@@ -191,10 +191,23 @@ class PhotographyFormState extends State<PhotographyForm>
                         {
                           if(_formKey.currentState.validate())
                           {
-                            photography photo = photography(PhotonameController.text, int.parse(PhotocontactController.text), int.parse(PhotopriceController.text), PhotodescriptionController.text, this.owner.owner_id);
-                            _insertphotography(photo);
-                            int x = await _getId(photo.owner_id, photo.phone_no);
-
+                            int status = await sdbHelper.checkPhotographyContact(int.parse(PhotocontactController.text));
+                            if (status == 0)
+                            {
+                              //ALERT DIALOG FOR CONTACT AND ADDRESS BOTH
+                            }
+                            else if(status == 1)
+                            {
+                              ////////////////////////////////////////////////////
+                              photography photo = photography(PhotonameController.text, int.parse(PhotocontactController.text), int.parse(PhotopriceController.text), PhotodescriptionController.text, this.owner.owner_id);
+                              ////////////////////////////////////////////////////
+                              _insertphotography(photo);
+                              int x = await _getId(photo.owner_id, photo.phone_no);
+                            }
+                            else
+                            {
+                              debugPrint("FAILURE IN CHECKING PHOTOGRAPHY'S UNIQUE CONSTRAINTS");
+                            }
                           }
                         },
 

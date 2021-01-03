@@ -1024,7 +1024,7 @@ class dbHelper
     return result;
   }
 
-  Future<int> checkPhotographyAddress (String addr) async
+  Future<int> checkCateringAddress (String addr) async
   {
     Database db = await this.database;
     List<Map<String, dynamic>> x = await db.rawQuery('SELECT * FROM $cat_tablename WHERE $cat_address = $addr');

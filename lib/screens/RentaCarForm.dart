@@ -282,11 +282,34 @@ class RentaCarFormState extends State<RentaCarForm>
                           debugPrint("Usman Jani 1");
                           if(_formKey.currentState.validate())
                           {
-                            debugPrint("Usman Jani");
-                            rent_a_Car r1 = rent_a_Car(rentnameController.text, int.parse(rentcontactController.text), rentareaController.text, rentaddressController.text, rentoffhrsController.text, rentdescriptionController.text, owner.owner_id);
-                            _insertRentService(r1);
-                            serviceid = await _getId(r1.owner_id, r1.contact_no);
-                            Get.to(CarForm(serviceid));
+                            int status = await sdbHelper.checkRentServiceContact(int.parse(rentcontactController.text));
+                            int status1 = await sdbHelper.checkRentServiceAddress(rentaddressController.text);
+                            if (status == 0 && status1 == 0)
+                            {
+                              //ALERT DIALOG FOR CONTACT AND ADDRESS BOTH
+                            }
+                            else if (status == 0 && status1 == 1)
+                            {
+                              //ALERT DIALOG FOR CONTACT ONLY
+                            }
+                            else if (status == 1 && status1 == 0)
+                            {
+                              //ALERT DIALOG FOR ADDRESS ONLY
+                            }
+                            else if (status == 1 && status1 == 1)
+                            {
+                              debugPrint("Usman Jani");
+                              ////////////////////////////////////////////////////
+                              rent_a_Car r1 = rent_a_Car(rentnameController.text, int.parse(rentcontactController.text), rentareaController.text, rentaddressController.text, rentoffhrsController.text, rentdescriptionController.text, owner.owner_id);
+                              ////////////////////////////////////////////////////
+                              _insertRentService(r1);
+                              serviceid = await _getId(r1.owner_id, r1.contact_no);
+                              Get.to(CarForm(serviceid));
+                            }
+                            else
+                            {
+                              debugPrint("FAILURE IN CHECKING RENT A CAR'S UNIQUE CONSTRAINTS");
+                            }
                           }
                         }
 

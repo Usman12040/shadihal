@@ -462,23 +462,37 @@ class CarFormState extends State<CarForm>
                         {
                           if(_formKey.currentState.validate())
                           {
-                            car c1 = car(CarnameController.text,
-                                        CarmodelController.text,
-                                        CarNumberController.text,
-                                        int.parse(CarseatController.text),
-                                        double.parse(CarmileageController.text),
-                                        CarcolorController.text,
-                                        int.parse(CarrentController.text),
-                                        CarfuelController.text,
-                                        CartransmissionController.text,
-                                        this.sid);
+                            int status = await sdbHelper.checkCarRegno(CarNumberController.text);
+                            if (status == 0)
+                            {
+                              //ALERT DIALOG FOR CAR REG NO
+                            }
+                            else if (status == 1)
+                            {
+                              ////////////////////////////////////////////////////
+                              car c1 = car(CarnameController.text,
+                                  CarmodelController.text,
+                                  CarNumberController.text,
+                                  int.parse(CarseatController.text),
+                                  double.parse(CarmileageController.text),
+                                  CarcolorController.text,
+                                  int.parse(CarrentController.text),
+                                  CarfuelController.text,
+                                  CartransmissionController.text,
+                                  this.sid);
+                              ////////////////////////////////////////////////////
 
-                            debugPrint("TESTING POINT 2");
-                            debugPrint(c1.service_id.toString());
-                            _insertcar (c1);
-                            int x = await _getId (c1.service_id, c1.reg_no);
-                            debugPrint("TESTING POINT 3");
-                            debugPrint(x.toString());
+                              debugPrint("TESTING POINT 2");
+                              debugPrint(c1.service_id.toString());
+                              _insertcar (c1);
+                              int x = await _getId (c1.service_id, c1.reg_no);
+                              debugPrint("TESTING POINT 3");
+                              debugPrint(x.toString());
+                            }
+                            else
+                            {
+                              debugPrint("FAILURE IN CHECKING RENT A CAR'S UNIQUE CONSTRAINTS");
+                            }
                           }
                         },
 
