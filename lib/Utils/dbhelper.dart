@@ -122,6 +122,13 @@ class dbHelper
   String img_fkey1 = 'owner_id';
   String img_fkey2 = "c_id";
 
+  //CALENDAR COLUMNS
+  String venreg_table = "venue_registration";
+  String venreg_id = "id"	;
+  String venreg_date = "date"	;
+  String venreg_fkey1 = "user_id"	;
+  String venreg_fkey2 = "service_id";
+
   dbHelper._createInstance();
 
   factory dbHelper ()
@@ -309,6 +316,18 @@ class dbHelper
           FOREIGN KEY($img_fkey2) REFERENCES  $ctablename ($cid) ON DELETE CASCADE
           );
           """
+    );
+
+    await db.execute(
+        """CREATE TABLE $venreg_table (
+            $venreg_id	INTEGER NOT NULL,
+            $venreg_date	DATE NOT NULL,
+            $venreg_fkey1	INTEGER,
+            $venreg_fkey2	NUMERIC,
+            FOREIGN KEY($venreg_fkey1) REFERENCES $utablename ($ucolid),
+            FOREIGN KEY($venreg_fkey2) REFERENCES $vtablename($vid),
+            PRIMARY KEY($venreg_id AUTOINCREMENT)
+        )"""
     );
 
   }
@@ -552,6 +571,7 @@ class dbHelper
   }
 
   //IMAGE CRUD OPERATIONS
+    //INSERT OPERATION
     Future<int> save(Photo employee) async
     {
     var dbClient = await this.database;
@@ -559,6 +579,7 @@ class dbHelper
     return result;
     }
 
+    //IMAGE RETRIEVAL OPERATION
     Future<List<Photo>> getPhotos(int ownerid, int serviceid, [int cid]) async
     {
       List<Photo> employees = [];
@@ -642,6 +663,15 @@ class dbHelper
     List<Map<String, dynamic>> x = await db.rawQuery('SELECT COUNT(*) FROM $vtablename where $vfkey = $ownerid');
     int result = Sqflite.firstIntValue(x);
     return result;
+  }
+
+  //GET AVERAGE PRICE OF VENUES
+  Future<double> getVenuePriceAvg () async
+  {
+    Database db = await this.database;
+    List<Map<String, dynamic>> x = await db.rawQuery('SELECT AVG($vpricelb) FROM $vtablename');
+    int result = Sqflite.firstIntValue(x);
+    return result.toDouble();
   }
 
   //VENUE RETRIEVE OPERATIONS
@@ -763,6 +793,15 @@ class dbHelper
     List<Map<String, dynamic>> x = await db.rawQuery('SELECT COUNT(*) FROM $rtablename where $rfkey = $ownerid');
     int result = Sqflite.firstIntValue(x);
     return result;
+  }
+
+  //GET AVERAGE PRICE OF VENUES
+  Future<double> getRentSericePriceAvg () async
+  {
+    Database db = await this.database;
+    List<Map<String, dynamic>> x = await db.rawQuery('SELECT AVG($crentperday) FROM $ctablename');
+    int result = Sqflite.firstIntValue(x);
+    return result.toDouble();
   }
 
   //RENT A CAR RETRIEVE OPERATIONS
@@ -971,6 +1010,15 @@ class dbHelper
     return result;
   }
 
+  //GET AVERAGE PRICE OF VENUES
+  Future<double> getPhotographyPriceAvg () async
+  {
+    Database db = await this.database;
+    List<Map<String, dynamic>> x = await db.rawQuery('SELECT AVG($p_price) FROM $p_tablename');
+    int result = Sqflite.firstIntValue(x);
+    return result.toDouble();
+  }
+
   //PHOTOGRAPHY RETRIEVE OPERATIONS
   Future<List<photography>> getPhotographyList1 ( ) async
   {
@@ -1074,6 +1122,15 @@ class dbHelper
     List<Map<String, dynamic>> x = await db.rawQuery('SELECT COUNT(*) FROM $cat_tablename where $cat_fkey = $ownerid');
     int result = Sqflite.firstIntValue(x);
     return result;
+  }
+
+  //GET AVERAGE PRICE OF VENUES
+  Future<double> getCatringPriceAvg () async
+  {
+    Database db = await this.database;
+    List<Map<String, dynamic>> x = await db.rawQuery('SELECT AVG($cat_price) FROM $cat_tablename');
+    int result = Sqflite.firstIntValue(x);
+    return result.toDouble();
   }
 
   //CATERING RETRIEVE OPERATIONS
