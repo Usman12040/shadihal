@@ -30,13 +30,14 @@ class ownervenueliststate extends State<OwnerVenueList>
   @override
   Widget build(BuildContext context)
   {
-    if (vlist == null) {
+    if (vlist == null)
+    {
       vlist = List<Venue>();
       updateListView();
     }
    return Scaffold(
       appBar: AppBar(
-        title: Text(this.owner.firstName+'VENUES'),
+        title: Text(this.owner.firstName+ ' '+'VENUES'),
       ),
       body: getVenueListView(),
        floatingActionButton: FloatingActionButton(

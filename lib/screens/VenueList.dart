@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:sqflite/sqflite.dart';
 import 'VenueDetails.dart';
 import 'package:shadihal/Models/Owner.dart';
 import 'package:shadihal/Utils/dbhelper.dart';
@@ -13,10 +14,16 @@ class VenueList extends StatefulWidget{
   }
 
 }
-class VenueListState extends State<VenueList>{
+class VenueListState extends State<VenueList> {
+  int count = 0;
+  dbHelper sdbhelper = dbHelper();
+  List <Venue> vlist;
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
+    if (vlist == null) {
+      vlist = List<Venue>();
+      updateListView();
+    }
     return Scaffold(
       backgroundColor: Colors.black,
       appBar: AppBar(
@@ -25,27 +32,41 @@ class VenueListState extends State<VenueList>{
       ),
       body: ListVenue(),
     );
+  }
+  void updateListView() {
+    final Future<Database> dbFuture = sdbhelper.initDb();
+    dbFuture.then((database) {
+      Future<List<Venue>> l1 = sdbhelper.
+      l1.then((vList) {
+        setState(() {
+          this.vlist = vList;
+          this.count = vList.length;
+        });
+      });
+    });
+  }
+
+  ListView ListVenue() {
+    // return ListView(
+    //   children: <Widget>[
+    //     Card(
+    //
+    //     child:Container(
+    //       color: Colors.deepPurple,
+    //       child:ListTile(
+    //       leading: Icon(Icons.description),
+    //       title: Text("Beach Luxury Hotel",style: TextStyle(color: Colors.white),),
+    //       onTap: (){
+    //         Get.to(VenueDetail());
+    //
+    // }
+    //     )))
+    //
+    //
+    //   ],
+    // );
 
   }
 
-}
-ListView ListVenue() {
-  return ListView(
-    children: <Widget>[
-      Card(
 
-      child:Container(
-        color: Colors.deepPurple,
-        child:ListTile(
-        leading: Icon(Icons.description),
-        title: Text("Beach Luxury Hotel",style: TextStyle(color: Colors.white),),
-        onTap: (){
-          Get.to(VenueDetail());
-
-  }
-      )))
-
-
-    ],
-  );
 }
