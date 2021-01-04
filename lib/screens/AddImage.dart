@@ -8,6 +8,7 @@ import 'package:shadihal/Utils/imgutility.dart';
 import 'package:shadihal/screens/OwnerProfile.dart';
 import 'package:shadihal/screens/OwnerVenuelist.dart';
 import 'package:get/get.dart';
+import 'dart:async';
 
 class AddImage extends StatefulWidget
 {
@@ -33,8 +34,10 @@ class AddImageState extends State<AddImage>
   int ser_id;
   Future<File> imageFile;
   Image image;
+
   dbHelper sdbHelper;
   List<Photo> images;
+  List<Photo> images1;
   Owner owner;
   int cid;
 
@@ -147,5 +150,16 @@ class AddImageState extends State<AddImage>
             ),
         ),
       );
+    }
+
+    Future<List<Image>> getServiceImages (int ownerid, int serviceid) async
+    {
+      List<Photo> serimage = await sdbHelper.getPhotos(ownerid, serviceid);
+      List<Image> img1 = images1.map((serimage)
+      {
+        return Utility.imageFromBase64String(serimage.photo_name);
+      }).toList();
+      //List<Image> abc = images1;
+      return img1;
     }
   }
