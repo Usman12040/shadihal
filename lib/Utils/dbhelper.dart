@@ -661,14 +661,14 @@ class dbHelper
 
   Future<List<Venue>> getVenueList1 () async
   {
-    var venueMapList = await getVenuesMapList2();
-    int count = venueMapList.length;
+    var venueMapList1 = await getVenuesMapList2();
+    int count = venueMapList1.length;
 
     List<Venue> venueList = List<Venue>();
 
     for(int i=0; i<count; i++)
     {
-      venueList.add(Venue.fromMapObject(venueMapList[i]));
+      venueList.add(Venue.fromMapObject(venueMapList1[i]));
     }
     return venueList;
   }

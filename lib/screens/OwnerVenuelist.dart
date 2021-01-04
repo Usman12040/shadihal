@@ -116,6 +116,7 @@ class ownervenueliststate extends State<OwnerVenueList>
               child: Icon(Icons.delete, color: Colors.grey,),
               onTap: () {
                 _delete(context, this.vlist[position]);
+                updateListView();
               },
             ),
 

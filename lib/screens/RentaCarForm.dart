@@ -18,14 +18,14 @@ import '../Utils/dbhelper.dart';
 
 class RentaCarForm extends StatefulWidget
 {
-  Owner owner;
-
-  RentaCarForm(this.owner);
+ final Owner owner;
+  final rent_a_Car rent;
+  RentaCarForm(this.owner,[this.rent]);
 
   @override
   RentaCarFormState createState()
   {
-    return RentaCarFormState(this.owner);
+    return RentaCarFormState(this.owner, this.rent);
   }
 }
 
@@ -36,11 +36,12 @@ class RentaCarFormState extends State<RentaCarForm>
   String _addresserror;
   String _contacterror;
   Owner owner;
+  rent_a_Car rent;
   dbHelper sdbHelper = dbHelper();
   List<car> carList = List<car>();
   int serviceid;
 
-  RentaCarFormState(this.owner);
+  RentaCarFormState(this.owner,[this.rent]);
 
   // Create a global key that uniquely identifies the Form widget
   // and allows validation of the form
@@ -57,6 +58,15 @@ class RentaCarFormState extends State<RentaCarForm>
   @override
   Widget build(BuildContext context) 
   {
+    if(this.rent.isNull==false){
+      rentnameController.text = this.rent.service_name;
+      rentcontactController.text = "0"+this.rent.contact_no.toString();
+      rentareaController.text = this.rent.area;
+      rentaddressController.text = this.rent.address;
+      rentoffhrsController.text = this.rent.office_hrs;
+      rentdescriptionController.text= this.rent.description;
+
+    }
     // Build a Form widget using the _formKey created above.
     return  Scaffold(
         backgroundColor: Colors.black,
@@ -404,7 +414,12 @@ class RentaCarFormState extends State<RentaCarForm>
 
   void _insertRentService (rent_a_Car r) async
   {
-    await sdbHelper.insertRentService(r);
+    if(this.rent.isNull==false){
+      sdbHelper.updateRentService(r);
+    }
+    else {
+      await sdbHelper.insertRentService(r);
+    }
   }
 
   Future<int> _getId (int ownerid, int cntctno) async

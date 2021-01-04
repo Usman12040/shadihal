@@ -10,13 +10,14 @@ import 'AddImage.dart';
 class PhotographyForm extends StatefulWidget
 {
   final Owner owner;
+  final photography photo;
 
-  PhotographyForm(this.owner);
+  PhotographyForm(this.owner,[this.photo]);
 
   @override
   PhotographyFormState createState()
   {
-    return PhotographyFormState(this.owner);
+    return PhotographyFormState(this.owner,this.photo);
   }
 }
 
@@ -25,23 +26,30 @@ class PhotographyForm extends StatefulWidget
 class PhotographyFormState extends State<PhotographyForm>
 {
   Owner owner;
+  photography photo;
   dbHelper sdbHelper = dbHelper();
 
-  PhotographyFormState(this.owner);
+  PhotographyFormState(this.owner,[this.photo]);
 
   // Create a global key that uniquely identifies the Form widge
   // and allows validation of the form.
   // Note: This is a `GlobalKey<FormState>`,
   // not a GlobalKey<MyCustomFormState>.
   final _formKey = GlobalKey<FormState>();
-  String _contacterror;
+  String _contacterror=null;
   TextEditingController PhotonameController = TextEditingController();
   TextEditingController PhotocontactController = TextEditingController();
   TextEditingController PhotopriceController = TextEditingController();
   TextEditingController PhotodescriptionController = TextEditingController();
   @override
   Widget build(BuildContext context) {
+  if(this.photo.isNull==false){
+    PhotonameController.text = this.photo.service_name;
+    PhotocontactController.text ="0"+this.photo.phone_no.toString();
+    PhotopriceController.text = this.photo.price.toString();
+    PhotodescriptionController.text=this.photo.description;
 
+  }
     // Build a Form widget using the _formKey created above.
     return  Scaffold(
         backgroundColor: Colors.black,
@@ -255,7 +263,12 @@ class PhotographyFormState extends State<PhotographyForm>
 
   void _insertphotography (photography ph) async
   {
-    await sdbHelper.insertPhotographyService(ph);
+    if(this.photo.isNull==false){
+      sdbHelper.updatePhotographyService(ph);
+    }
+    else {
+      await sdbHelper.insertPhotographyService(ph);
+    }
   }
 
   Future<int> _getId (int ownerid, int cntctno) async

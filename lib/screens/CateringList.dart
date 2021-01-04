@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:shadihal/Models/catering.dart';
+import 'package:shadihal/Utils/dbhelper.dart';
+import 'package:sqflite/sqflite.dart';
 
 class CateringList extends StatefulWidget{
   @override
@@ -8,23 +11,62 @@ class CateringList extends StatefulWidget{
   }
 
 }
-class CateringListState extends State<CateringList>{
+class CateringListState extends State<CateringList> {
+  int count = 0;
+  dbHelper sdbhelper = dbHelper();
+  List <catering> vlist;
+
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
+    if (vlist == null) {
+      vlist = List<catering>();
+      updateListView();
+    }
     return Scaffold(
       appBar: AppBar(
         title: Text("Catering"),
 
       ),
-      //body: ListVenue(),
+      body: ListCat(),
     );
-
+  }
+  void updateListView() {
+    final Future<Database> dbFuture = sdbhelper.initDb();
+    dbFuture.then((database) {
+      Future<List<catering>> l1 = sdbhelper.getCateringList1();
+      l1.then((vList) {
+        setState(() {
+          this.vlist = vList;
+          this.count = vList.length;
+        });
+      });
+    });
   }
 
-}
-ListView ListVenue() {
-  return ListView(
-    children: <Widget>[],
-  );
+
+  ListView ListCat() {
+    return ListView.builder(
+      itemCount: count,
+      itemBuilder: (BuildContext context, int position) {
+        return Card(
+          color: Colors.white,
+          elevation: 2.0,
+          child: ListTile(
+
+            leading: Image(image: AssetImage("assets/Catering.jpg"),
+            ),
+
+            title: Text(this.vlist[position].caterer_name),
+
+            subtitle: Text("Starting from"+" "+this.vlist[position].price.toString()),
+            onTap: () {
+              debugPrint("ListTile Tapped");
+              //  Get.to(VenueDetail(this.vlist[position]));
+            },
+
+          ),
+        );
+      },
+    );
+  }
 }

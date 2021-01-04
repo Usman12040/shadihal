@@ -76,7 +76,7 @@ class VenueFormState extends State<VenueForm>
       venuemaxpriceController.text = this.venue.priceub.toString();
       venueminpriceController.text = this.venue.pricelb.toString();
       venueoffhrsController.text = this.venue.office_hrs;
-      venuecontactController.text = this.venue.contact_no.toString();
+      venuecontactController.text = "0"+this.venue.contact_no.toString();
       venuetypeController.text = this.venue.type;
     }
 

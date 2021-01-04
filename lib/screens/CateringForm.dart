@@ -11,12 +11,13 @@ import 'dart:async';
 class CateringForm extends StatefulWidget 
 {
   final Owner owner;
+  final catering cat;
 
-  CateringForm(this.owner);
+  CateringForm(this.owner,[this.cat]);
   @override
   CateringFormState createState() 
   {
-    return CateringFormState(this.owner);
+    return CateringFormState(this.owner,this.cat);
   }
 }
 
@@ -25,9 +26,10 @@ class CateringForm extends StatefulWidget
 class CateringFormState extends State<CateringForm>
 {
   Owner owner;
+  catering cat;
   dbHelper sdbHelper = dbHelper();
   
-  CateringFormState(this.owner);
+  CateringFormState(this.owner,[this.cat]);
 
   // Create a global key that uniquely identifies the Form widget
   // and allows validation of the form.
@@ -46,6 +48,15 @@ class CateringFormState extends State<CateringForm>
   TextEditingController CaterpriceController = TextEditingController();
   @override
   Widget build(BuildContext context) {
+    if(this.cat.isNull==false){
+      CaternameController.text = this.cat.caterer_name;
+      CatercontactController.text = "0"+this.cat.phone_no.toString();
+      CaterareaController.text = this.cat.area;
+      CateraddressController.text = this.cat.address;
+      CaterdescriptionController.text = this.cat.description;
+      CaterpriceController.text = this.cat.price.toString();
+
+    }
 
     // Build a Form widget using the _formKey created above.
     return  Scaffold(
@@ -329,8 +340,8 @@ class CateringFormState extends State<CateringForm>
                               ////////////////////////////////////////////////////
                               _insertcatservice(caterS);
                               int x = await _getId(caterS.owner_id, caterS.price);
+                              Get.to(AddImage(this.owner, x ));
 
-                              Get.to(AddImage(this.owner, x));
                             }
                             else
                             {
@@ -353,7 +364,12 @@ class CateringFormState extends State<CateringForm>
 
   void _insertcatservice (catering c1) async
   {
+    if(this.cat.isNull==false){
+    sdbHelper.updateCateringService(c1);
+  }
+  else {
     await sdbHelper.insertCateringService(c1);
+  }
   }
 
   Future<int> _getId (int ownerid, int cntctno) async

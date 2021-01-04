@@ -5,6 +5,7 @@ import 'dart:io';
 import 'package:shadihal/Models/Owner.dart';
 import 'package:shadihal/Models/Photo.dart';
 import 'package:shadihal/Utils/imgutility.dart';
+import 'package:shadihal/screens/OwnerProfile.dart';
 import 'package:shadihal/screens/OwnerVenuelist.dart';
 import 'package:get/get.dart';
 
@@ -37,6 +38,7 @@ class AddImageState extends State<AddImage>
   Owner owner;
   int cid;
 
+
   AddImageState(this.owner , this.ser_id, [this.cid]);
 
   @override
@@ -47,6 +49,10 @@ class AddImageState extends State<AddImage>
     images = [];
     sdbHelper = dbHelper();
     refreshImages(this.owner.owner_id, this.ser_id, this.cid);
+    List<Image> img1= images.map((photo)
+    {
+      return Utility.imageFromBase64String(photo.photo_name);
+    }).toList();
   }
 
   refreshImages(int ownerid, int serviceid, [int cid])
@@ -129,7 +135,8 @@ class AddImageState extends State<AddImage>
 
                           onPressed: ()
                           {
-                            Get.to(OwnerVenueList(this.owner));
+                            Navigator.pop(context);
+                            Navigator.pop(context);
                           },
 
 

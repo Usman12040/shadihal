@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:shadihal/Models/Photo.dart';
 import 'package:sqflite/sqflite.dart';
 import 'VenueDetails.dart';
 import 'package:shadihal/Models/Owner.dart';
@@ -18,6 +19,7 @@ class VenueListState extends State<VenueList> {
   int count = 0;
   dbHelper sdbhelper = dbHelper();
   List <Venue> vlist;
+  List <Photo> images;
   @override
   Widget build(BuildContext context) {
     if (vlist == null) {
@@ -36,7 +38,7 @@ class VenueListState extends State<VenueList> {
   void updateListView() {
     final Future<Database> dbFuture = sdbhelper.initDb();
     dbFuture.then((database) {
-      Future<List<Venue>> l1 = sdbhelper.
+      Future<List<Venue>> l1 = sdbhelper.getVenueList1();
       l1.then((vList) {
         setState(() {
           this.vlist = vList;
@@ -65,6 +67,29 @@ class VenueListState extends State<VenueList> {
     //
     //   ],
     // );
+    return ListView.builder(
+      itemCount: count,
+      itemBuilder: (BuildContext context, int position) {
+        return Card(
+          color: Colors.white,
+          elevation: 2.0,
+          child: ListTile(
+
+            leading: Image(image: AssetImage("assets/venue.jpg"),
+            ),
+
+            title: Text(this.vlist[position].venue_name),
+
+            subtitle: Text("Starting from"+" "+this.vlist[position].pricelb.toString()),
+            onTap: () {
+              debugPrint("ListTile Tapped");
+              Get.to(VenueDetail(this.vlist[position]));
+            },
+
+          ),
+        );
+      },
+    );
 
   }
 
