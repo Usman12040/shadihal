@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:shadihal/Models/Rent_a_car.dart';
 import 'package:shadihal/Utils/dbhelper.dart';
 import 'package:sqflite/sqflite.dart';
+
+import 'RentaCarDetail.dart';
 class RentaCarList extends StatefulWidget{
   @override
   State<StatefulWidget> createState() {
@@ -26,6 +29,7 @@ class RentaCarListState extends State<RentaCarList> {
     }
     // TODO: implement build
     return Scaffold(
+      backgroundColor: Colors.black,
       appBar: AppBar(
         title: Text("Rent A Car"),
 
@@ -62,7 +66,7 @@ class RentaCarListState extends State<RentaCarList> {
             subtitle: Text(this.vlist[position].contact_no.toString()),
             onTap: () {
               debugPrint("ListTile Tapped");
-              //  Get.to(VenueDetail(this.vlist[position]));
+              Get.to(RentDetail(this.vlist[position]));
             },
 
           ),

@@ -3,7 +3,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:shadihal/Models/Photo.dart';
+import 'package:shadihal/Models/Rent_a_car.dart';
 import 'package:shadihal/Models/Venue.dart';
+import 'package:shadihal/Models/catering.dart';
 import 'package:shadihal/Utils/dbhelper.dart';
 import 'package:shadihal/screens/AddImage.dart';
 import 'package:shadihal/Utils/imgutility.dart';
@@ -11,24 +13,25 @@ import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-class VenueDetail extends StatefulWidget{
-  Venue venue;
-  
-  VenueDetail(this.venue);
-  
+class RentDetail extends StatefulWidget{
+  rent_a_Car _rent_a_car;
+
+  RentDetail(this._rent_a_car);
+
   @override
   State<StatefulWidget> createState() {
-    return VenueDetailState(this.venue);
+    return RentDetailState(this._rent_a_car);
   }
 
 }
-class VenueDetailState extends State<VenueDetail>{
+class RentDetailState extends State<RentDetail>{
   DateTime selectedDate;
   int count =0;
-  AddImage imghelper= AddImage(null,0);
+  rent_a_Car _rent_a_car;
+  AddImage img;
   dbHelper sdbhelper = dbHelper();
-  Venue venue;
-  VenueDetailState(this.venue);
+  catering cat;
+  RentDetailState(this._rent_a_car);
   List <Image> vlist;
   @override
   Widget build(BuildContext context) {
@@ -39,56 +42,35 @@ class VenueDetailState extends State<VenueDetail>{
     // }
 
     var description= Container(
-      child: Text(this.venue.description,
-        style: TextStyle(color: Colors.yellow),
-        textAlign: TextAlign.justify,
-        textScaleFactor: 1.5,
-      ),
-    );
-    var pricemin= Container(
-      child: Text(this.venue.pricelb.toString(),
-        style: TextStyle(color: Colors.yellow),
-        textAlign: TextAlign.justify,
-        textScaleFactor: 1.5,
-      ),
-    );
-    var pricemax= Container(
-      child: Text(this.venue.priceub.toString(),
+      child: Text(this._rent_a_car.description,
         style: TextStyle(color: Colors.yellow),
         textAlign: TextAlign.justify,
         textScaleFactor: 1.5,
       ),
     );
     var phone= Container(
-      child: Text("0"+this.venue.contact_no.toString(),
+      child: Text("0"+this._rent_a_car.contact_no.toString(),
         style: TextStyle(color: Colors.yellow),
         textAlign: TextAlign.justify,
         textScaleFactor: 1.5,
       ),
     );
     var offhrs= Container(
-      child: Text(this.venue.office_hrs,
+      child: Text(this._rent_a_car.office_hrs,
         style: TextStyle(color: Colors.yellow),
         textAlign: TextAlign.justify,
         textScaleFactor: 1.5,
       ),
     );
     var area= Container(
-      child: Text(this.venue.area,
+      child: Text(this._rent_a_car.area,
         style: TextStyle(color: Colors.yellow),
         textAlign: TextAlign.justify,
         textScaleFactor: 1.5,
       ),
     );
     var address= Container(
-      child: Text(this.venue.address,
-        style: TextStyle(color: Colors.yellow),
-        textAlign: TextAlign.justify,
-        textScaleFactor: 1.5,
-      ),
-    );
-    var capacity= Container(
-      child: Text(this.venue.capacity.toString(),
+      child: Text(this._rent_a_car.address,
         style: TextStyle(color: Colors.yellow),
         textAlign: TextAlign.justify,
         textScaleFactor: 1.5,
@@ -97,7 +79,7 @@ class VenueDetailState extends State<VenueDetail>{
     return Scaffold(
       backgroundColor: Colors.black,
       appBar: AppBar(
-        title: Text(this.venue.venue_name),
+        title: Text(this._rent_a_car.service_name),
 
       ),
       body: ListView(
@@ -106,43 +88,11 @@ class VenueDetailState extends State<VenueDetail>{
           Container(
             margin:EdgeInsets.only(top:20.0),
             height: 30.0,
-          child:Text("Description",
-            style: TextStyle(color: Colors.white),
-            textAlign: TextAlign.start,
-            textScaleFactor: 1.5,),),
+            child:Text("Description",
+              style: TextStyle(color: Colors.white),
+              textAlign: TextAlign.start,
+              textScaleFactor: 1.5,),),
           description,
-          Container(
-            margin: EdgeInsets.only(top:50.0),
-            height: 30.0,
-            child:Text("Minimum Price",
-              style: TextStyle(color: Colors.white),
-              textAlign: TextAlign.start,
-              textScaleFactor: 1.5,),),
-          pricemin,
-          Container(
-            margin: EdgeInsets.only(top:50.0),
-            height: 30.0,
-            child:Text("Maximum Price",
-              style: TextStyle(color: Colors.white),
-              textAlign: TextAlign.start,
-              textScaleFactor: 1.5,),),
-          pricemax,
-          Container(
-            margin: EdgeInsets.only(top:50.0),
-            height: 30.0,
-            child:Text("Office Hours",
-              style: TextStyle(color: Colors.white),
-              textAlign: TextAlign.start,
-              textScaleFactor: 1.5,),),
-          offhrs,
-          Container(
-            margin: EdgeInsets.only(top:50.0,),
-            height: 30.0,
-            child:Text("Capacity",
-              style: TextStyle(color: Colors.white),
-              textAlign: TextAlign.start,
-              textScaleFactor: 1.5,),),
-          capacity,
           Container(
             margin: EdgeInsets.only(top:50.0),
             height: 30.0,
@@ -168,18 +118,14 @@ class VenueDetailState extends State<VenueDetail>{
               textScaleFactor: 1.5,),),
           phone,
           Container(
-            margin: EdgeInsets.only(bottom:30.0,top:30.0,left:50.0,right: 50.0),
-             height: 50.0,
+            margin: EdgeInsets.only(top:50.0),
+            height: 30.0,
+            child:Text("Office Hours",
+              style: TextStyle(color: Colors.white),
+              textAlign: TextAlign.start,
+              textScaleFactor: 1.5,),),
+          offhrs,
 
-          child: RaisedButton(
-
-            color: Colors.deepPurple,
-              child: Text("Book Now",textScaleFactor: 1.5,style: TextStyle(color: Colors.white),),
-
-              onPressed:() {
-                _selectDate(context);
-              }
-          )),
           Container(
               margin: EdgeInsets.only(bottom:30.0,top:30.0,left:50.0,right: 50.0),
               height: 50.0,
@@ -190,17 +136,9 @@ class VenueDetailState extends State<VenueDetail>{
                   child: Text("Call Now",textScaleFactor: 1.5,style: TextStyle(color: Colors.white),),
 
                   onPressed:() {
-                    launch("tel:"+"0"+this.venue.contact_no.toString());
+                    launch("tel:"+"0"+this._rent_a_car.contact_no.toString());
                   }
               ))
-
-
-
-
-
-
-
-
 
         ],
       ),
@@ -219,23 +157,27 @@ class VenueDetailState extends State<VenueDetail>{
         debugPrint(selectedDate.toString());
       });
   }
-SizedBox ImageCarousel() {
-  return SizedBox(
-    height: 300.0,
-      child:Carousel(
 
-    images: carouselimages,
-    borderRadius: true,
-    boxFit: BoxFit.cover,
 
-  ));}
+
+
+  SizedBox ImageCarousel() {
+    return SizedBox(
+        height: 300.0,
+        child:Carousel(
+
+          images: carouselimages,
+          borderRadius: true,
+          boxFit: BoxFit.cover,
+
+        ));}
   // void updateListView() {
   //
   //   final Future<Database> dbFuture = sdbhelper.initDb();
   //   dbFuture.then((database) {
   //
   //     //Future<List<Not>> noteListFuture = sdbHelper.getNoteList();
-  //     Future<List<Image>> l1 = imghelper
+  //     Future<List<Image>> l1 =
   //     l1.then((vList) {
   //       setState(() {
   //         this.vlist = vList;

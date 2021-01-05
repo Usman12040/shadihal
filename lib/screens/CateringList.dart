@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:shadihal/Models/catering.dart';
 import 'package:shadihal/Utils/dbhelper.dart';
 import 'package:sqflite/sqflite.dart';
+import 'CateringDetails.dart';
 
 class CateringList extends StatefulWidget{
   @override
@@ -23,6 +25,7 @@ class CateringListState extends State<CateringList> {
       updateListView();
     }
     return Scaffold(
+      backgroundColor: Colors.black,
       appBar: AppBar(
         title: Text("Catering"),
 
@@ -61,7 +64,7 @@ class CateringListState extends State<CateringList> {
             subtitle: Text("Starting from"+" "+this.vlist[position].price.toString()),
             onTap: () {
               debugPrint("ListTile Tapped");
-              //  Get.to(VenueDetail(this.vlist[position]));
+              Get.to(CatDetail(this.vlist[position]));
             },
 
           ),

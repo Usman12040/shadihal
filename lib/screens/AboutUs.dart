@@ -13,17 +13,19 @@ class aboutus extends StatelessWidget
           ),
           body: Center(
 
-                   child: Container(
-                     margin: EdgeInsets.only(top: 20.0),
+                   child: SingleChildScrollView(
+                     //margin: EdgeInsets.only(top: 20.0),
                    child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: <Widget>
                   [
-                    Container(height: 50.0,
+                    Container(
+                      margin: EdgeInsets.only(top: 20.0),
+                      height: 50.0,
                       child:Text("Our Company", textAlign:TextAlign.center,
                         style: TextStyle(fontSize: 30.0,fontWeight: FontWeight.bold,color: Colors.white),),),
-                    Text("Shadihal is an official product of ASUM Technologies."
-                        "At ASUM Technologies we provide  Top Quality Software Solutions."),
+                    Text("Shadihal is an official product of ASUM Technologies. At ASUM Technologies we provide  Top Quality Software Solutions.",textAlign: TextAlign.center ,
+                      style: TextStyle(fontSize: 20.0,color: Colors.amber),),
 
 
                     Padding(
@@ -31,8 +33,28 @@ class aboutus extends StatelessWidget
                         child: Container(height: 50.0,
                           child:Text("Our Team", textAlign:TextAlign.center,
                             style: TextStyle(fontSize: 30.0,fontWeight: FontWeight.bold,color: Colors.white),),), ),
+                    Container(
+                      margin: EdgeInsets.all(30.0),
+                      height: 200.0,
+                    child: Image(image: AssetImage('assets/CEO.jpg')),),
 
-                    Text("Usman Yousuf",style: TextStyle(fontSize: 20.0),),
+                    Text("Usman Yousuf",style: TextStyle(fontSize: 25.0,color: Colors.white),),
+                    Text("CEO and Managing Director",style: TextStyle(fontSize: 20.0,color: Colors.white),),
+                    Container(
+                      margin: EdgeInsets.all(30.0),
+                      height: 200.0,
+                      child: Image(image: AssetImage('assets/DB.jpg')),),
+
+                    Text("Muhammad Jawwad",style: TextStyle(fontSize: 25.0,color: Colors.white),),
+                    Text("Database Engineer",style: TextStyle(fontSize: 20.0,color: Colors.white),),
+                    Container(
+                      margin: EdgeInsets.all(30.0),
+                      height: 200.0,
+                      child: Image(image: AssetImage('assets/UI.jpg')),),
+
+                    Text("Ritika Thorani",style: TextStyle(fontSize: 25.0,color: Colors.white),),
+                    Text("UI/UX Developer",style: TextStyle(fontSize: 20.0,color: Colors.white),),
+
 
 
 

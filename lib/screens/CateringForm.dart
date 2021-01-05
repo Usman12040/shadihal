@@ -339,8 +339,10 @@ class CateringFormState extends State<CateringForm>
                               catering caterS = catering(CaternameController.text, int.parse(CatercontactController.text), CaterareaController.text , CateraddressController.text, int.parse(CaterpriceController.text), CaterdescriptionController.text, this.owner.owner_id);
                               ////////////////////////////////////////////////////
                               _insertcatservice(caterS);
+                             Navigator.pop(context);
                               int x = await _getId(caterS.owner_id, caterS.price);
-                              Get.to(AddImage(this.owner, x ));
+                             // Get.to(AddImage(this.owner,x ));
+                            
 
                             }
                             else

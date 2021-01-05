@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:shadihal/Models/photography.dart';
 import 'package:shadihal/Utils/dbhelper.dart';
 import 'package:sqflite/sqflite.dart';
+
+import 'PhotoGraphyDetail.dart';
 
 class PhotographyList extends StatefulWidget{
   @override
@@ -24,6 +27,7 @@ class PhotographyListState extends State<PhotographyList> {
       updateListView();
     }
     return Scaffold(
+      backgroundColor: Colors.black,
       appBar: AppBar(
         title: Text("Photography"),
 
@@ -62,7 +66,7 @@ class PhotographyListState extends State<PhotographyList> {
             subtitle: Text("Starting from"+" "+this.vlist[position].price.toString()),
             onTap: () {
               debugPrint("ListTile Tapped");
-              //  Get.to(VenueDetail(this.vlist[position]));
+              Get.to(PhotoDetail(this.vlist[position]));
             },
 
           ),

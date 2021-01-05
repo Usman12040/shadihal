@@ -320,7 +320,7 @@ class RentaCarFormState extends State<RentaCarForm>
                   children:<Widget>[
                     OutlinedButton(
                       style: OutlinedButton.styleFrom(backgroundColor: Colors.deepPurple),
-                      child: Text("Add Cars", style: TextStyle(fontSize: 20.0,color: Colors.white)),
+                      child: Text("Submit", style: TextStyle(fontSize: 20.0,color: Colors.white)),
 
                       onPressed: () async
                       {
@@ -351,8 +351,7 @@ class RentaCarFormState extends State<RentaCarForm>
                               ////////////////////////////////////////////////////
                               _insertRentService(r1);
                               serviceid = await _getId(r1.owner_id, r1.contact_no);
-
-
+                              Navigator.pop(context);
                               //Get.to(CarForm(serviceid));
 
                              // Get.to(CarForm(serviceid, this.owner));

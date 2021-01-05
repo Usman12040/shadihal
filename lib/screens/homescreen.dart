@@ -13,6 +13,7 @@ import 'package:shadihal/screens/Signup.dart';
 import 'ContactUs.dart';
 import 'VenueList.dart';
 import 'AboutUs.dart';
+import 'package:shadihal/Utils/dbhelper.dart';
 
 class homescreen extends StatefulWidget
 {
@@ -28,6 +29,7 @@ class homescreen extends StatefulWidget
 
 class Homestate extends State<homescreen>
 {
+  dbHelper sdbhelper=dbHelper();
   final _minimumPadding = 5.0;
   User user;
 
@@ -168,7 +170,7 @@ class Homestate extends State<homescreen>
                 fontSize: 20.0,
                 fontWeight: FontWeight.w900,
                 color: Colors.yellow)),
-        Text("starting from Rs.10000",
+        Text("starting from 1000",
             style: TextStyle(fontStyle: FontStyle.italic, color: Colors.white)),
       ]),
       onTap: () {
@@ -203,7 +205,7 @@ class Homestate extends State<homescreen>
                 fontSize: 20.0,
                 fontWeight: FontWeight.w900,
                 color: Colors.yellow)),
-        Text("starting from Rs.5000",
+        Text("starting from 5000",
             style: TextStyle(fontStyle: FontStyle.italic, color: Colors.white)),
       ]),
       onTap: () {
