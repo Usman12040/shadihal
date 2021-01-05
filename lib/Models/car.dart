@@ -82,7 +82,7 @@ class car
     this._service_id = sId;
   }
 
-  //Convert venue object into a map object
+  //Convert car object into a map object
   Map<String,dynamic> toMap()
   {
     var map=Map<String,dynamic>();
@@ -104,7 +104,7 @@ class car
     return map;
   }
 
-  //Extract a venue object from a Map object
+  //Extract a car object from a Map object
   car.fromMapObject(Map<String,dynamic> map)
   {
     this._car_id = map['car_id'];

@@ -22,7 +22,8 @@ class userhome extends StatefulWidget
   userhome([this.user]);
 
   @override
-  State<StatefulWidget> createState() {
+  State<StatefulWidget> createState()
+  {
     return userhomestate(this.user);
   }
 }
@@ -137,7 +138,7 @@ class userhomestate extends State<userhome>
                 child: ListView(
                   children: <Widget>[
                     //first Child
-                    venue_opt(),
+                    venue_opt(this.user),
                     Container(height: 25.0),
                     catering_opt(),
                     Container(height: 25.0),
@@ -148,7 +149,8 @@ class userhomestate extends State<userhome>
                 ))));
   }
 
-  Widget venue_opt() {
+  Widget venue_opt(User user)
+  {
     AssetImage assetImage = AssetImage('assets/venue.jpg');
     Image image = Image(image: assetImage, fit: BoxFit.fill,);
     return InkWell(
@@ -178,7 +180,7 @@ class userhomestate extends State<userhome>
             style: TextStyle(fontStyle: FontStyle.italic, color: Colors.white)),
       ]),
       onTap: () {
-        Get.to(VenueList());
+        Get.to(VenueList(this.user));
       },
     );
   }

@@ -6,23 +6,37 @@ import 'VenueDetails.dart';
 import 'package:shadihal/Models/Owner.dart';
 import 'package:shadihal/Utils/dbhelper.dart';
 import 'package:shadihal/Models/Venue.dart';
+import 'package:shadihal/Models/User.dart';
 
-class VenueList extends StatefulWidget{
+class VenueList extends StatefulWidget
+{
+  final User user;
+
+  VenueList([this.user]);
+
   @override
-  State<StatefulWidget> createState() {
+  State<StatefulWidget> createState()
+  {
     // TODO: implement createState
-    return VenueListState();
+    return VenueListState(this.user);
   }
 
 }
-class VenueListState extends State<VenueList> {
+class VenueListState extends State<VenueList>
+{
   int count = 0;
   dbHelper sdbhelper = dbHelper();
   List <Venue> vlist;
   List <Photo> images;
+  User user;
+
+  VenueListState([this.user]);
+
   @override
-  Widget build(BuildContext context) {
-    if (vlist == null) {
+  Widget build(BuildContext context)
+  {
+    if (vlist == null)
+    {
       vlist = List<Venue>();
       updateListView();
     }
@@ -32,23 +46,32 @@ class VenueListState extends State<VenueList> {
         title: Text("Venues"),
 
       ),
-      body: ListVenue(),
+      body: ListVenue(this.user),
     );
   }
-  void updateListView() {
+
+  void updateListView()
+  {
     final Future<Database> dbFuture = sdbhelper.initDb();
-    dbFuture.then((database) {
+    dbFuture.then((database)
+    {
       Future<List<Venue>> l1 = sdbhelper.getVenueList1();
-      l1.then((vList) {
-        setState(() {
+      l1.then((vList)
+      {
+        setState(()
+        {
           this.vlist = vList;
           this.count = vList.length;
-        });
-      });
-    });
+        }
+        );
+      }
+      );
+    }
+    );
   }
 
-  ListView ListVenue() {
+  ListView ListVenue([User user])
+  {
     // return ListView(
     //   children: <Widget>[
     //     Card(
@@ -67,9 +90,11 @@ class VenueListState extends State<VenueList> {
     //
     //   ],
     // );
+
     return ListView.builder(
       itemCount: count,
-      itemBuilder: (BuildContext context, int position) {
+      itemBuilder: (BuildContext context, int position)
+      {
         return Card(
           color: Colors.white,
           elevation: 2.0,
@@ -83,7 +108,7 @@ class VenueListState extends State<VenueList> {
             subtitle: Text("Starting from"+" "+this.vlist[position].pricelb.toString()),
             onTap: () {
               debugPrint("ListTile Tapped");
-              Get.to(VenueDetail(this.vlist[position]));
+              Get.to(VenueDetail(this.vlist[position], user));
             },
 
           ),

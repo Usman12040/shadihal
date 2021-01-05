@@ -5,6 +5,7 @@ import 'package:shadihal/Models/Rent_a_car.dart';
 import 'package:shadihal/Models/User.dart';
 import 'package:shadihal/Models/Venue.dart';
 import 'package:shadihal/Models/car.dart';
+import 'package:shadihal/Models/venue_reg.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
@@ -1190,6 +1191,34 @@ class dbHelper
     if (x.length > 0)
     {
       //Address found in databse, Hence restrict
+      result = 0;
+    }
+    else
+    {
+      result = 1;
+    }
+
+    return result;
+  }
+
+  //VEN REG OPERATIONS
+  //INSERT OPERATION
+  Future<int> insertVenRegDate (ven_reg v1) async
+  {
+    Database db = await this.database;
+    var result = await db.insert(venreg_table, v1.toMap());
+    return result;
+  }
+
+  //CHECK FOR DATE
+  Future<int> checkVenRegDate (DateTime datetocheck, int sid) async
+  {
+    Database db = await this.database;
+    List<Map<String, dynamic>> x = await db.rawQuery('SELECT * FROM $venreg_table WHERE $venreg_date = $datetocheck AND $venreg_fkey2 = $sid');
+    int result;
+    if (x.length > 0)
+    {
+      //Date found in databse, Hence restrict
       result = 0;
     }
     else
