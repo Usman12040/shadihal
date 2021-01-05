@@ -4,28 +4,42 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:shadihal/Models/Photo.dart';
 import 'package:shadihal/Models/Venue.dart';
+import 'package:shadihal/Models/venue_reg.dart';
 import 'package:shadihal/screens/AddImage.dart';
 import 'package:shadihal/Utils/imgutility.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:shadihal/Models/User.dart';
+import 'package:shadihal/Utils/dbhelper.dart';
 
-class VenueDetail extends StatefulWidget{
+
+class VenueDetail extends StatefulWidget
+{
   Venue venue;
+  User user;
   
-  VenueDetail(this.venue);
-  
+  VenueDetail(this.venue, [this.user]);
+
   @override
-  State<StatefulWidget> createState() {
-    return VenueDetailState(this.venue);
+  State<StatefulWidget> createState()
+  {
+    return VenueDetailState(this.venue, this.user);
   }
 
 }
-class VenueDetailState extends State<VenueDetail>{
+class VenueDetailState extends State<VenueDetail>
+{
   DateTime selectedDate;
   Venue venue;
-  VenueDetailState(this.venue);
+  User user;
+  int status;
+  dbHelper sdbHelper = dbHelper();
+
+  VenueDetailState(this.venue, this.user);
+
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context)
+  {
 
     var description= Container(
       child: Text(this.venue.description,
@@ -173,8 +187,9 @@ class VenueDetailState extends State<VenueDetail>{
             color: Colors.deepPurple,
               child: Text("Book Now",textScaleFactor: 1.5,style: TextStyle(color: Colors.white),),
 
-              onPressed:() {
-                _selectDate(context);
+              onPressed:()
+              {
+                _selectDate(context, this.user);
               }
           )),
           Container(
@@ -203,18 +218,32 @@ class VenueDetailState extends State<VenueDetail>{
       ),
     );
   }
-  _selectDate(BuildContext context) async {
+  _selectDate(BuildContext context, User user) async
+  {
     final DateTime picked = await showDatePicker(
       context: context,
       initialDate: DateTime.now(),
       firstDate: DateTime(2000),
       lastDate: DateTime(2025),
     );
-    if (picked != null && picked != selectedDate)
-      setState(() {
+
+    status = await _checkDate(picked, this.venue.venue_id);
+
+    if (picked != null && status == 1)
+    {
+      setState(()
+      {
         selectedDate = picked;
+        ven_reg v = ven_reg(selectedDate, this.user.user_id, this.venue.venue_id);
+        _insertVenreg(v);
         debugPrint(selectedDate.toString());
       });
+    }
+    else
+    {
+      //DISPLAY ALERT DIALOUGE
+      debugPrint("ye Date pehele se he");
+    }
   }
 
 
@@ -237,5 +266,16 @@ SizedBox ImageCarousel() {
     AssetImage("assets/Mphoto.jpg"),
     //AssetImage("assets/BeachLuxury.jpg"),
   ];
+
+  Future<int> _checkDate(DateTime date, int sid) async
+  {
+    int result = await sdbHelper.checkVenRegDate(date, sid);
+    return result;
+  }
+
+  void _insertVenreg (ven_reg v) async
+  {
+    await sdbHelper.insertVenRegDate(v);
+  }
 
 }

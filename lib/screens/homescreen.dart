@@ -21,7 +21,8 @@ class homescreen extends StatefulWidget
   homescreen([this.user]);
 
   @override
-  State<StatefulWidget> createState() {
+  State<StatefulWidget> createState()
+  {
     return Homestate(this.user);
   }
 }
@@ -34,7 +35,8 @@ class Homestate extends State<homescreen>
   Homestate([this.user]);
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context)
+  {
     return WillPopScope(
         onWillPop: () => SystemNavigator.pop(),
         child: Scaffold(
