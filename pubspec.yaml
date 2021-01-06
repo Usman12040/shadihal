@@ -74,6 +74,17 @@ flutter:
     - assets/CEO.jpg
     - assets/DB.jpg
     - assets/UI.jpg
+    - assets/VEN1.jpg
+    - assets/VEN2.jpg
+    - assets/VEN3.jpg
+    - assets/PHOTO1.jpg
+    - assets/PHOTO2.jpg
+    - assets/PHOTO3.jpg
+    - assets/RENT1.jpg
+    - assets/RENT2.jpg
+    - assets/CAT1.jpg
+    - assets/CAT2.jpg
+    - assets/CAT4.jpg
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
 

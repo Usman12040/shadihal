@@ -187,10 +187,10 @@ class RentDetailState extends State<RentDetail>{
   //   });
   // }
   final List<AssetImage> carouselimages = [
-    AssetImage("assets/Mvenue.jpg"),
-    AssetImage("assets/MCatering.jpg"),
+    AssetImage("assets/RENT1.jpg"),
+    AssetImage("assets/RENT2.jpg"),
     AssetImage("assets/MRent.jpg"),
-    AssetImage("assets/Mphoto.jpg"),
+    AssetImage("assets/Rent.jpg"),
     //AssetImage("assets/BeachLuxury.jpg"),
   ];
 

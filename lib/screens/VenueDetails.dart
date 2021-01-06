@@ -224,7 +224,6 @@ class VenueDetailState extends State<VenueDetail>
     );
 
     status = await _checkDate(picked, this.venue.venue_id);
-
     if (picked != null && status == 1)
     {
       setState(()
@@ -267,16 +266,16 @@ SizedBox ImageCarousel() {
   //   });
   // }
   final List<AssetImage> carouselimages = [
-    AssetImage("assets/Mvenue.jpg"),
-    AssetImage("assets/MCatering.jpg"),
-    AssetImage("assets/MRent.jpg"),
-    AssetImage("assets/Mphoto.jpg"),
-    //AssetImage("assets/BeachLuxury.jpg"),
+    AssetImage("assets/VEN3.jpg"),
+    AssetImage("assets/venue.jpg"),
+    AssetImage("assets/VEN1.jpg"),
+    AssetImage("assets/VEN2.jpg"),
+    AssetImage("assets/BeachLuxury.jpg"),
   ];
 
   Future<int> _checkDate(DateTime date, int sid) async
   {
-    int result = await sdbHelper.checkVenRegDate(date, sid);
+    int result = await sdbHelper.checkVenRegDate(date.toString(), sid);
     return result;
   }
 
