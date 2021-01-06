@@ -60,7 +60,7 @@ class userhomestate extends State<userhome>
                         this.user.pass = ' ';
                         this.user.phoneNo = 0;
 
-                        Get.to(homescreen());
+                        Get.to(homescreen(this.user));
                       },
                     )
                 ),

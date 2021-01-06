@@ -174,7 +174,7 @@ class Homestate extends State<homescreen>
             style: TextStyle(fontStyle: FontStyle.italic, color: Colors.white)),
       ]),
       onTap: () {
-        Get.to(VenueList());
+        Get.to(VenueList(this.user));
       },
     );
   }

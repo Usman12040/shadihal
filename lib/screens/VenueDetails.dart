@@ -220,36 +220,45 @@ class VenueDetailState extends State<VenueDetail>
   }
   _selectDate(BuildContext context, User user) async
   {
-    final DateTime picked = await showDatePicker(
-      context: context,
-      initialDate: DateTime.now(),
-      firstDate: DateTime(2000),
-      lastDate: DateTime(2025),
-    );
-
-    status = await _checkDate(picked, this.venue.venue_id);
-
-    if (picked != null && status == 1)
+    if(user == null)
     {
-      setState(()
-      {
-        selectedDate = picked;
-        ven_reg v = ven_reg(selectedDate, this.user.user_id, this.venue.venue_id);
-        _insertVenreg(v);
-        debugPrint(selectedDate.toString());
-      });
+      debugPrint("You cannot do this");
     }
     else
     {
-      //DISPLAY ALERT DIALOUGE
-      debugPrint("ye Date pehele se he");
+      final DateTime picked = await showDatePicker(
+        context: context,
+        initialDate: DateTime.now(),
+        firstDate: DateTime(2000),
+        lastDate: DateTime(2025),
+      );
+
+      status = await _checkDate(picked.toString(), this.venue.venue_id);
+
+      if (picked != null && status == 1)
+      {
+        setState(()
+        {
+          selectedDate = picked;
+          ven_reg v = ven_reg(selectedDate.toString(), this.user.user_id, this.venue.venue_id);
+          _insertVenreg(v);
+          debugPrint(selectedDate.toString());
+        });
+      }
+      else
+      {
+        //DISPLAY ALERT DIALOUGE
+        debugPrint("ye Date pehele se he");
+      }
     }
+
   }
 
 
 
 
-SizedBox ImageCarousel() {
+SizedBox ImageCarousel()
+{
   return SizedBox(
     height: 300.0,
       child:Carousel(
@@ -267,7 +276,7 @@ SizedBox ImageCarousel() {
     //AssetImage("assets/BeachLuxury.jpg"),
   ];
 
-  Future<int> _checkDate(DateTime date, int sid) async
+  Future<int> _checkDate(String date, int sid) async
   {
     int result = await sdbHelper.checkVenRegDate(date, sid);
     return result;

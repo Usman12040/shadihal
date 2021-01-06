@@ -1211,10 +1211,10 @@ class dbHelper
   }
 
   //CHECK FOR DATE
-  Future<int> checkVenRegDate (DateTime datetocheck, int sid) async
+  Future<int> checkVenRegDate (String datetocheck, int sid) async
   {
     Database db = await this.database;
-    List<Map<String, dynamic>> x = await db.rawQuery('SELECT * FROM $venreg_table WHERE $venreg_date = $datetocheck AND $venreg_fkey2 = $sid');
+    List<Map<String, dynamic>> x = await db.rawQuery('SELECT * FROM $venreg_table WHERE $venreg_date = "$datetocheck" AND $venreg_fkey2 = $sid');
     int result;
     if (x.length > 0)
     {
