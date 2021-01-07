@@ -17,6 +17,7 @@ class CateringListState extends State<CateringList> {
   int count = 0;
   dbHelper sdbhelper = dbHelper();
   List <catering> vlist;
+  bool isfav=false;
 
   @override
   Widget build(BuildContext context) {
@@ -62,6 +63,19 @@ class CateringListState extends State<CateringList> {
             title: Text(this.vlist[position].caterer_name),
 
             subtitle: Text("Starting from"+" "+this.vlist[position].price.toString()),
+            trailing: IconButton(
+              icon : isfav ? Icon(Icons.favorite): Icon(Icons.favorite_border_outlined),
+              color: Colors.red,
+              onPressed: (){
+                setState(() {
+                  isfav=!isfav;
+                  /////////
+                  //DB Function here
+                  ////////
+                });
+              },
+
+            ),
             onTap: () {
               debugPrint("ListTile Tapped");
               Get.to(CatDetail(this.vlist[position]));

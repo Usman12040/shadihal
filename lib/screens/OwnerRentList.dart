@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:shadihal/Models/Owner.dart';
 import 'package:shadihal/Utils/dbhelper.dart';
+import 'package:shadihal/screens/Ownrentdetail.dart';
 import 'package:shadihal/screens/RentaCarForm.dart';
 import 'package:get/get.dart';
 import 'package:shadihal/Models/Rent_a_car.dart';
@@ -72,7 +73,7 @@ class ownerrentliststate extends State<Ownerrentlist> {
   }
   void navigateToDetail(Owner owner,rent_a_Car rent) async {
     bool result = await Navigator.push(context, MaterialPageRoute(builder: (context) {
-      return RentaCarForm(owner,rent);
+      return OwnRentDetail(rent,owner);
     }));
 
     if (result == true) {

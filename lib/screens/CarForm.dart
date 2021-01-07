@@ -443,32 +443,32 @@ class CarFormState extends State<CarForm>
                               }).toList(),
                             ))])),
 
-              Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children:<Widget>[
-                    OutlinedButton(
-                      style: OutlinedButton.styleFrom(backgroundColor: Colors.deepPurple),
-                      child: Text("Add Images", style: TextStyle(fontSize: 20.0,color: Colors.white)),
-
-                      onPressed: ()
-                      {
-                        //pickImages();
-                      },
-                    )]),
-              SizedBox(
-                  height: 200.0,
-                  child: GridView.count(
-                    crossAxisCount: 3,
-                    children: List.generate(images.length, (index)
-                    {
-                      Asset asset = images[index];
-                      return AssetThumb(
-                        asset: asset,
-                        width: 300,
-                        height: 300,
-                      );
-                    }),
-                  )),
+              // Row(
+              //     mainAxisAlignment: MainAxisAlignment.center,
+              //     children:<Widget>[
+              //       OutlinedButton(
+              //         style: OutlinedButton.styleFrom(backgroundColor: Colors.deepPurple),
+              //         child: Text("Add Images", style: TextStyle(fontSize: 20.0,color: Colors.white)),
+              //
+              //         onPressed: ()
+              //         {
+              //           //pickImages();
+              //         },
+              //       )]),
+              // SizedBox(
+              //     height: 200.0,
+              //     child: GridView.count(
+              //       crossAxisCount: 3,
+              //       children: List.generate(images.length, (index)
+              //       {
+              //         Asset asset = images[index];
+              //         return AssetThumb(
+              //           asset: asset,
+              //           width: 300,
+              //           height: 300,
+              //         );
+              //       }),
+              //     )),
 
               Padding(
                   padding: EdgeInsets.only(top:20.0,left: 120.00,right: 120.00),
@@ -512,8 +512,8 @@ class CarFormState extends State<CarForm>
                               int x = await _getId (c1.service_id, c1.reg_no);
                               debugPrint("TESTING POINT 3");
                               debugPrint(x.toString());
-
-                              Get.to(AddImage(this.owner, this.sid, x));
+                              Navigator.pop(context);
+                              //Get.to(AddImage(this.owner, this.sid, x));
                             }
                             else
                             {

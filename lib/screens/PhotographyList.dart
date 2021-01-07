@@ -18,6 +18,7 @@ class PhotographyListState extends State<PhotographyList> {
   int count = 0;
   dbHelper sdbhelper = dbHelper();
   List <photography> vlist;
+  bool isfav=false;
 
   @override
   Widget build(BuildContext context) {
@@ -64,6 +65,19 @@ class PhotographyListState extends State<PhotographyList> {
             title: Text(this.vlist[position].service_name),
 
             subtitle: Text("Starting from"+" "+this.vlist[position].price.toString()),
+            trailing: IconButton(
+              icon : isfav ? Icon(Icons.favorite): Icon(Icons.favorite_border_outlined),
+              color: Colors.red,
+              onPressed: (){
+                setState(() {
+                  isfav=!isfav;
+                  /////////
+                  //DB Function here
+                  ////////
+                });
+              },
+
+            ),
             onTap: () {
               debugPrint("ListTile Tapped");
               Get.to(PhotoDetail(this.vlist[position]));

@@ -2,94 +2,81 @@ import 'package:carousel_pro/carousel_pro.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:shadihal/Models/Owner.dart';
 import 'package:shadihal/Models/Photo.dart';
 import 'package:shadihal/Models/Rent_a_car.dart';
 import 'package:shadihal/Models/Venue.dart';
+import 'package:shadihal/Models/car.dart';
 import 'package:shadihal/Models/catering.dart';
 import 'package:shadihal/Utils/dbhelper.dart';
 import 'package:shadihal/screens/AddImage.dart';
 import 'package:shadihal/Utils/imgutility.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
+import 'package:shadihal/screens/CarForm.dart';
+import 'package:shadihal/screens/RentaCarForm.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
-class CatDetail extends StatefulWidget{
-  catering cat;
-
-  CatDetail(this.cat);
+class OwnRentDetail extends StatefulWidget{
+  rent_a_Car _rent_a_car;
+  Owner owner;
+  OwnRentDetail(this._rent_a_car,this.owner);
 
   @override
   State<StatefulWidget> createState() {
-    return CatDetailState(this.cat);
+    return OwnRentDetailState(this._rent_a_car,this.owner);
   }
 
 }
-class CatDetailState extends State<CatDetail>{
+class OwnRentDetailState extends State<OwnRentDetail>{
   DateTime selectedDate;
   int count =0;
+  //car c1;
+  rent_a_Car _rent_a_car;
   AddImage img;
+  List <car> vlist;
   dbHelper sdbhelper = dbHelper();
-  catering cat;
-  CatDetailState(this.cat);
-  List <Image> vlist;
+  Owner owner;
+  OwnRentDetailState(this._rent_a_car,this.owner);
   @override
   Widget build(BuildContext context) {
-    // if (vlist == null)
-    // {
-    //   vlist = List<Image>();
-    //   updateListView();
+    //if (vlist == null)
+     //{
+      // vlist = List<car>();
+       updateListView();
     // }
-    var rating=Container(
-        child: RatingBar(
-          initialRating: 3,
-          allowHalfRating: true,
-          direction: Axis.horizontal,
-          itemCount: 5,
-          ratingWidget: RatingWidget(
-              full: Icon(Icons.star,color: Colors.yellow,),
-              half: Icon(Icons.star_half,color: Colors.yellow,),
-              empty: Icon(Icons.star_border_outlined,color: Colors.yellow,)
-          ),
-          itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
-          onRatingUpdate: (rating) {
-            print(rating);
-            debugPrint(rating.toString());
-            //DB Operation here
-          },
-        )
-    );
-    var description= Container(
-      child: Text(this.cat.description,
-        style: TextStyle(color: Colors.yellow),
-        textAlign: TextAlign.justify,
-        textScaleFactor: 1.5,
-      ),
-    );
-    var price= Container(
-      child: Text(this.cat.price.toString(),
-        style: TextStyle(color: Colors.yellow),
-        textAlign: TextAlign.justify,
-        textScaleFactor: 1.5,
-      ),
-    );
 
+    var description= Container(
+      child: Text(this._rent_a_car.description,
+        style: TextStyle(color: Colors.yellow),
+        textAlign: TextAlign.justify,
+        textScaleFactor: 1.5,
+      ),
+    );
     var phone= Container(
-      child: Text("0"+this.cat.phone_no.toString(),
+      child: Text("0"+this._rent_a_car.contact_no.toString(),
+        style: TextStyle(color: Colors.yellow),
+        textAlign: TextAlign.justify,
+        textScaleFactor: 1.5,
+      ),
+    );
+    var offhrs= Container(
+      child: Text(this._rent_a_car.office_hrs,
         style: TextStyle(color: Colors.yellow),
         textAlign: TextAlign.justify,
         textScaleFactor: 1.5,
       ),
     );
     var area= Container(
-      child: Text(this.cat.area,
+      child: Text(this._rent_a_car.area,
         style: TextStyle(color: Colors.yellow),
         textAlign: TextAlign.justify,
         textScaleFactor: 1.5,
       ),
     );
     var address= Container(
-      child: Text(this.cat.address,
+      child: Text(this._rent_a_car.address,
         style: TextStyle(color: Colors.yellow),
         textAlign: TextAlign.justify,
         textScaleFactor: 1.5,
@@ -98,7 +85,26 @@ class CatDetailState extends State<CatDetail>{
     return Scaffold(
       backgroundColor: Colors.black,
       appBar: AppBar(
-        title: Text(this.cat.caterer_name),
+        title: Text(this._rent_a_car.service_name),
+        actions: <Widget>[
+          Padding(
+              padding: EdgeInsets.only(right: 20.0),
+              child: GestureDetector(
+                child: Row(
+                    children: <Widget>[
+                      Text("EDIT"),
+                      Icon(Icons.launch),
+                    ]),
+                onTap: ()
+                {
+                  this.owner=null;
+
+                  Get.to(RentaCarForm(this.owner,this._rent_a_car));
+                },
+              )
+          ),
+
+        ],
 
       ),
       body: ListView(
@@ -107,27 +113,11 @@ class CatDetailState extends State<CatDetail>{
           Container(
             margin:EdgeInsets.only(top:20.0),
             height: 30.0,
-            child:Text("Rating",
-              style: TextStyle(color: Colors.white),
-              textAlign: TextAlign.start,
-              textScaleFactor: 1.5,),),
-          rating,
-          Container(
-            margin:EdgeInsets.only(top:20.0),
-            height: 30.0,
             child:Text("Description",
               style: TextStyle(color: Colors.white),
               textAlign: TextAlign.start,
               textScaleFactor: 1.5,),),
           description,
-          Container(
-            margin: EdgeInsets.only(top:50.0),
-            height: 30.0,
-            child:Text("Price",
-              style: TextStyle(color: Colors.white),
-              textAlign: TextAlign.start,
-              textScaleFactor: 1.5,),),
-          price,
           Container(
             margin: EdgeInsets.only(top:50.0),
             height: 30.0,
@@ -153,16 +143,29 @@ class CatDetailState extends State<CatDetail>{
               textScaleFactor: 1.5,),),
           phone,
           Container(
+            margin: EdgeInsets.only(top:50.0),
+            height: 30.0,
+            child:Text("Office Hours",
+              style: TextStyle(color: Colors.white),
+              textAlign: TextAlign.start,
+              textScaleFactor: 1.5,),),
+          offhrs,
+          SizedBox(
+            height: 300.0,
+
+            child:  carList(),
+          ),
+          Container(
               margin: EdgeInsets.only(bottom:30.0,top:30.0,left:50.0,right: 50.0),
               height: 50.0,
 
               child: RaisedButton(
 
                   color: Colors.deepPurple,
-                  child: Text("Call Now",textScaleFactor: 1.5,style: TextStyle(color: Colors.white),),
+                  child: Text("ADD Cars",textScaleFactor: 1.5,style: TextStyle(color: Colors.white),),
 
                   onPressed:() {
-                    launch("tel:"+"0"+this.cat.phone_no.toString());
+                    Get.to(CarForm(this._rent_a_car.service_id, this.owner));
                   }
               ))
 
@@ -170,6 +173,71 @@ class CatDetailState extends State<CatDetail>{
       ),
     );
   }
+  void _showSnackBar(BuildContext context, String message) {
+
+    final snackBar = SnackBar(content: Text(message));
+    Scaffold.of(context).showSnackBar(snackBar);
+  }
+
+  void _delete(BuildContext context, car c1 ) async {
+
+    int result = await sdbhelper.deleteCar(c1.car_id);
+    if (result != 0) {
+      _showSnackBar(context, 'Rent a Car Deleted Successfully');
+    }
+    updateListView();
+  }
+  void updateListView() {
+
+    final Future<Database> dbFuture = sdbhelper.initDb();
+    dbFuture.then((database) {
+
+      //Future<List<Not>> noteListFuture = sdbHelper.getNoteList();
+      Future<List<car>> l1 = sdbhelper.getCarList(this._rent_a_car.service_id);
+      l1.then((vList) {
+        setState(() {
+          this.vlist = vList;
+          this.count = vList.length;
+        });
+      });
+    });
+  }
+  ListView carList(){
+    return ListView.builder(
+      itemCount: count,
+      itemBuilder: (BuildContext context, int position) {
+        return Card(
+          color: Colors.white,
+          elevation: 2.0,
+          child: ListTile(
+              leading: Image(image: AssetImage("assets/RENT1.jpg")),
+
+
+            title: Text(this.vlist[position].car_name),
+
+            subtitle: Text(this.vlist[position].color),
+
+            trailing: GestureDetector(
+              child: Icon(Icons.delete, color: Colors.grey,),
+              onTap: () {
+                _delete(context, this.vlist[position]);
+              },
+            ),
+
+
+            onTap: () {
+              debugPrint("ListTile Tapped");
+            },
+
+          ),
+        );
+      },
+    );
+
+  }
+
+  
+
 
   SizedBox ImageCarousel() {
     return SizedBox(
@@ -197,10 +265,10 @@ class CatDetailState extends State<CatDetail>{
   //   });
   // }
   final List<AssetImage> carouselimages = [
-    AssetImage("assets/CAT1.jpg"),
-    AssetImage("assets/CAT2.jpg"),
-    AssetImage("assets/CAT4.jpg"),
-    AssetImage("assets/MCatering.jpg"),
+    AssetImage("assets/RENT1.jpg"),
+    AssetImage("assets/RENT2.jpg"),
+    AssetImage("assets/MRent.jpg"),
+    AssetImage("assets/Rent.jpg"),
     //AssetImage("assets/BeachLuxury.jpg"),
   ];
 

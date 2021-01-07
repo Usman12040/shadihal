@@ -347,7 +347,7 @@ class RentaCarFormState extends State<RentaCarForm>
                             // {
                             //   debugPrint("Usman Jani");
                               ////////////////////////////////////////////////////
-                              rent_a_Car r1 = rent_a_Car(rentnameController.text, int.parse(rentcontactController.text), rentareaController.text, rentaddressController.text, rentoffhrsController.text, rentdescriptionController.text, owner.owner_id);
+                              rent_a_Car r1 = rent_a_Car(rentnameController.text, int.parse(rentcontactController.text), rentareaController.text, rentaddressController.text, rentoffhrsController.text, rentdescriptionController.text, this.owner.owner_id);
                               ////////////////////////////////////////////////////
                               _insertRentService(r1);
                               serviceid = await _getId(r1.owner_id, r1.contact_no);

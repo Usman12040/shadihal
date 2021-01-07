@@ -2,6 +2,7 @@ import 'package:carousel_pro/carousel_pro.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:shadihal/Models/Photo.dart';
 import 'package:shadihal/Models/Venue.dart';
 import 'package:shadihal/Utils/dbhelper.dart';
@@ -12,7 +13,9 @@ import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:shadihal/Models/User.dart';
-import 'package:shadihal/Utils/dbhelper.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+
+import 'LoginScreen.dart';
 
 
 class VenueDetail extends StatefulWidget
@@ -37,9 +40,8 @@ class VenueDetailState extends State<VenueDetail>
   dbHelper sdbhelper = dbHelper();
   Venue venue;
   List <Image> vlist;
-  User user;
+  User user=null;
   int status;
-  dbHelper sdbHelper = dbHelper();
 
   VenueDetailState(this.venue, this.user);
   @override
@@ -51,6 +53,25 @@ class VenueDetailState extends State<VenueDetail>
         textAlign: TextAlign.justify,
         textScaleFactor: 1.5,
       ),
+    );
+    var rating=Container(
+       child: RatingBar(
+         initialRating: 3,
+         allowHalfRating: true,
+         direction: Axis.horizontal,
+         itemCount: 5,
+         ratingWidget: RatingWidget(
+           full: Icon(Icons.star,color: Colors.yellow,),
+           half: Icon(Icons.star_half,color: Colors.yellow,),
+           empty: Icon(Icons.star_border_outlined,color: Colors.yellow,)
+         ),
+         itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
+         onRatingUpdate: (rating) {
+           print(rating);
+           debugPrint(rating.toString());
+           //DB Operation here
+         },
+       )
     );
     var pricemin= Container(
       child: Text(this.venue.pricelb.toString(),
@@ -113,11 +134,20 @@ class VenueDetailState extends State<VenueDetail>
           Container(
             margin:EdgeInsets.only(top:20.0),
             height: 30.0,
+            child:Text("Rating",
+              style: TextStyle(color: Colors.white),
+              textAlign: TextAlign.start,
+              textScaleFactor: 1.5,),),
+          rating,
+          Container(
+            margin:EdgeInsets.only(top:20.0),
+            height: 30.0,
           child:Text("Description",
             style: TextStyle(color: Colors.white),
             textAlign: TextAlign.start,
             textScaleFactor: 1.5,),),
           description,
+
           Container(
             margin: EdgeInsets.only(top:50.0),
             height: 30.0,
@@ -216,31 +246,124 @@ class VenueDetailState extends State<VenueDetail>
   }
   _selectDate(BuildContext context, User user) async
   {
-    final DateTime picked = await showDatePicker(
-      context: context,
-      initialDate: DateTime.now(),
-      firstDate: DateTime(2000),
-      lastDate: DateTime(2025),
+  if(this.user.isNull==true)
+  {
+    debugPrint("user null h");
+    Widget okButton = FlatButton(
+      child: Text("OK"),
+      onPressed: () {
+        Navigator.of(context).pop();
+      },
+    );
+    Widget loginButton = FlatButton(
+      child: Text("Login"),
+      onPressed: () {
+        Get.to(Login());
+      },
+    );
+    // Create AlertDialog
+    AlertDialog alert = AlertDialog(
+      title: Text("ERROR"),
+      content: Text("The User Is not Logged in"),
+      actions: [
+        loginButton,
+        okButton,
+      ],
     );
 
-    status = await _checkDate(picked, this.venue.venue_id);
-    if (picked != null && status == 1)
-    {
-      setState(()
-      {
-        selectedDate = picked;
-        ven_reg v = ven_reg(selectedDate, this.user.user_id, this.venue.venue_id);
-        _insertVenreg(v);
-        debugPrint(selectedDate.toString());
-      });
-    }
-    else
-    {
-      //DISPLAY ALERT DIALOUGE
-      debugPrint("ye Date pehele se he");
-    }
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
   }
-SizedBox ImageCarousel() {
+  else
+  {
+    debugPrint("idhr kiun arhe");
+  final DateTime picked = await showDatePicker(
+  context: context,
+  initialDate: DateTime.now(),
+  firstDate: DateTime(2000),
+  lastDate: DateTime(2025),
+  );
+
+  status = await _checkDate(picked.toString(), this.venue.venue_id);
+
+  if (picked != null && status == 1)
+  {
+
+    Widget okButton = FlatButton(
+      child: Text("OK"),
+      onPressed: () {
+        Navigator.of(context).pop();
+      },
+    );
+
+    // Create AlertDialog
+    AlertDialog alert = AlertDialog(
+      title: Text("Your Booking has been reserved"),
+      content: Text("Booking Date: "+ " "+picked.toString()),
+      actions: [
+        okButton,
+      ],
+    );
+
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
+  setState(()
+  {
+  selectedDate = picked;
+  ven_reg v = ven_reg(selectedDate.toString(), this.user.user_id, this.venue.venue_id);
+  _insertVenreg(v);
+  debugPrint(selectedDate.toString());
+  });
+
+  }
+  else if(picked !=null && status==0)
+  {
+  //DISPLAY ALERT DIALOUGE
+    Widget okButton = FlatButton(
+      child: Text("OK"),
+      onPressed: () {
+        Navigator.of(context).pop();
+      },
+    );
+
+    // Create AlertDialog
+    AlertDialog alert = AlertDialog(
+      title: Text("ERROR"),
+      content: Text("This date is already booked"),
+      actions: [
+        okButton,
+      ],
+    );
+
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
+  debugPrint("ye Date pehele se he");
+  }
+  else{
+
+  }
+  }
+
+  }
+
+
+SizedBox ImageCarousel()
+{
   return SizedBox(
     height: 300.0,
       child:Carousel(
@@ -273,15 +396,16 @@ SizedBox ImageCarousel() {
     AssetImage("assets/BeachLuxury.jpg"),
   ];
 
-  Future<int> _checkDate(DateTime date, int sid) async
+  Future<int> _checkDate(String date, int sid) async
   {
-    int result = await sdbHelper.checkVenRegDate(date.toString(), sid);
+    int result = await sdbhelper.checkVenRegDate(date.toString(), sid);
     return result;
   }
 
   void _insertVenreg (ven_reg v) async
   {
-    await sdbHelper.insertVenRegDate(v);
+    await sdbhelper.insertVenRegDate(v);
   }
 
 }
+

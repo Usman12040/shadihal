@@ -15,7 +15,7 @@ class RentaCarList extends StatefulWidget{
 
 }
 class RentaCarListState extends State<RentaCarList> {
-
+  bool isfav=false;
 
   int count = 0;
   dbHelper sdbhelper = dbHelper();
@@ -64,6 +64,19 @@ class RentaCarListState extends State<RentaCarList> {
             title: Text(this.vlist[position].service_name),
 
             subtitle: Text(this.vlist[position].contact_no.toString()),
+            trailing: IconButton(
+              icon : isfav ? Icon(Icons.favorite): Icon(Icons.favorite_border_outlined),
+              color: Colors.red,
+              onPressed: (){
+                setState(() {
+                  isfav=!isfav;
+                  /////////
+                  //DB Function here
+                  ////////
+                });
+              },
+
+            ),
             onTap: () {
               debugPrint("ListTile Tapped");
               Get.to(RentDetail(this.vlist[position]));

@@ -54,13 +54,10 @@ class userhomestate extends State<userhome>
                           ]),
                       onTap: ()
                       {
-                        this.user.firstName = ' ';
-                        this.user.lastName = ' ';
-                        this.user.userName = ' ';
-                        this.user.pass = ' ';
-                        this.user.phoneNo = 0;
 
-                        Get.to(homescreen());
+                        this.user=null;
+
+                        Get.to(homescreen(this.user));
                       },
                     )
                 ),
@@ -97,6 +94,7 @@ class userhomestate extends State<userhome>
                         title: Text('Logout',style: TextStyle(color: Colors.yellow),textScaleFactor: 1.2),
                         onTap: () {
                           // Update the state of the app.
+                          this.user=null;
                           Get.to(homescreen());
                           // ...
                         },

@@ -24,6 +24,7 @@ class VenueList extends StatefulWidget
 }
 class VenueListState extends State<VenueList>
 {
+  bool isfav=false;
   int count = 0;
   dbHelper sdbhelper = dbHelper();
   List <Venue> vlist;
@@ -106,6 +107,17 @@ class VenueListState extends State<VenueList>
             title: Text(this.vlist[position].venue_name),
 
             subtitle: Text("Starting from"+" "+this.vlist[position].pricelb.toString()),
+            trailing: IconButton(
+               icon : isfav ? Icon(Icons.favorite): Icon(Icons.favorite_border_outlined),
+              color: Colors.red,
+              onPressed: (){
+                 setState(() {
+                   isfav=!isfav;
+                   ////DB Function here
+                 });
+              },
+
+            ),
             onTap: () {
               debugPrint("ListTile Tapped");
               Get.to(VenueDetail(this.vlist[position], user));

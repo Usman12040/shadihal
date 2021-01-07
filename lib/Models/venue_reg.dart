@@ -2,7 +2,7 @@ class ven_reg
 {
   //INITIALIZATIONS
     int _id;
-    DateTime _sel_date;
+    String _sel_date;
     int _user_id;
     int _service_id;
 
@@ -13,12 +13,12 @@ class ven_reg
 
   //GETTERS
     int get id => _id;
-    DateTime get sel_date => _sel_date;
+    String get sel_date => _sel_date;
     int get user_id => _user_id;
     int get service_id => _service_id;
 
   //SETTERS
-    set sel_date (DateTime newsel)
+    set sel_date (String newsel)
     {
       this._sel_date = newsel;
     }

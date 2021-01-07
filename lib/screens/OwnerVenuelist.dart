@@ -69,15 +69,6 @@ class ownervenueliststate extends State<OwnerVenueList>
       _showSnackBar(context, 'venue Deleted Successfully');
     }
   }
-  void navigateToDetail(Owner owner,Venue venue) async {
-    bool result = await Navigator.push(context, MaterialPageRoute(builder: (context) {
-      return VenueForm(owner,venue);
-    }));
-
-    if (result == true) {
-      updateListView();
-    }
-  }
   void updateListView() {
 
     final Future<Database> dbFuture = sdbhelper.initDb();
@@ -92,6 +83,15 @@ class ownervenueliststate extends State<OwnerVenueList>
         });
       });
     });
+  }
+  void navigateToDetail(Owner owner,Venue venue) async {
+    bool result = await Navigator.push(context, MaterialPageRoute(builder: (context) {
+      return VenueForm(owner,venue);
+    }));
+
+    if (result == true) {
+      updateListView();
+    }
   }
   ListView getVenueListView() {
 

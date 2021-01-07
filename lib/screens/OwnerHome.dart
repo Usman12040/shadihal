@@ -54,12 +54,7 @@ class Ownerhomestate extends State<Ownerhome>
               ]),
                 onTap: ()
                 {
-                  this.owner.firstName = ' ';
-                  this.owner.lastName = ' ';
-                  this.owner.userName = ' ';
-                  this.owner.pass = ' ';
-                  this.owner.nic = 0;
-                  this.owner.phoneNo = 0;
+                  this.owner=null;
 
                   Get.to(homescreen());
                 },
@@ -106,13 +101,7 @@ class Ownerhomestate extends State<Ownerhome>
                         title: Text('Log Out',style: TextStyle(color: Colors.yellow),textScaleFactor: 1.2),
                         onTap: ()
                         {
-                          // Update the state of the app.
-                          this.owner.firstName = ' ';
-                          this.owner.lastName = ' ';
-                          this.owner.userName = ' ';
-                          this.owner.pass = ' ';
-                          this.owner.nic = 0;
-                          this.owner.phoneNo = 0;
+                          this.owner=null;
 
                           Get.to(homescreen());
                           // ...

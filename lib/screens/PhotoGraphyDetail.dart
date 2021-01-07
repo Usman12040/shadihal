@@ -13,6 +13,7 @@ import 'package:shadihal/Utils/imgutility.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
 class PhotoDetail extends StatefulWidget{
   photography photo;
@@ -41,7 +42,25 @@ class PhotoDetailState extends State<PhotoDetail>{
     //   vlist = List<Image>();
     //   updateListView();
     // }
-
+    var rating=Container(
+        child: RatingBar(
+          initialRating: 3,
+          allowHalfRating: true,
+          direction: Axis.horizontal,
+          itemCount: 5,
+          ratingWidget: RatingWidget(
+              full: Icon(Icons.star,color: Colors.yellow,),
+              half: Icon(Icons.star_half,color: Colors.yellow,),
+              empty: Icon(Icons.star_border_outlined,color: Colors.yellow,)
+          ),
+          itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
+          onRatingUpdate: (rating) {
+            print(rating);
+            debugPrint(rating.toString());
+            //DB Operation here
+          },
+        )
+    );
     var description= Container(
       child: Text(this.photo.description,
         style: TextStyle(color: Colors.yellow),
@@ -73,6 +92,14 @@ class PhotoDetailState extends State<PhotoDetail>{
       body: ListView(
         children: <Widget>[
           ImageCarousel(),
+          Container(
+            margin:EdgeInsets.only(top:20.0),
+            height: 30.0,
+            child:Text("Rating",
+              style: TextStyle(color: Colors.white),
+              textAlign: TextAlign.start,
+              textScaleFactor: 1.5,),),
+          rating,
           Container(
             margin:EdgeInsets.only(top:20.0),
             height: 30.0,
@@ -147,9 +174,9 @@ class PhotoDetailState extends State<PhotoDetail>{
   //   });
   // }
   final List<AssetImage> carouselimages = [
-    AssetImage("assets/Mvenue.jpg"),
-    AssetImage("assets/MCatering.jpg"),
-    AssetImage("assets/MRent.jpg"),
+    AssetImage("assets/PHOTO1.jpg"),
+    AssetImage("assets/PHOTO2.jpg"),
+    AssetImage("assets/PHOTO3.jpg"),
     AssetImage("assets/Mphoto.jpg"),
     //AssetImage("assets/BeachLuxury.jpg"),
   ];

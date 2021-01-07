@@ -670,7 +670,7 @@ class dbHelper
   Future<double> getVenuePriceAvg () async
   {
     Database db = await this.database;
-    List<Map<String, dynamic>> x = await db.rawQuery('SELECT AVG($vpricelb) FROM $vtablename');
+    List<Map<String, dynamic>> x = await db.rawQuery('SELECT MIN($vpricelb) FROM $vtablename');
     int result = Sqflite.firstIntValue(x);
     return result.toDouble();
   }
@@ -800,7 +800,7 @@ class dbHelper
   Future<double> getRentSericePriceAvg () async
   {
     Database db = await this.database;
-    List<Map<String, dynamic>> x = await db.rawQuery('SELECT AVG($crentperday) FROM $ctablename');
+    List<Map<String, dynamic>> x = await db.rawQuery('SELECT MIN($crentperday) FROM $ctablename');
     int result = Sqflite.firstIntValue(x);
     return result.toDouble();
   }
@@ -1015,7 +1015,7 @@ class dbHelper
   Future<double> getPhotographyPriceAvg () async
   {
     Database db = await this.database;
-    List<Map<String, dynamic>> x = await db.rawQuery('SELECT AVG($p_price) FROM $p_tablename');
+    List<Map<String, dynamic>> x = await db.rawQuery('SELECT MIN($p_price) FROM $p_tablename');
     int result = Sqflite.firstIntValue(x);
     return result.toDouble();
   }
@@ -1129,7 +1129,7 @@ class dbHelper
   Future<double> getCatringPriceAvg () async
   {
     Database db = await this.database;
-    List<Map<String, dynamic>> x = await db.rawQuery('SELECT AVG($cat_price) FROM $cat_tablename');
+    List<Map<String, dynamic>> x = await db.rawQuery('SELECT MIN($cat_price) FROM $cat_tablename');
     int result = Sqflite.firstIntValue(x);
     return result.toDouble();
   }
